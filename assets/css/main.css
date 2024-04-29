@@ -1,0 +1,28 @@
+/* main.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'DB Heavent';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../fonts/DB Heavent.ttf') format('truetype');
+}
+
+html {
+    font-family: 'DB Heavent', 'sans-serif';
+    color: rgb(5, 46, 22);
+    font-size: 100%;
+}
+
+.is-invalid label,
+.is-invalid span {
+  color: #dc3545;
+}
+.is-invalid input,
+.is-invalid textarea,
+.is-invalid select {
+    border-color: #dc3545;
+}
