@@ -77,3 +77,6 @@ Check out the [deployment documentation](https://nuxt.com/docs/getting-started/d
 ## Guide Example
 
 Check out the [app_template](https://nuxtship.netlify.app) for more information.
+
+Check out the [drug_store](https://smartdrugstore.info/pdc/index.php) for more business infomation.
+
