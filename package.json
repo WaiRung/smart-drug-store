@@ -11,24 +11,24 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@nuxt/test-utils": "^3.11.0",
-    "@testing-library/vue": "^8.0.1",
-    "@vue/test-utils": "^2.4.4",
-    "autoprefixer": "^10.4.17",
-    "happy-dom": "^13.3.8",
-    "nuxt": "^3.9.3",
-    "nuxt-icon": "^0.6.8",
-    "playwright-core": "^1.41.1",
-    "postcss": "^8.4.33",
-    "tailwindcss": "^3.4.1",
-    "vitest": "^1.2.2",
-    "vue": "^3.4.14",
-    "vue-router": "^4.2.5"
+    "@nuxt/test-utils": "^3.13.1",
+    "@testing-library/vue": "^8.1.0",
+    "@vue/test-utils": "^2.4.6",
+    "autoprefixer": "^10.4.19",
+    "happy-dom": "^14.12.3",
+    "nuxt": "^3.12.2",
+    "nuxt-icon": "^0.6.10",
+    "playwright-core": "^1.44.1",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "vitest": "^1.6.0",
+    "vue": "^3.4.30",
+    "vue-router": "^4.4.0"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
     "flowbite": "^2.3.0",
-    "flowbite-vue": "^0.1.2",
+    "flowbite-vue": "^0.1.5",
     "pinia": "^2.1.7"
   }
 }
