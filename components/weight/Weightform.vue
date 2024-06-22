@@ -176,7 +176,8 @@ function onClickCal() {
             <LandingModal 
                 :show="isDrugmodalOpen"
                 title="An error occurred!"
-                @close="isDrugmodalOpen = false">
+                @close="isDrugmodalOpen = false"
+                @close-cancel="isDrugmodalOpen = false">
                 <DrugDetails />
             </LandingModal>
         </div>
