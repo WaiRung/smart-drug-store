@@ -7,7 +7,6 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/test-utils/module',
     'nuxt-icon',
-    "@nuxt/content",
     "@nuxt/image"
   ],
   css: ['@/assets/css/main.css'],
@@ -17,8 +16,4 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  content: {
-    // My custom configuration
-    defaultLocale: 'th'
-  }
 })

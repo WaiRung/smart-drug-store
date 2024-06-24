@@ -16,17 +16,10 @@ const emit = defineEmits(['selected-value', 'btn-clicked'])
 
 const selectedValue = ref('')
 const drugData = reactive([
+    {name: "name1", selected: false}
 ])
 
 // Fetch data from Nuxt Content and handle potential errors
-
-const { data, error } = await useAsyncData('drugData', () =>
-    queryContent('drug/drug-data').find()
-        .catch(err => {
-            console.error('Error fetching drug data:', err)
-            return null
-        })
-)
 
 function onSelect(inputData) {
     console.log(drugData);
@@ -40,13 +33,12 @@ function onClick() {
 
 onMounted(() => {
     initDropdowns();
-    console.log(data.value[0].body);
-    if (data.value) {
-        console.log('Fetched drug data:', data.value)
-        Object.assign(drugData, data.value[0].body)
-    } else {
-        console.error('No drug data fetched. Error:', error.value)
-    }
+    // if (data.value) {
+    //     console.log('Fetched drug data:', data.value)
+    //     Object.assign(drugData, data.value[0].body)
+    // } else {
+    //     console.error('No drug data fetched. Error:', error.value)
+    // }
 
 })
 
