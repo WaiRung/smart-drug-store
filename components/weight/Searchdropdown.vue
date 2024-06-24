@@ -1,57 +1,66 @@
 <script setup>
-    import { initDropdowns } from 'flowbite'
+import { initDropdowns } from 'flowbite'
 
-    const props = defineProps({
-        buttonText: {
-            type: String,
-            default: ""
-        },
-        isValid: {
-            type: Boolean,
-            default: true
-        }
-    });
+const props = defineProps({
+    buttonText: {
+        type: String,
+        default: ""
+    },
+    isValid: {
+        type: Boolean,
+        default: true
+    }
+});
 
-    const emit = defineEmits(['selected-value', 'btn-clicked'])
+const emit = defineEmits(['selected-value', 'btn-clicked'])
 
-    const selectedValue = ref('')
-    const listData = reactive([
-        { name: 'Bonnie Green', selected: false },
-        { name: 'Jese Leos', selected: false },
-        { name: 'Michael Gough', selected: false },
-        { name: 'Robert Wall', selected: false },
-        { name: 'Joseph Mcfall', selected: false },
-        { name: 'Leslie Livingston', selected: false },
-        { name: 'Roberta Casas', selected: false },
-    ])
+const selectedValue = ref('')
+const drugData = reactive([
+])
 
-    function onSelect(inputData) {
-        console.log(listData);
-        selectedValue.value = inputData
-        emit('selected-value', selectedValue)
+// Fetch data from Nuxt Content and handle potential errors
+
+const { data, error } = await useAsyncData('drugData', () =>
+    queryContent('drug/drug-data').find()
+        .catch(err => {
+            console.error('Error fetching drug data:', err)
+            return null
+        })
+)
+
+function onSelect(inputData) {
+    console.log(drugData);
+    selectedValue.value = inputData
+    emit('selected-value', selectedValue)
+}
+
+function onClick() {
+    emit('btn-clicked')
+}
+
+onMounted(() => {
+    initDropdowns();
+    console.log(data.value[0].body);
+    if (data.value) {
+        console.log('Fetched drug data:', data.value)
+        Object.assign(drugData, data.value[0].body)
+    } else {
+        console.error('No drug data fetched. Error:', error.value)
     }
 
-    function onClick() {
-        emit('btn-clicked')
-    }
-
-    onMounted(() => {
-        initDropdowns();
-    })
+})
 
 </script>
 
 <template>
-    <button id="dropdownSearchButton"
-        data-testid="search-dropdown-button"
-        data-dropdown-toggle="dropdownSearch"
-        @click="onClick"
-        data-dropdown-placement="bottom"
+    <button id="dropdownSearchButton" data-testid="search-dropdown-button" data-dropdown-toggle="dropdownSearch"
+        @click="onClick" data-dropdown-placement="bottom"
         :class="[!isValid ? 'ring-2 ring-red-700 ring-offset-3 ring-offset-green-50' : '']"
         class="bg-green-900 text-white text-xl border-transparent hover:bg-green-900 px-5 py-3 border-2 rounded-lg text-center transition focus-visible:ring-2 ring-offset-2 inline-flex items-center"
-        type="button">{{ buttonText }} <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-            fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+        type="button">{{ buttonText }} <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 1 4 4 4-4" />
         </svg>
     </button>
     <!-- <div v-show="!isValid" class="text-red-400 text-sm mt-1">
@@ -72,24 +81,18 @@
                 </div>
                 <input type="text" id="input-group-search"
                     class="block w-full p-2 ps-10 text-base text-green-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-500 focus:border-green-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
-                    placeholder="Search user">
+                    placeholder="Search drug">
             </div>
         </div>
         <ul class="h-48 px-3 pb-3 overflow-y-auto text-sm text-green-700 dark:text-green-200"
             aria-labelledby="dropdownSearchButton">
-            <li v-for="data in listData" :key="data.name">
+            <li v-for="data in drugData" :key="data.name">
                 <div class="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                    <input 
-                        type="radio"
-                        :value="data.name"
-                        v-model="selectedValue"
-                        @click="onSelect(data.name)"
-                        name="default-radio" 
+                    <input type="radio" :value="data.name" v-model="selectedValue" @click="onSelect(data.name)"
+                        name="default-radio"
                         class="cursor-pointer w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                        data-testid="search-dropdown-radio-input"
-                        >
-                    <label 
-                        for="checkbox-item-11"
+                        data-testid="search-dropdown-radio-input">
+                    <label for="checkbox-item-11"
                         class="cursor-pointer w-full py-2 ms-2 text-base font-medium text-green-900 rounded dark:text-green-300"
                         @click="onSelect(data.name)">
                         {{ data.name }}

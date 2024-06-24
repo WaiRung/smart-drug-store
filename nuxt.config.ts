@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/test-utils/module',
     'nuxt-icon',
-    "@nuxt/content"
+    "@nuxt/content",
+    "@nuxt/image"
   ],
   css: ['@/assets/css/main.css'],
   postcss: {
@@ -18,5 +19,6 @@ export default defineNuxtConfig({
   },
   content: {
     // My custom configuration
+    defaultLocale: 'th'
   }
 })
