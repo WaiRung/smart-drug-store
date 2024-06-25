@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/test-utils/module',
     'nuxt-icon',
-    "@nuxt/image"
+    "@nuxt/image",
+    "@nuxtjs/strapi"
   ],
   css: ['@/assets/css/main.css'],
   postcss: {
@@ -16,4 +17,7 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  strapi: {
+    // Options
+  }
 })
