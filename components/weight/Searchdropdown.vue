@@ -1,5 +1,10 @@
 <script setup>
 import { initDropdowns } from 'flowbite'
+import { useDrugStore } from '@/stores/drug'
+import { useErrorStore } from '@/stores/error'
+
+const drugStore = useDrugStore()
+const errorStore = useErrorStore()
 
 const props = defineProps({
     buttonText: {
@@ -15,11 +20,33 @@ const props = defineProps({
 const emit = defineEmits(['selected-value', 'btn-clicked'])
 
 const selectedValue = ref('')
-const drugData = reactive([
-    {name: "name1", selected: false}
-])
+// const drugData = reactive([
+//     {Name: "name1", selected: false}
+// ])
 
 // Fetch data from Nuxt Content and handle potential errors
+async function fetchData() {
+  try {
+    errorStore.clearError() // Clear any previous error
+    await drugStore.fetchDrugs()
+    console.log(drugData);
+  } catch (error) {
+    errorStore.setError(error)
+  }
+}
+
+const drugData = computed(() => {
+    const drugs = drugStore.getDrugs()
+    return drugs
+})
+
+
+
+
+const handleModalClose = () => {
+  reloadNuxtApp()
+}
+
 
 function onSelect(inputData) {
     console.log(drugData);
@@ -30,6 +57,7 @@ function onSelect(inputData) {
 function onClick() {
     emit('btn-clicked')
 }
+fetchData()
 
 onMounted(() => {
     initDropdowns();
@@ -78,16 +106,16 @@ onMounted(() => {
         </div>
         <ul class="h-48 px-3 pb-3 overflow-y-auto text-sm text-green-700 dark:text-green-200"
             aria-labelledby="dropdownSearchButton">
-            <li v-for="data in drugData" :key="data.name">
+            <li v-for="data in drugData" :key="data.Name">
                 <div class="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                    <input type="radio" :value="data.name" v-model="selectedValue" @click="onSelect(data.name)"
-                        name="default-radio"
+                    <input type="radio" :value="data.Name" v-model="selectedValue" @click="onSelect(data.Name)"
+                        Name="default-radio"
                         class="cursor-pointer w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         data-testid="search-dropdown-radio-input">
                     <label for="checkbox-item-11"
                         class="cursor-pointer w-full py-2 ms-2 text-base font-medium text-green-900 rounded dark:text-green-300"
-                        @click="onSelect(data.name)">
-                        {{ data.name }}
+                        @click="onSelect(data.Name)">
+                        {{ data.Name }}
                     </label>
                 </div>
             </li>

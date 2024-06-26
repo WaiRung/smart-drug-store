@@ -19,5 +19,6 @@ export default defineNuxtConfig({
   },
   strapi: {
     // Options
+    url: 'https://drug-strapi-api.demo.egat.work'
   }
 })
