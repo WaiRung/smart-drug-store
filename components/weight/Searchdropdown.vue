@@ -20,16 +20,12 @@ const props = defineProps({
 const emit = defineEmits(['selected-value', 'btn-clicked'])
 
 const selectedValue = ref('')
-// const drugData = reactive([
-//     {Name: "name1", selected: false}
-// ])
 
 // Fetch data from Nuxt Content and handle potential errors
 async function fetchData() {
   try {
     errorStore.clearError() // Clear any previous error
     await drugStore.fetchDrugs()
-    console.log(drugData);
   } catch (error) {
     errorStore.setError(error)
   }
@@ -39,9 +35,6 @@ const drugData = computed(() => {
     const drugs = drugStore.getDrugs()
     return drugs
 })
-
-
-
 
 const handleModalClose = () => {
   reloadNuxtApp()
