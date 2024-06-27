@@ -41,10 +41,9 @@ const handleModalClose = () => {
 }
 
 
-function onSelect(inputData) {
-    console.log(drugData);
-    selectedValue.value = inputData
-    emit('selected-value', selectedValue)
+function onSelect(drugObj) {
+    selectedValue.value = drugObj.Name
+    emit('selected-value', {id: drugObj.id, name: drugObj.Name})
 }
 
 function onClick() {
@@ -101,13 +100,13 @@ onMounted(() => {
             aria-labelledby="dropdownSearchButton">
             <li v-for="data in drugData" :key="data.Name">
                 <div class="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                    <input type="radio" :value="data.Name" v-model="selectedValue" @click="onSelect(data.Name)"
+                    <input type="radio" :value="data.Name" v-model="selectedValue" @click="onSelect(data)"
                         Name="default-radio"
                         class="cursor-pointer w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         data-testid="search-dropdown-radio-input">
                     <label for="checkbox-item-11"
                         class="cursor-pointer w-full py-2 ms-2 text-base font-medium text-green-900 rounded dark:text-green-300"
-                        @click="onSelect(data.Name)">
+                        @click="onSelect(data)">
                         {{ data.Name }}
                     </label>
                 </div>

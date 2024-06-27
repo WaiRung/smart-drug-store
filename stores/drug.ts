@@ -7,8 +7,20 @@ export const useDrugStore = defineStore('useDrugStore', () => {
   const drugs: any = ref([])
 
   const getDrugs = computed(() => {
-    return () => {
-      return drugs.value
+    return (drugId: Number = 0) => {
+      if (!drugId) {
+        return drugs.value
+      }
+      try {
+        // const drugIdString = drugId.toString()
+        return drugs.value.find((drug: { id: Number; }) => {
+          const isMatch = drug.id === drugId
+          return isMatch
+        })
+      } catch (error) {
+
+      }
+
     }
   })
 
@@ -35,6 +47,7 @@ export const useDrugStore = defineStore('useDrugStore', () => {
           // Perform mapping or transformation on each item
           return {
             // Return the mapped object
+            id: drug.id,
             ...drug.attributes,
             selected: false,
             isValid: true,

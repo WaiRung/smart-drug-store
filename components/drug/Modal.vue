@@ -1,51 +1,53 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { FwbButton, FwbModal } from 'flowbite-vue'
+import { useDrugStore } from '@/stores/drug'
 
-defineProps({
-  
-  BtnText: {
+const props = defineProps({
+  btnText: {
     type: String,
     default: ''
   },
-  
+  drugId: {
+    type: Number,
+    default: ''
+  },
 })
-
 
 const isShowModal = ref(false)
 
-function closeModal () {
+const drugStore = useDrugStore()
+
+const drugData = computed(() => {
+    const drug = drugStore.getDrugs(props.drugId)
+    return drug
+})
+
+function closeModal() {
   isShowModal.value = false
 }
-function showModal () {
+function showModal() {
+
   isShowModal.value = true
 }
 </script>
 
 <template>
-  <fwb-button
-    data-testid="drugDetail-modal-button"
-    size="xs"
-    color="light"
-    @click.prevent="showModal"
-    pill
-    >
+  <fwb-button data-testid="drugDetail-modal-button" size="xs" color="light" @click.prevent="showModal" pill>
     <div class="flex">
-    <Icon
-        class="text-green-500"
-        name="f7:question" />
+      <Icon class="text-green-500" name="f7:question" />
     </div>
-    
+
   </fwb-button>
 
   <fwb-modal v-if="isShowModal" @close="closeModal" data-testid="drugDetail-modal">
-    <template #header >
+    <template #header>
       <div class="font-bold flex items-center text-2xl">
-        ข้อมูลยา
+        {{ btnText }}
       </div>
     </template>
     <template #body>
-      <DrugDetails />
+      <DrugDetails :drug-data="drugData" />
     </template>
     <!-- <template #footer>
       <div class="flex justify-between">

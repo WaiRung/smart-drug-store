@@ -4,6 +4,8 @@ import { FwbButton, FwbModal } from 'flowbite-vue'
 
 const isDrugmodalOpen = ref(false)
 const isLiquid = ref(false)
+const selectedDrugId = ref(0)
+
 const values = reactive({
     selectedDrug: {
         isValid: true,
@@ -33,7 +35,8 @@ const values = reactive({
 })
 
 function updateDrug(evt) {
-    values.selectedDrug.val = evt
+    values.selectedDrug.val = evt.name
+    selectedDrugId.value = evt.id
 };
 
 function clearValidity(fieldName) {
@@ -48,7 +51,7 @@ function onClickCal() {
     if (isFormValidate(values)) {
         console.log('isFormValidate(values)');
     }
-    
+
 }
 </script>
 
@@ -56,44 +59,43 @@ function onClickCal() {
     <form id="form" class="px-7 md:px-0" novalidate>
         <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
         <input type="checkbox" class="hidden" style="display: none" name="botcheck" />
-        <div class="flex md:items-center md:row-reverse justify-between md:justify-normal mb-6" 
-            :class="{'is-invalid': !values.selectedDrug.isValid}">
+        <div class="flex md:items-center md:row-reverse justify-between md:justify-normal mb-6"
+            :class="{ 'is-invalid': !values.selectedDrug.isValid }">
             <div class="w-10/12 md:w-6/12 flex items-center  ">
                 <div class="md:w-4/12"></div>
                 <div class="w-10/12 md:w-4/12 md:items-center">
-                  <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    ยาที่ต้องการคำนวน
-                  </label>
+                    <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
+                        ยาที่ต้องการคำนวน
+                    </label>
                 </div>
                 <div class="w-4/12 md:items-center">
                     <div class="flex">
-                        <label data-testid="selected-drug-text" 
+                        <label data-testid="selected-drug-text"
                             class="block text-green-500 text-xl md:text-left mb-1 md:mb-0 pr-4">
-                           {{ values.selectedDrug.val || '-' }}
+                            {{ values.selectedDrug.val || '-' }}
                         </label>
-                        <DrugModal v-if="values.selectedDrug.val" />
+                        <DrugModal btn-text="ข้อมูลยา" :drug-id="selectedDrugId"
+                            v-if="values.selectedDrug.val" />
                     </div>
                 </div>
             </div>
             <div class="w-6/12 md:w-2/12 flex flex-row-reverse">
                 <div>
-                    <WeightSearchdropdown
-                        buttonText="ค้นหายา" 
-                        :isValid="values.selectedDrug.isValid"  
+                    <WeightSearchdropdown buttonText="ค้นหายา" :isValid="values.selectedDrug.isValid"
                         @selected-value="updateDrug" @btn-clicked="clearValidity('selectedDrug')" />
                     <div v-show="!values.selectedDrug.isValid" class="text-red-400 text-sm mt-1">
                         กรุณาเลือกยา
                     </div>
                 </div>
-                
+
             </div>
-            
+
         </div>
-        <div class="md:flex md:items-center mb-6" :class="{'is-invalid': !values.desease.isValid}">
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.desease.isValid }">
             <div class="md:w-1/3">
-              <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                โรค
-              </label>
+                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    โรค
+                </label>
             </div>
             <div class="md:w-1/3">
                 <select data-testid="desease-input" v-model="values.desease.val" @blur="clearValidity('desease')"
@@ -102,17 +104,16 @@ function onClickCal() {
                     <option>Antipyretic</option>
                     <option>Juvenile rheumatoid arthritis (JRA)</option>
                 </select>
-                <div v-show="!values.desease.isValid" 
-                    class="text-red-400 text-xl text-sm mt-1">
+                <div v-show="!values.desease.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือกโรค
                 </div>
             </div>
         </div>
-        <div class="md:flex md:items-center mb-6" :class="{'is-invalid': !values.ageRange.isValid}">
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.ageRange.isValid }">
             <div class="md:w-1/3">
-              <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                ช่วงอายุ
-              </label>
+                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    ช่วงอายุ
+                </label>
             </div>
             <div class="md:w-1/3">
                 <select data-testid="ageRange-input" v-model="values.ageRange.val" @blur="clearValidity('ageRange')"
@@ -126,17 +127,16 @@ function onClickCal() {
                 </div>
             </div>
         </div>
-        <div class="md:flex md:items-center mb-6" :class="{'is-invalid': !values.weight.isValid}">
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.weight.isValid }">
             <div class="md:w-1/3">
-              <label 
-                class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4" 
-                for="inline-password">
-                น้ำหนัก (กิโลกรัม)
-              </label>
+                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4"
+                    for="inline-password">
+                    น้ำหนัก (กิโลกรัม)
+                </label>
             </div>
             <div class="md:w-1/3">
                 <label class="sr-only">Weight</label>
-                <input data-testid="weight-input" v-model="values.weight.val"  @blur="clearValidity('weight')"
+                <input data-testid="weight-input" v-model="values.weight.val" @blur="clearValidity('weight')"
                     type="number" placeholder="สามารถระบุเป็นจุดทศนิยมได้" required
                     class="w-full px-4 py-3 border-2 text-xl placeholder:text-green-800 rounded-md outline-none border-green-200 focus:ring-0 focus:border-green-500 ring-green-100" />
                 <!-- <div class="empty-feedback text-red-400 text-sm mt-1">
@@ -150,11 +150,12 @@ function onClickCal() {
                 </div>
             </div>
         </div>
-        <div v-if="isLiquid" class="md:flex md:items-center mb-6" :class="{'is-invalid': !values.concentration.isValid}">
+        <div v-if="isLiquid" class="md:flex md:items-center mb-6"
+            :class="{ 'is-invalid': !values.concentration.isValid }">
             <div class="md:w-1/3">
-              <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                ความเข้มข้น (กรณียาน้ำ)
-              </label>
+                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    ความเข้มข้น (กรณียาน้ำ)
+                </label>
             </div>
             <div class="md:w-1/3">
                 <select v-model="values.concentration.val" @blur="clearValidity('concentration')"
@@ -169,14 +170,10 @@ function onClickCal() {
             </div>
         </div>
         <div class="flex justify-center mt-12">
-            <LandingButton data-testid="submit-weightForm-button"
-                @click="onClickCal" type="button" size="lg">
+            <LandingButton data-testid="submit-weightForm-button" @click="onClickCal" type="button" size="lg">
                 <p class="text-xl">คำนวน</p>
             </LandingButton>
-            <LandingModal 
-                :show="isDrugmodalOpen"
-                title="An error occurred!"
-                @close="isDrugmodalOpen = false"
+            <LandingModal :show="isDrugmodalOpen" title="An error occurred!" @close="isDrugmodalOpen = false"
                 @close-cancel="isDrugmodalOpen = false">
                 <DrugDetails />
             </LandingModal>
@@ -195,5 +192,4 @@ function onClickCal() {
 .was-validated :invalid {
     border-color: #dc3545;
 }
-
 </style>

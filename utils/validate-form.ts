@@ -1,4 +1,5 @@
 // const validateFormValue = require('./validate-form-value')
+import type { formfieldInterface } from '~/types';
 import validateFormValue from './validate-form-value';
 
 // It will be available as validateForm() (camelCase of file name without extension)

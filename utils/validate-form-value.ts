@@ -1,3 +1,5 @@
+import type { formfieldInterface } from "~/types"
+
 // It will be available as validateformValue() (camelCase of file name without extension)
 export default function (formValue: formfieldInterface) {
     if (formValue.val) {
