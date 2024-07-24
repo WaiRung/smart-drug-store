@@ -24,10 +24,7 @@ export const enum GlobalConstEnum {
 }
 
 export interface DrugInterface {
-    Name: string
+    DrugName: string
     Indication?: string
-    Consumation?: string
-    ADR?: Object
-    DrugInteraction?: string
 }
 

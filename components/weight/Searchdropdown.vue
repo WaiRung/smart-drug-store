@@ -42,8 +42,8 @@ const handleModalClose = () => {
 
 
 function onSelect(drugObj) {
-    selectedValue.value = drugObj.Name
-    emit('selected-value', {id: drugObj.id, name: drugObj.Name})
+    selectedValue.value = drugObj.DrugName
+    emit('selected-value', {id: drugObj.id, name: drugObj.DrugName})
 }
 
 function onClick() {
@@ -98,16 +98,16 @@ onMounted(() => {
         </div>
         <ul class="h-48 px-3 pb-3 overflow-y-auto text-sm text-green-700 dark:text-green-200"
             aria-labelledby="dropdownSearchButton">
-            <li v-for="data in drugData" :key="data.Name">
+            <li v-for="data in drugData" :key="data.DrugName">
                 <div class="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                    <input type="radio" :value="data.Name" v-model="selectedValue" @click="onSelect(data)"
-                        Name="default-radio"
+                    <input type="radio" :value="data.DrugName" v-model="selectedValue" @click="onSelect(data)"
+                        DrugName="default-radio"
                         class="cursor-pointer w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         data-testid="search-dropdown-radio-input">
                     <label for="checkbox-item-11"
                         class="cursor-pointer w-full py-2 ms-2 text-base font-medium text-green-900 rounded dark:text-green-300"
                         @click="onSelect(data)">
-                        {{ data.Name }}
+                        {{ data.DrugName }}
                     </label>
                 </div>
             </li>

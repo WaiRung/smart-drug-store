@@ -4,7 +4,7 @@ export default function (drugKey: String) {
     return returnThaiKey
   }
   switch (drugKey) {
-    case 'Name':
+    case 'DrugName':
       returnThaiKey = 'ชื่อยา'
       break;
     case 'Indication':
