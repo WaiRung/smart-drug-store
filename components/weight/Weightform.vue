@@ -1,6 +1,14 @@
 <script setup>
 import { FwbButton, FwbModal } from 'flowbite-vue'
+import { useDiagnosisStore } from '@/stores/diagnosis'
 // const valuesAreValid = 
+
+const diagnosisStore = useDiagnosisStore()
+
+const diagnosesData = computed(() => {
+    const diagnoses = diagnosisStore.getDiagnoses()
+    return diagnoses
+})
 
 const isDrugmodalOpen = ref(false)
 const isLiquid = ref(false)
@@ -34,9 +42,10 @@ const values = reactive({
     }
 })
 
-function updateDrug(evt) {
+async function updateDrug(evt) {
     values.selectedDrug.val = evt.name
     selectedDrugId.value = evt.id
+    await diagnosisStore.fetchDiagnosesByDrug(selectedDrugId.value)
 };
 
 function clearValidity(fieldName) {
@@ -100,9 +109,10 @@ function onClickCal() {
             <div class="md:w-1/3">
                 <select data-testid="desease-input" v-model="values.desease.val" @blur="clearValidity('desease')"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option>Analgesic</option>
+                    <!-- <option>Analgesic</option>
                     <option>Antipyretic</option>
-                    <option>Juvenile rheumatoid arthritis (JRA)</option>
+                    <option>Juvenile rheumatoid arthritis (JRA)</option> -->
+                    <option v-for="diagnosis in diagnosesData">{{ diagnosis.DiagnosisName }} - {{ diagnosis.SubDiagnosisName }}</option>
                 </select>
                 <div v-show="!values.desease.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือกโรค
