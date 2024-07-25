@@ -25,11 +25,6 @@ describe('test is-form-validate functionalities', () => {
           val: '',
           required: true
         },
-        concentration: {
-          isValid: true,
-          val: '',
-          required: false
-        }
       }
     )).toBe(true)
   })
@@ -57,11 +52,6 @@ describe('test is-form-validate functionalities', () => {
           val: '',
           required: true
         },
-        concentration: {
-          isValid: false,
-          val: '',
-          required: false
-        }
       }
     )).toBe(false)
   })
@@ -100,11 +90,6 @@ describe('test is-form-validate functionalities', () => {
           val: '',
           required: true
         },
-        concentration: {
-          isValid: true,
-          val: '',
-          required: false
-        }
       }
     )).toStrictEqual({
       selectedDrug: {
@@ -131,11 +116,6 @@ describe('test is-form-validate functionalities', () => {
         val: '',
         required: true
       },
-      concentration: {
-        isValid: true,
-        val: '',
-        required: false
-      }
     })
   })
 

@@ -3,16 +3,19 @@ import { useErrorStore } from './error';
 
 export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
     const { find } = useStrapi()
+    const fullDiagnoses: any = ref([])
     const diagnoses: any = ref([])
+    const subDiagnoses: any = ref([])
+    const suspectedOrganisms: any = ref([])
 
     const getDiagnoses = computed(() => {
         return (diagnosisId: Number = 0) => {
             if (!diagnosisId) {
-                return diagnoses.value
+                return fullDiagnoses.value
             }
             try {
                 // const drugIdString = drugId.toString()
-                return diagnoses.value.find((diagnosis: { id: Number; }) => {
+                return fullDiagnoses.value.find((diagnosis: { id: Number; }) => {
                     const isMatch = diagnosis.id === diagnosisId
                     return isMatch
                 })
@@ -21,6 +24,18 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
             }
 
         }
+    })
+
+    const getDiagnosesName= computed(() => {
+        return diagnoses.value
+    })
+
+    const getSubdiagnosesName= computed(() => {
+        return subDiagnoses.value
+    })
+
+    const getSuspectedOrganismsName= computed(() => {
+        return suspectedOrganisms.value
     })
 
     async function fetchDiagnosesByDrug(drugId: number) {
@@ -40,8 +55,10 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
                 filters: filterObj,
             });
             if (response) {
-                diagnoses.value = response.data;
+                fullDiagnoses.value = response.data;
                 mapDiagnoses()
+                mapDiagnosesName()
+                mapSubdiagnosesName()
                 
             }
         } catch (error) {
@@ -52,25 +69,86 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
     }
 
     function mapDiagnoses() {
-        
-        if (diagnoses.value) {
-          try {
-            diagnoses.value = diagnoses.value.map((diagnosis: any) => {
-              // Perform mapping or transformation on each item
-              return {
+        fullDiagnoses.value = fullDiagnoses.value.map((diagnosis: any) => {
+            // Perform mapping or transformation on each item
+            return {
                 // Return the mapped object
                 id: diagnosis['attributes']['diagnosis']['data']['id'],
                 ...diagnosis.attributes.diagnosis.data.attributes,
-              }
-            })
-          } catch (error) {
-            const errorStore = useErrorStore()
-            errorStore.setError(error)
-          }
-        } else {
-    
-        }
-      }
+            }
+        })
+    }
 
-    return { diagnoses, getDiagnoses, fetchDiagnosesByDrug }
+    function mapDiagnosesName() {
+        if (fullDiagnoses.value) {
+            try {
+                diagnoses.value = [...new Set(
+                    fullDiagnoses.value.map((diagnosis: any) => 
+                        diagnosis.DiagnosisName
+                    )
+                )]
+                
+            } catch (error) {
+                const errorStore = useErrorStore()
+                errorStore.setError(error)
+            }
+        } else {
+            return []
+        }
+    }
+
+    function mapSubdiagnosesName() {
+        if (fullDiagnoses.value) {
+            try {
+                subDiagnoses.value = [...new Set(
+                    fullDiagnoses.value.map((diagnosis: any) => 
+                        diagnosis.SubDiagnosisName
+                    )
+                )]
+                
+            } catch (error) {
+                const errorStore = useErrorStore()
+                errorStore.setError(error)
+            }
+        } else {
+            return []
+        }
+    }
+
+    function mapSuspectedOrganisms(subDiagnosisName: string) {
+        if (subDiagnosisName) {
+            
+            try {
+                const filteredDiagnoses = fullDiagnoses.value.filter((diagnosis: any) => 
+                    diagnosis.SubDiagnosisName === subDiagnosisName
+                );
+                suspectedOrganisms.value = [...new Set(filteredDiagnoses.map((diagnosis: any) => 
+                    diagnosis.SuspectedOrganism
+                ))];
+                console.log('mapSuspectedOrganisms', suspectedOrganisms.value);
+            } catch (error) {
+                console.error(error);
+                
+                const errorStore = useErrorStore()
+                errorStore.setError(error)
+            }
+        }
+    }
+
+    function clearDiagnoses() {
+        Object.assign(diagnoses.value, [])
+    }
+
+    return { 
+        diagnoses,
+        getDiagnoses,
+        subDiagnoses,
+        getDiagnosesName,
+        getSubdiagnosesName,
+        getSuspectedOrganismsName,
+        mapSubdiagnosesName,
+        mapSuspectedOrganisms,
+        fetchDiagnosesByDrug,
+        clearDiagnoses
+    }
 })

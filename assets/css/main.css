@@ -26,3 +26,9 @@ html {
 .is-invalid select {
     border-color: #dc3545;
 }
+
+input:disabled ,
+textarea:disabled ,
+select:disabled  {
+    border-color: #919492;
+}

@@ -85,7 +85,7 @@ describe('Components', async () => {
 
   test('deseaseInput should have expected value', async () => {
 
-    const deseaseInputSelector = '[data-testid=desease-input]'
+    const deseaseInputSelector = '[data-testid=diagnosis-input]'
     const ageRangeInputSelector = '[data-testid=ageRange-input]'
     const weightInputSelector = '[data-testid=weight-input]'
     const weightFormButtonSelector = '[data-testid=submit-weightForm-button]'

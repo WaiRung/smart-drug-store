@@ -33,14 +33,15 @@ export const useAgeGroupStore = defineStore('useAgegroupStore', () => {
             } : {}
             const response = await find<any>('age-group-diagnoses', {
                 populate: {
-                    age_group: true,
+                    // diagnosis: true,
+                    age_group: true
                     // drug: true
                 },
                 filters: filterObj,
             });
             if (response) {
                 ageGroups.value = response.data;
-                mapDiagnoses()
+                mapAgeGroups()
                 
             }
         } catch (error) {
@@ -50,7 +51,7 @@ export const useAgeGroupStore = defineStore('useAgegroupStore', () => {
         }
     }
 
-    function mapDiagnoses() {
+    function mapAgeGroups() {
         
         if (ageGroups.value) {
           try {
@@ -58,8 +59,8 @@ export const useAgeGroupStore = defineStore('useAgegroupStore', () => {
               // Perform mapping or transformation on each item
               return {
                 // Return the mapped object
-                id: ageGroup['attributes']['diagnosis']['data']['id'],
-                ...ageGroup.attributes.diagnosis.data.attributes,
+                id: ageGroup['attributes']['age_group']['data']['id'],
+                ...ageGroup.attributes.age_group.data.attributes,
               }
             })
           } catch (error) {

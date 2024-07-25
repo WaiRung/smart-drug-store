@@ -1,13 +1,30 @@
 <script setup>
 import { FwbButton, FwbModal } from 'flowbite-vue'
 import { useDiagnosisStore } from '@/stores/diagnosis'
+import { useAgeGroupStore } from '@/stores/age-group'
 // const valuesAreValid = 
 
 const diagnosisStore = useDiagnosisStore()
+const ageGroupStore = useAgeGroupStore()
 
 const diagnosesData = computed(() => {
-    const diagnoses = diagnosisStore.getDiagnoses()
+    const diagnoses = diagnosisStore.getDiagnosesName
     return diagnoses
+})
+
+const subDiagnosesData = computed(() => {
+    const subDiagnoses = diagnosisStore.getSubdiagnosesName
+    return subDiagnoses
+})
+
+const suspectedOrganismsData = computed(() => {
+    const suspectedOrganisms = diagnosisStore.getSuspectedOrganismsName
+    return suspectedOrganisms
+})
+
+const ageGroupsData = computed(() => {
+    const ageGroups = ageGroupStore.getAgeGroups()
+    return ageGroups
 })
 
 const isDrugmodalOpen = ref(false)
@@ -20,7 +37,17 @@ const values = reactive({
         val: '',
         required: true
     },
-    desease: {
+    diagnosis: {
+        isValid: true,
+        val: '',
+        required: true
+    },
+    subDiagnosis: {
+        isValid: true,
+        val: '',
+        required: true
+    },
+    suspectOrganism: {
         isValid: true,
         val: '',
         required: true
@@ -35,18 +62,41 @@ const values = reactive({
         val: '',
         required: true
     },
-    concentration: {
-        isValid: true,
-        val: '',
-        required: false
-    }
 })
 
 async function updateDrug(evt) {
     values.selectedDrug.val = evt.name
+
+    values.diagnosis.val = ''
+    values.subDiagnosis.val = ''
+    values.suspectOrganism.val = ''
+
     selectedDrugId.value = evt.id
     await diagnosisStore.fetchDiagnosesByDrug(selectedDrugId.value)
 };
+
+async function updateDiagnosis(evt) {
+    values.diagnosis.val = evt
+
+    values.subDiagnosis.val = ''
+    values.suspectOrganism.val = ''
+
+    await ageGroupStore.fetchAgeGroupsByDiagnosis(values.diagnosis.val.id)
+}
+
+async function updateSubiagnosis(evt) {
+    values.subDiagnosis.val = evt
+
+    values.suspectOrganism.val = ''
+
+    diagnosisStore.mapSuspectedOrganisms(evt)
+
+}
+
+async function updateSuspectedOrganism(evt) {
+    values.suspectOrganism.val = evt
+
+}
 
 function clearValidity(fieldName) {
     values[fieldName].isValid = true
@@ -100,22 +150,75 @@ function onClickCal() {
             </div>
 
         </div>
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.desease.isValid }">
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.diagnosis.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
                     โรค
                 </label>
             </div>
             <div class="md:w-1/3">
-                <select data-testid="desease-input" v-model="values.desease.val" @blur="clearValidity('desease')"
+                <select data-testid="diagnosis-input"
+                    v-model="values.diagnosis.val"
+                    :disabled="!values.selectedDrug.val"
+                    @change="updateDiagnosis(values.diagnosis.val)"
+                    @blur="clearValidity('diagnosis')"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <!-- <option>Analgesic</option>
-                    <option>Antipyretic</option>
-                    <option>Juvenile rheumatoid arthritis (JRA)</option> -->
-                    <option v-for="diagnosis in diagnosesData">{{ diagnosis.DiagnosisName }} - {{ diagnosis.SubDiagnosisName }}</option>
+                    <option
+                        v-for="diagnosis in diagnosesData"
+                        :value="diagnosis">
+                        {{ diagnosis }}
+                    </option>
                 </select>
-                <div v-show="!values.desease.isValid" class="text-red-400 text-xl text-sm mt-1">
+                <div v-show="!values.diagnosis.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือกโรค
+                </div>
+            </div>
+        </div>
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.subDiagnosis.isValid }">
+            <div class="md:w-1/3">
+                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    ลักษณะโรค 1
+                </label>
+            </div>
+            <div class="md:w-1/3">
+                <select data-testid="subDiagnosis-input"
+                    v-model="values.subDiagnosis.val"
+                    :disabled="!values.selectedDrug.val"
+                    @change="updateSubiagnosis(values.subDiagnosis.val)"
+                    @blur="clearValidity('subDiagnosis')"
+                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
+                    <option
+                        v-for="subDiagnoses in subDiagnosesData"
+                        :value="subDiagnoses">
+                        {{ subDiagnoses }}
+                    </option>
+                </select>
+                <div v-show="!values.diagnosis.isValid" class="text-red-400 text-xl text-sm mt-1">
+                    กรุณาเลือกลักษณะโรค 1
+                </div>
+            </div>
+        </div>
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.suspectOrganism.isValid }">
+            <div class="md:w-1/3">
+                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    ลักษณะโรค 2
+                </label>
+            </div>
+            <div class="md:w-1/3">
+                <select data-testid="suspectOrganism-input"
+                    v-model="values.suspectOrganism.val"
+                    :disabled="!values.selectedDrug.val"
+                    @change="updateSuspectedOrganism(values.suspectOrganism.val)"
+                    @blur="clearValidity('suspectOrganism')"
+                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
+                    <option
+                        v-for="suspectedOrganism in suspectedOrganismsData"
+                        :value="suspectedOrganism">
+                        {{ suspectedOrganism }}
+                    </option>
+                </select>
+                <div v-show="!values.diagnosis.isValid" class="text-red-400 text-xl text-sm mt-1">
+                    กรุณาเลือกลักษณะโรค 2
                 </div>
             </div>
         </div>
@@ -128,9 +231,12 @@ function onClickCal() {
             <div class="md:w-1/3">
                 <select data-testid="ageRange-input" v-model="values.ageRange.val" @blur="clearValidity('ageRange')"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option>อายุ 1 - 3 เดือน</option>
-                    <option>อายุ 3 - 6 เดือน</option>
-                    <option>อายุ 7 เดือน - 1 ปี</option>
+                    <option
+                    v-for="ageGroup in ageGroupsData"
+                    :value="ageGroup">
+                        {{ ageGroup.AgeRange }}
+                    </option>
+
                 </select>
                 <div v-show="!values.ageRange.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือกช่วงอายุ
@@ -160,25 +266,7 @@ function onClickCal() {
                 </div>
             </div>
         </div>
-        <div v-if="isLiquid" class="md:flex md:items-center mb-6"
-            :class="{ 'is-invalid': !values.concentration.isValid }">
-            <div class="md:w-1/3">
-                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    ความเข้มข้น (กรณียาน้ำ)
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <select v-model="values.concentration.val" @blur="clearValidity('concentration')"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-green-500">
-                    <option>125mg / 5ml</option>
-                    <option>250mg / 1ml</option>
-                    <option>250mg / 5ml</option>
-                </select>
-                <div v-show="!values.concentration.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือกความเข้มข้น
-                </div>
-            </div>
-        </div>
+        
         <div class="flex justify-center mt-12">
             <LandingButton data-testid="submit-weightForm-button" @click="onClickCal" type="button" size="lg">
                 <p class="text-xl">คำนวน</p>
