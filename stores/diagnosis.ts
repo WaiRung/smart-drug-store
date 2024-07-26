@@ -76,7 +76,7 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
                 id: diagnosis['attributes']['diagnosis']['data']['id'],
                 ...diagnosis.attributes.diagnosis.data.attributes,
             }
-        })
+        })   
     }
 
     function mapDiagnosesName() {
@@ -125,7 +125,6 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
                 suspectedOrganisms.value = [...new Set(filteredDiagnoses.map((diagnosis: any) => 
                     diagnosis.SuspectedOrganism
                 ))];
-                console.log('mapSuspectedOrganisms', suspectedOrganisms.value);
             } catch (error) {
                 console.error(error);
                 
@@ -136,6 +135,31 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
     }
 
     // filter fullDiagnosis by DiagnosisName, SubDiagnosisName or SuspectedOrganism and get ids to find agerange
+    function getDiagnosis(
+        DiagnosisName: string,
+        SubDiagnosisName: string,
+        SuspectedOrganism: string
+    ) {
+        const filter: any = {}
+        if (DiagnosisName) {
+            filter['DiagnosisName'] = DiagnosisName
+        }
+        if (SubDiagnosisName) {
+            filter['SubDiagnosisName'] = SubDiagnosisName
+        }
+        if (SuspectedOrganism) {
+            filter['SuspectedOrganism'] = SuspectedOrganism
+        }
+        const diagnosis = fullDiagnoses.value.filter(function(diagnosis: { [x: string]: any; }) {
+            for (var key in filter) {
+              if (diagnosis[key] === undefined || diagnosis[key] != filter[key])
+                return false;
+            }
+            return true;
+          });
+          return diagnosis[0]
+          
+    }
     // consider full data without join, just all row and where to find conditions
 
     function clearDiagnoses() {
@@ -152,6 +176,7 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
         mapSubdiagnosesName,
         mapSuspectedOrganisms,
         fetchDiagnosesByDrug,
+        getDiagnosis,
         clearDiagnoses
     }
 })

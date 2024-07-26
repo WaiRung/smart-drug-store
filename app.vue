@@ -5,6 +5,7 @@
 </template> -->
 
 <template>
+  <Title>AntiBiotics Website</Title>
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>

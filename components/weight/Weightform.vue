@@ -2,10 +2,12 @@
 import { FwbButton, FwbModal } from 'flowbite-vue'
 import { useDiagnosisStore } from '@/stores/diagnosis'
 import { useAgeGroupStore } from '@/stores/age-group'
+import { useDosageStore } from '@/stores/dosage'
 // const valuesAreValid = 
 
 const diagnosisStore = useDiagnosisStore()
 const ageGroupStore = useAgeGroupStore()
+const dosageStore = useDosageStore()
 
 const diagnosesData = computed(() => {
     const diagnoses = diagnosisStore.getDiagnosesName
@@ -27,8 +29,15 @@ const ageGroupsData = computed(() => {
     return ageGroups
 })
 
+const dosagesData = computed(() => {
+    const dosages = dosageStore.getDosages
+    return dosages
+})
+
 const isDrugmodalOpen = ref(false)
-const isLiquid = ref(false)
+const calculatedGPerDay = ref(0)
+const Duration = ref(0)
+const FrequencyPerDay = ref('')
 const selectedDrugId = ref(0)
 
 const values = reactive({
@@ -95,11 +104,10 @@ async function updateSubiagnosis(evt) {
         values.diagnosis.val,
         values.subDiagnosis.val
     )
-
 }
 
 async function updateSuspectedOrganism(evt) {
-    values.suspectOrganism.val = evt
+    values.suspectOrganism.val = evt;
 
     await ageGroupStore.fetchAgeGroupsByDiagnosis(
         values.diagnosis.val,
@@ -108,12 +116,32 @@ async function updateSuspectedOrganism(evt) {
     )
 }
 
+async function updateAgeGroup(evt) {
+    const dianogsis = diagnosisStore.getDiagnosis(
+        values.diagnosis.val,
+        values.subDiagnosis.val,
+        values.suspectOrganism.val
+    )
+    await dosageStore.fetchDosagesByDrugAgegroup(selectedDrugId.value, evt.id, dianogsis.id)
+}
+
 function clearValidity(fieldName) {
     values[fieldName].isValid = true
 }
 
 
 function onClickCal() {
+    console.log(values.weight.val);
+
+    const numberRegex = /\d+/;
+    const match = dosagesData.value[0].DosagePerDay.match(numberRegex);
+
+    const doseNum = match ? parseInt(match[0], 10) : null;
+    calculatedGPerDay.value = doseNum *values.weight.val
+
+    Duration.value = dosagesData.value[0].Duration
+    FrequencyPerDay.value = dosagesData.value[0].FrequencyPerDay
+
     isDrugmodalOpen.value = true
 
     Object.assign(values, validateForm(values)) // equivalent to reassign
@@ -160,7 +188,7 @@ function onClickCal() {
             </div>
 
         </div>
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.diagnosis.isValid }">
+        <div v-if="values.selectedDrug.val" class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.diagnosis.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
                     โรค
@@ -184,7 +212,7 @@ function onClickCal() {
                 </div>
             </div>
         </div>
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.subDiagnosis.isValid }">
+        <div v-if="values.diagnosis.val" class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.subDiagnosis.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
                     ลักษณะโรค 1
@@ -193,7 +221,7 @@ function onClickCal() {
             <div class="md:w-1/3">
                 <select data-testid="subDiagnosis-input"
                     v-model="values.subDiagnosis.val"
-                    :disabled="!values.selectedDrug.val"
+                    :disabled="!values.diagnosis.val"
                     @change="updateSubiagnosis(values.subDiagnosis.val)"
                     @blur="clearValidity('subDiagnosis')"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
@@ -208,7 +236,7 @@ function onClickCal() {
                 </div>
             </div>
         </div>
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.suspectOrganism.isValid }">
+        <div v-if="values.subDiagnosis.val" class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.suspectOrganism.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
                     ลักษณะโรค 2
@@ -217,7 +245,7 @@ function onClickCal() {
             <div class="md:w-1/3">
                 <select data-testid="suspectOrganism-input"
                     v-model="values.suspectOrganism.val"
-                    :disabled="!values.selectedDrug.val"
+                    :disabled="!values.subDiagnosis.val"
                     @change="updateSuspectedOrganism(values.suspectOrganism.val)"
                     @blur="clearValidity('suspectOrganism')"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
@@ -232,18 +260,23 @@ function onClickCal() {
                 </div>
             </div>
         </div>
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.ageRange.isValid }">
+        <div v-if="values.suspectOrganism.val" class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.ageRange.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
                     ช่วงอายุ
                 </label>
             </div>
             <div class="md:w-1/3">
-                <select data-testid="ageRange-input" v-model="values.ageRange.val" @blur="clearValidity('ageRange')"
+                <select
+                    data-testid="ageRange-input"
+                    v-model="values.ageRange.val"
+                    :disabled="!values.suspectOrganism.val"
+                    @change="updateAgeGroup(values.ageRange.val)"
+                    @blur="clearValidity('ageRange')"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option
-                    v-for="ageGroup in ageGroupsData"
-                    :value="ageGroup">
+                        v-for="ageGroup in ageGroupsData"
+                        :value="ageGroup">
                         {{ ageGroup.AgeRange }}
                     </option>
 
@@ -253,7 +286,7 @@ function onClickCal() {
                 </div>
             </div>
         </div>
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.weight.isValid }">
+        <div v-if="values.ageRange.val" class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.weight.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4"
                     for="inline-password">
@@ -277,12 +310,29 @@ function onClickCal() {
             </div>
         </div>
         
-        <div class="flex justify-center mt-12">
+        <div v-if="values.weight.val" class="flex justify-center mt-12">
             <LandingButton data-testid="submit-weightForm-button" @click="onClickCal" type="button" size="lg">
                 <p class="text-xl">คำนวน</p>
             </LandingButton>
-            <LandingModal :show="isDrugmodalOpen" title="An error occurred!" @close="isDrugmodalOpen = false"
+            <LandingModal :show="isDrugmodalOpen" title="ผลการคำนวนยา" @close="isDrugmodalOpen = false"
                 @close-cancel="isDrugmodalOpen = false">
+                <div style="display: flex; justify-content: center" class="md:w-3/3 text-xl">
+                    <h3>
+                        <span class="font-bold">จำนวนกรัมต่อวัน</span> {{ calculatedGPerDay }} กรัมต่อวัน
+                    </h3>
+                </div>
+                <div  style="display: flex; justify-content: center" class="md:w-3/3 text-xl">
+                    <h3>
+                        <span class="font-bold">ครั้งต่อวัน</span> {{ FrequencyPerDay }}
+
+                    </h3>
+                </div>
+                <div style="display: flex; justify-content: center" class="md:w-3/3 text-xl">
+                    <h3>
+                        <span class="font-bold">ระยะเวลา</span> {{ Duration }}
+                    </h3>
+                </div>
+                
                 <DrugDetails />
             </LandingModal>
         </div>
