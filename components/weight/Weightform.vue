@@ -81,7 +81,7 @@ async function updateDiagnosis(evt) {
     values.subDiagnosis.val = ''
     values.suspectOrganism.val = ''
 
-    await ageGroupStore.fetchAgeGroupsByDiagnosis(values.diagnosis.val.id)
+    await ageGroupStore.fetchAgeGroupsByDiagnosis(values.diagnosis.val)
 }
 
 async function updateSubiagnosis(evt) {
@@ -91,11 +91,21 @@ async function updateSubiagnosis(evt) {
 
     diagnosisStore.mapSuspectedOrganisms(evt)
 
+    await ageGroupStore.fetchAgeGroupsByDiagnosis(
+        values.diagnosis.val,
+        values.subDiagnosis.val
+    )
+
 }
 
 async function updateSuspectedOrganism(evt) {
     values.suspectOrganism.val = evt
 
+    await ageGroupStore.fetchAgeGroupsByDiagnosis(
+        values.diagnosis.val,
+        values.subDiagnosis.val,
+        values.suspectOrganism.val
+    )
 }
 
 function clearValidity(fieldName) {

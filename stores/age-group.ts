@@ -22,15 +22,30 @@ export const useAgeGroupStore = defineStore('useAgegroupStore', () => {
         }
     })
 
-    async function fetchAgeGroupsByDiagnosis(diagnosisId: number) {
+    async function fetchAgeGroupsByDiagnosis(
+        diagnosisName: string,
+        subDiagnosisName: string = '',
+        suspectedOrganismsName: string = ''
+    ) {
         try {
-            const filterObj = diagnosisId ? {
+            const filterObj: any = diagnosisName ? {
                 diagnosis: {
-                    id: {
-                        $eq: diagnosisId
+                    DiagnosisName: {
+                        $eqi: diagnosisName
                     }
                 }
             } : {}
+            if (subDiagnosisName) {
+                filterObj.diagnosis.SubDiagnosisName = {
+                    $eqi: subDiagnosisName
+                }
+            }
+            if (suspectedOrganismsName) {
+                filterObj.diagnosis.SuspectedOrganism = {
+                    $eqi: suspectedOrganismsName
+                }
+            }
+
             const response = await find<any>('age-group-diagnoses', {
                 populate: {
                     // diagnosis: true,

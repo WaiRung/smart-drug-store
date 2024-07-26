@@ -135,6 +135,9 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
         }
     }
 
+    // filter fullDiagnosis by DiagnosisName, SubDiagnosisName or SuspectedOrganism and get ids to find agerange
+    // consider full data without join, just all row and where to find conditions
+
     function clearDiagnoses() {
         Object.assign(diagnoses.value, [])
     }
