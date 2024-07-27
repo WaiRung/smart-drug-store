@@ -20,11 +20,6 @@ describe('test is-form-validate functionalities', () => {
           val: '',
           required: true
         },
-        weight: {
-          isValid: true,
-          val: '',
-          required: true
-        },
       }
     )).toBe(true)
   })
@@ -43,11 +38,6 @@ describe('test is-form-validate functionalities', () => {
           required: true
         },
         ageRange: {
-          isValid: true,
-          val: '',
-          required: true
-        },
-        weight: {
           isValid: true,
           val: '',
           required: true
@@ -85,11 +75,6 @@ describe('test is-form-validate functionalities', () => {
           val: '',
           required: true
         },
-        weight: {
-          isValid: true,
-          val: '',
-          required: true
-        },
       }
     )).toStrictEqual({
       selectedDrug: {
@@ -105,12 +90,6 @@ describe('test is-form-validate functionalities', () => {
         required: true
       },
       ageRange: {
-        isValid: false,
-        errorMsg: 'กรุณาเลือก',
-        val: '',
-        required: true
-      },
-      weight: {
         isValid: false,
         errorMsg: 'กรุณาเลือก',
         val: '',

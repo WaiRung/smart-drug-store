@@ -4,7 +4,7 @@ import { describe, expect, it, test } from 'vitest'
 import { setup, $fetch, isDev } from '@nuxt/test-utils'
 import { renderSuspended } from '@nuxt/test-utils/runtime'
 import { screen } from '@testing-library/vue'
-import WeightformVue from '~/components/weight/Weightform.vue'
+import CriteriaselectionVue from '~/components/criteria/Selection.vue'
 import { mount } from '@vue/test-utils'
 
 describe('Components', async () => {
@@ -12,12 +12,12 @@ describe('Components', async () => {
     rootDir: resolve(fileURLToPath(import.meta.url), '..'),
     server: true
   })
-  it('Renders Weight Form', async () => {
-    expect(await $fetch('/weight-calculate')).toMatch('คำนวนปริมาณยาโดยใช้น้ำหนัก')
+  it('Renders Criteria Selection', async () => {
+    expect(await $fetch('/criteria-selection')).toMatch('Criteria Selection')
   })
 
   it('can render some component', async () => {
-    await renderSuspended(WeightformVue)
+    await renderSuspended(CriteriaselectionVue)
     expect(screen.getByText('ยาที่ต้องการคำนวน')).toBeDefined()
   })
   

@@ -68,7 +68,7 @@ onMounted(() => {
     <button id="dropdownSearchButton" data-testid="search-dropdown-button" data-dropdown-toggle="dropdownSearch"
         @click="onClick" data-dropdown-placement="bottom"
         :class="[!isValid ? 'ring-2 ring-red-700 ring-offset-3 ring-offset-green-50' : '']"
-        class="bg-green-900 text-white text-xl border-transparent hover:bg-green-900 px-5 py-3 border-2 rounded-lg text-center transition focus-visible:ring-2 ring-offset-2 inline-flex items-center"
+        class="bg-green-900 text-white text-xl border-transparent hover:bg-green-900 px-3 py-2 border-2 rounded-lg text-center transition focus-visible:ring-2 ring-offset-2 inline-flex items-center"
         type="button">{{ buttonText }} <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

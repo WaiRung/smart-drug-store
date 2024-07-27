@@ -4,8 +4,8 @@ import { describe, expect, it, test } from 'vitest'
 import { setup, $fetch, isDev } from '@nuxt/test-utils'
 import { renderSuspended } from '@nuxt/test-utils/runtime'
 import { screen } from '@testing-library/vue'
-import WeightformVue from '~/components/weight/Weightform.vue'
-import SearchdropdownVue from '~/components/weight/Searchdropdown.vue'
+import CriteriaselectionVue from '~/components/criteria/Selection.vue'
+import SearchdropdownVue from '~/components/criteria/Searchdropdown.vue'
 import { mount } from '@vue/test-utils'
 
 describe('Components', async () => {
@@ -27,7 +27,7 @@ describe('Components', async () => {
 
   test('Selected Drug should initailly be -', () => {
     const selectedDrugSelector = '[data-testid=selected-drug-text]'
-    const wrapper = mount(WeightformVue, {
+    const wrapper = mount(CriteriaselectionVue, {
     })
     const selectedDrugText = wrapper.get(selectedDrugSelector)
     expect(selectedDrugText.text()).toContain('-')
@@ -40,7 +40,7 @@ describe('Components', async () => {
     const DropdownInputSelector = '[data-testid=search-dropdown-radio-input]'
 
 
-    const wrapper = mount(WeightformVue, {
+    const wrapper = mount(CriteriaselectionVue, {
     })
     const selectDrugBtn = wrapper.get(DropdownBtnSelector)
     const dropdownInputRadio = wrapper.get(DropdownInputSelector)
@@ -60,7 +60,7 @@ describe('Components', async () => {
     const DropdownInputSelector = '[data-testid=search-dropdown-radio-input]'
 
 
-    const wrapper = mount(WeightformVue, {
+    const wrapper = mount(CriteriaselectionVue, {
     })
     const selectDrugBtn = wrapper.get(DropdownBtnSelector)
     const dropdownInputRadio = wrapper.get(DropdownInputSelector)
@@ -87,25 +87,22 @@ describe('Components', async () => {
 
     const deseaseInputSelector = '[data-testid=diagnosis-input]'
     const ageRangeInputSelector = '[data-testid=ageRange-input]'
-    const weightInputSelector = '[data-testid=weight-input]'
-    const weightFormButtonSelector = '[data-testid=submit-weightForm-button]'
+    const criteriaNextButtonSelector = '[data-testid=criteria-next-button]'
 
-    const wrapper = mount(WeightformVue, {
+    const wrapper = mount(CriteriaselectionVue, {
     })
 
     const deseaseInput = wrapper.get(deseaseInputSelector)
     const ageRangeInput = wrapper.get(ageRangeInputSelector)
-    const weightInput = wrapper.get(weightInputSelector)
-    const weightFormButton = wrapper.get(weightInputSelector)
+    const criteriaNextButton = wrapper.get(criteriaNextButtonSelector)
 
     await deseaseInput.setValue('Analgesic')
 
     expect((deseaseInput.element as HTMLInputElement).value).toBe('Analgesic')
 
     await ageRangeInput.setValue('อายุ 1 - 3 เดือน')
-    await weightInput.setValue('22')
 
-    await weightFormButton.trigger('click')
+    await criteriaNextButton.trigger('click')
 
   })
 
