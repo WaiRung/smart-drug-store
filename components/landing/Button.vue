@@ -14,7 +14,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const sizes = {
   md: "px-5 py-2.5",
-  lg: "px-6 py-3",
+  lg: "px-4 py-1",
 };
 
 const styles = {

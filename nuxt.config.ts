@@ -12,7 +12,10 @@ export default defineNuxtConfig({
     "@nuxt/icon"
   ],
 
-  css: ['@/assets/css/main.css'],
+  css: [
+    '@/assets/css/main.css',
+    '@/assets/css/slide.css',
+  ],
 
   postcss: {
     plugins: {
@@ -25,6 +28,11 @@ export default defineNuxtConfig({
     // Options
     url: 'https://drug-strapi-api.demo.egat.work'
   },
+  app: {
+    pageTransition: {
+      name: 'page',
+      mode: 'out-in'
+    }
+  }
 
-  compatibilityDate: '2024-07-25'
 })

@@ -25,7 +25,7 @@ const selectedValue = ref('')
 async function fetchData() {
   try {
     errorStore.clearError() // Clear any previous error
-    await drugStore.fetchDrugs()
+    // await drugStore.fetchDrugs()
   } catch (error) {
     errorStore.setError(error)
   }

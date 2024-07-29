@@ -127,16 +127,19 @@ function clearValidity(fieldName) {
 function onClickCal() {
 
     const numberRegex = /\d+/;
-    const match = dosagesData.value[0].DosagePerDay.match(numberRegex);
+    // const match = dosagesData.value[0].DosagePerDay.match(numberRegex);
 
-    const doseNum = match ? parseInt(match[0], 10) : null;
+    // const doseNum = match ? parseInt(match[0], 10) : null;
 
-    Duration.value = dosagesData.value[0].Duration
-    FrequencyPerDay.value = dosagesData.value[0].FrequencyPerDay
+    // Duration.value = dosagesData.value[0].Duration
+    // FrequencyPerDay.value = dosagesData.value[0].FrequencyPerDay
 
     // isDrugmodalOpen.value = true
 
-
+    const slideStore = useSlideStore()
+    slideStore.setDirection('slide-left')
+    console.log('onClickCal', slideStore.getDirection);
+    navigateTo('/cpg')
 
 }
 </script>
@@ -167,7 +170,7 @@ function onClickCal() {
             </div>
             <div class="w-6/12 md:w-2/12 flex flex-row-reverse">
                 <div>
-                    <WeightSearchdropdown buttonText="ค้นหายา" :isValid="values.selectedDrug.isValid"
+                    <CriteriaSearchdropdown buttonText="ค้นหายา" :isValid="values.selectedDrug.isValid"
                         @selected-value="updateDrug" @btn-clicked="clearValidity('selectedDrug')" />
                     <div v-show="!values.selectedDrug.isValid" class="text-red-400 text-sm mt-1">
                         กรุณาเลือกยา
