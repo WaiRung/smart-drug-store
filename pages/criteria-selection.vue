@@ -6,8 +6,8 @@ definePageMeta({
         mode: 'out-in'
     },
     middleware(to, from) {
+        const slideStore = useSlideStore()
         if (to.meta.pageTransition && typeof to.meta.pageTransition !== 'boolean') {
-            const slideStore = useSlideStore()
             to.meta.pageTransition.name = slideStore.getDirection
         }
     }

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 export const useSlideStore  = defineStore('useSlideStore', () => {
-  const direction = ref('slide-left')
+  const direction = ref('slide-right')
 
   const getDirection = computed(() => {
     return direction.value
