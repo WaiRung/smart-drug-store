@@ -6,7 +6,6 @@ export default defineNuxtConfig({
 
   modules: [
     '@pinia/nuxt',
-    '@nuxt/test-utils/module',
     "@nuxt/image",
     "@nuxtjs/strapi",
     "@nuxt/icon"
