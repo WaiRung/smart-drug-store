@@ -1,37 +1,14 @@
 <script setup>
 import { FwbButton, FwbModal } from 'flowbite-vue'
-import { useDiagnosisStore } from '@/stores/diagnosis'
-import { useAgeGroupStore } from '@/stores/age-group'
-import { useDosageStore } from '@/stores/dosage'
-// const valuesAreValid = 
+import Papa from 'papaparse';
+const { create } = useStrapi()
 
 const diagnosisStore = useDiagnosisStore()
-const ageGroupStore = useAgeGroupStore()
-const dosageStore = useDosageStore()
+
 
 const diagnosesData = computed(() => {
     const diagnoses = diagnosisStore.getDiagnosesName
     return diagnoses
-})
-
-const subDiagnosesData = computed(() => {
-    const subDiagnoses = diagnosisStore.getSubdiagnosesName
-    return subDiagnoses
-})
-
-const suspectedOrganismsData = computed(() => {
-    const suspectedOrganisms = diagnosisStore.getSuspectedOrganismsName
-    return suspectedOrganisms
-})
-
-const ageGroupsData = computed(() => {
-    const ageGroups = ageGroupStore.getAgeGroups()
-    return ageGroups
-})
-
-const dosagesData = computed(() => {
-    const dosages = dosageStore.getDosages
-    return dosages
 })
 
 const isDrugmodalOpen = ref(false)
@@ -75,7 +52,7 @@ async function updateDrug(evt) {
     values.suspectOrganism.val = ''
 
     selectedDrugId.value = evt.id
-    await diagnosisStore.fetchDiagnosesByDrug(selectedDrugId.value)
+    // await diagnosisStore.fetchDiagnosesByDrug(selectedDrugId.value)
 };
 
 async function updateDiagnosis(evt) {
@@ -84,7 +61,7 @@ async function updateDiagnosis(evt) {
     values.subDiagnosis.val = ''
     values.suspectOrganism.val = ''
 
-    await ageGroupStore.fetchAgeGroupsByDiagnosis(values.diagnosis.val)
+    // await ageGroupStore.fetchAgeGroupsByDiagnosis(values.diagnosis.val)
 }
 
 async function updateSubiagnosis(evt) {
@@ -92,31 +69,31 @@ async function updateSubiagnosis(evt) {
 
     values.suspectOrganism.val = ''
 
-    diagnosisStore.mapSuspectedOrganisms(evt)
+    // diagnosisStore.mapSuspectedOrganisms(evt)
 
-    await ageGroupStore.fetchAgeGroupsByDiagnosis(
-        values.diagnosis.val,
-        values.subDiagnosis.val
-    )
+    // await ageGroupStore.fetchAgeGroupsByDiagnosis(
+    //     values.diagnosis.val,
+    //     values.subDiagnosis.val
+    // )
 }
 
 async function updateSuspectedOrganism(evt) {
     values.suspectOrganism.val = evt;
 
-    await ageGroupStore.fetchAgeGroupsByDiagnosis(
-        values.diagnosis.val,
-        values.subDiagnosis.val,
-        values.suspectOrganism.val
-    )
+    // await ageGroupStore.fetchAgeGroupsByDiagnosis(
+    //     values.diagnosis.val,
+    //     values.subDiagnosis.val,
+    //     values.suspectOrganism.val
+    // )
 }
 
 async function updateAgeGroup(evt) {
-    const dianogsis = diagnosisStore.getDiagnosis(
-        values.diagnosis.val,
-        values.subDiagnosis.val,
-        values.suspectOrganism.val
-    )
-    await dosageStore.fetchDosagesByDrugAgegroup(selectedDrugId.value, evt.id, dianogsis.id)
+    // const dianogsis = diagnosisStore.getDiagnosis(
+    //     values.diagnosis.val,
+    //     values.subDiagnosis.val,
+    //     values.suspectOrganism.val
+    // )
+    // await dosageStore.fetchDosagesByDrugAgegroup(selectedDrugId.value, evt.id, dianogsis.id)
 }
 
 function clearValidity(fieldName) {
@@ -140,6 +117,27 @@ function onClickCal() {
     slideStore.setDirection('slide-left')
     console.log('onClickCal', slideStore.getDirection);
     navigateTo('/cpg')
+
+}
+
+async function inputTAB(event) {
+    const file = event.target.files[0]
+    let fileData = null
+    Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: async function (results) {
+            console.log(results.data);
+            fileData = results.data
+            for (let i = 0; i < fileData.length; i++) {
+                const element = fileData[i];
+                const response = await create('tab-atp-catalogs', element)
+                if (response && response.error) {
+                    console.log(response.error);
+                }
+            }
+        }.bind(this)
+    })
 
 }
 </script>
@@ -264,6 +262,7 @@ function onClickCal() {
         </div>
 
         <div class="flex justify-center mt-12">
+            <!-- <input type="file" @change="inputTAB" multiple> -->
             <LandingButton data-testid="criteria-next-button" @click="onClickCal" type="button" size="lg">
                 <p class="text-xl">Next</p>
             </LandingButton>

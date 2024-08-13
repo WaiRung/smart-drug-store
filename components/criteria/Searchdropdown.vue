@@ -1,9 +1,9 @@
 <script setup>
 import { initDropdowns } from 'flowbite'
-import { useDrugStore } from '@/stores/drug'
+import { useTabATP_CATALOGStore } from '@/stores/tab-atp-catalog'
 import { useErrorStore } from '@/stores/error'
 
-const drugStore = useDrugStore()
+const tabATP_CATALOGStore = useTabATP_CATALOGStore()
 const errorStore = useErrorStore()
 
 const props = defineProps({
@@ -19,20 +19,30 @@ const props = defineProps({
 
 const emit = defineEmits(['selected-value', 'btn-clicked'])
 
+const classes = computed(() => {
+    const classes = tabATP_CATALOGStore.getClassess
+    return classes
+})
+
 const selectedValue = ref('')
 
 // Fetch data from Nuxt Content and handle potential errors
 async function fetchData() {
   try {
     errorStore.clearError() // Clear any previous error
-    // await drugStore.fetchDrugs()
+    // await tabATP_CATALOGStore.fetchDrugs()
   } catch (error) {
     errorStore.setError(error)
   }
 }
 
+async function fetchClasses() {
+    errorStore.clearError()
+    await tabATP_CATALOGStore.fetchClasses()
+}
+
 const drugData = computed(() => {
-    const drugs = drugStore.getDrugs()
+    const drugs = tabATP_CATALOGStore.getATPs()
     return drugs
 })
 
@@ -50,6 +60,7 @@ function onClick() {
     emit('btn-clicked')
 }
 fetchData()
+fetchClasses()
 
 onMounted(() => {
     initDropdowns();
