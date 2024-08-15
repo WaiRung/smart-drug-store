@@ -8,7 +8,7 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  drugId: {
+  classData: {
     type: Number,
     default: ''
   },
@@ -19,7 +19,7 @@ const isShowModal = ref(false)
 const drugStore = useDrugStore()
 
 const drugData = computed(() => {
-    const drug = drugStore.getDrugs(props.drugId)
+    const drug = drugStore.getDrugs(props.classData)
     return drug
 })
 
@@ -47,7 +47,7 @@ function showModal() {
       </div>
     </template>
     <template #body>
-      <DrugDetails :drug-data="drugData" />
+      <ClassDetails :drug-data="drugData" />
     </template>
     <!-- <template #footer>
       <div class="flex justify-between">

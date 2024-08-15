@@ -5,6 +5,8 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
     const { find } = useStrapi()
 
     const classes: any = ref([])
+
+    const filteredClasses: any = ref([])
     const ATPs: any = ref([])
 
     const getATPs = computed(() => {
@@ -15,7 +17,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
 
     const getClassess = computed(() => {
         return () => {
-            return classes.value
+            return filteredClasses.value
         }
     })
 
@@ -77,8 +79,8 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
                 const mergedFlatData = mergedData.flat();
                 const rawClasses = mergedFlatData.map(item => item.attributes.CLASS);
                 const uniq = [...new Set(rawClasses)]
-                console.log(uniq);
                 classes.value = uniq
+                filteredClasses.value = uniq
             }
         } catch (error) {
             const errorStore = useErrorStore()
@@ -86,7 +88,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
         }
     }
 
-    async function fetchATPSByGenericClass(generic: string, className: string) {
+    async function fetchATPSByGenericClass(generic: string = '', className: string = '') {
         try {
             const filterGeneric: any = {
                 'GENERIC': {
@@ -123,10 +125,21 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
         }
     }
 
+    function getFilteredClasses(searchText:string) {
+        if (searchText) {
+            
+            const filtered = classes.value.filter((classLabel: string) => classLabel.startsWith(searchText));
+            filteredClasses.value = filtered
+        } else {
+            filteredClasses.value = classes.value
+        }
+    }
+
     return {
         getClassess,
         getATPs,
         fetchClasses,
-        fetchATPSByGenericClass
+        fetchATPSByGenericClass,
+        getFilteredClasses
     }
 })

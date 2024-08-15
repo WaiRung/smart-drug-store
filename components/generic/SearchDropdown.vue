@@ -1,9 +1,10 @@
 <script setup>
 import { initDropdowns } from 'flowbite'
 import { useTabATP_CATALOGStore } from '@/stores/tab-atp-catalog'
+import { useGenericStore } from '~/stores/generic';
 import { useErrorStore } from '@/stores/error'
 
-const tabATP_CATALOGStore = useTabATP_CATALOGStore()
+const genericStore = useGenericStore()
 const errorStore = useErrorStore()
 
 const props = defineProps({
@@ -19,64 +20,48 @@ const props = defineProps({
 
 const emit = defineEmits(['selected-value', 'btn-clicked'])
 
-const classes = computed(() => {
-    const classes = tabATP_CATALOGStore.getClassess
-    return classes
-})
-
 const selectedValue = ref('')
 
-// Fetch data from Nuxt Content and handle potential errors
-async function fetchData() {
-  try {
-    errorStore.clearError() // Clear any previous error
-    // await tabATP_CATALOGStore.fetchDrugs()
-  } catch (error) {
-    errorStore.setError(error)
-  }
-}
-
-async function fetchClasses() {
+async function fetchGenerics() {
     errorStore.clearError()
-    await tabATP_CATALOGStore.fetchClasses()
+    await genericStore.fetchGenerics()
 }
 
-const drugData = computed(() => {
-    const drugs = tabATP_CATALOGStore.getATPs()
-    return drugs
+const genericData = computed(() => {
+    const generics = genericStore.getGenerics()
+    return generics
+
 })
 
-const handleModalClose = () => {
-  reloadNuxtApp()
+function onSearch(evt) {
+    
+    const searchText = evt.target.value
+    genericStore.getFilteredGenerics(searchText)
 }
 
-
-function onSelect(drugObj) {
-    selectedValue.value = drugObj.DrugName
-    emit('selected-value', {id: drugObj.id, name: drugObj.DrugName})
+function onSelect(genericName) {
+    selectedValue.value = genericName
+    emit('selected-value', genericName)
 }
 
 function onClick() {
     emit('btn-clicked')
 }
-fetchData()
-fetchClasses()
-
+fetchGenerics()
 onMounted(() => {
     initDropdowns();
     // if (data.value) {
     //     console.log('Fetched drug data:', data.value)
-    //     Object.assign(drugData, data.value[0].body)
+    //     Object.assign(classData, data.value[0].body)
     // } else {
     //     console.error('No drug data fetched. Error:', error.value)
     // }
 
 })
-
 </script>
 
 <template>
-    <button id="dropdownSearchButton" data-testid="search-dropdown-button" data-dropdown-toggle="dropdownSearch"
+    <button id="dropdownGenericButton" data-dropdown-toggle="dropdownSearch"
         @click="onClick" data-dropdown-placement="bottom"
         :class="[!isValid ? 'ring-2 ring-red-700 ring-offset-3 ring-offset-green-50' : '']"
         class="bg-green-900 text-white text-xl border-transparent hover:bg-green-900 px-3 py-2 border-2 rounded-lg text-center transition focus-visible:ring-2 ring-offset-2 inline-flex items-center"
@@ -86,14 +71,11 @@ onMounted(() => {
                 d="m1 1 4 4 4-4" />
         </svg>
     </button>
-    <!-- <div v-show="!isValid" class="text-red-400 text-sm mt-1">
-        กรุณาเลือกยา
-    </div> -->
 
-    <!-- Dropdown menu -->
-    <div id="dropdownSearch" class="z-10 hidden bg-white rounded-lg shadow w-96 dark:bg-gray-700">
+     <!-- Dropdown menu -->
+     <div id="dropdownSearch" class="z-10 hidden bg-white rounded-lg shadow w-96 dark:bg-gray-700">
         <div class="p-3">
-            <label for="input-group-search" class="sr-only">Search</label>
+            <label for="input-generic-search" class="sr-only">Search</label>
             <div class="relative">
                 <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                     <svg class="w-4 h-4 text-green-500 dark:text-green-400" aria-hidden="true"
@@ -102,23 +84,23 @@ onMounted(() => {
                             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                 </div>
-                <input type="text" id="input-group-search"
+                <input type="text" id="input-generic-search" @input="onSearch($event)"
                     class="block w-full p-2 ps-10 text-base text-green-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-green-500 focus:border-green-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
-                    placeholder="Search drug">
+                    placeholder="Search Generic">
             </div>
         </div>
         <ul class="h-48 px-3 pb-3 overflow-y-auto text-sm text-green-700 dark:text-green-200"
-            aria-labelledby="dropdownSearchButton">
-            <li v-for="data in drugData" :key="data.DrugName">
+            aria-labelledby="dropdownGenericButton">
+            <li v-for="data in genericData" :key="data">
                 <div class="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                    <input type="radio" :value="data.DrugName" v-model="selectedValue" @click="onSelect(data)"
+                    <input type="radio" :value="data" v-model="selectedValue" @click="onSelect(data)"
                         DrugName="default-radio"
                         class="cursor-pointer w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         data-testid="search-dropdown-radio-input">
                     <label for="checkbox-item-11"
                         class="cursor-pointer w-full py-2 ms-2 text-base font-medium text-green-900 rounded dark:text-green-300"
                         @click="onSelect(data)">
-                        {{ data.DrugName }}
+                        {{ data }}
                     </label>
                 </div>
             </li>

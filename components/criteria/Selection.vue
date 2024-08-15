@@ -3,26 +3,26 @@ import { FwbButton, FwbModal } from 'flowbite-vue'
 import Papa from 'papaparse';
 const { create } = useStrapi()
 
-const diagnosisStore = useDiagnosisStore()
+const genericStore = useGenericStore()
 
 
-const diagnosesData = computed(() => {
-    const diagnoses = diagnosisStore.getDiagnosesName
-    return diagnoses
+const genericsData = computed(() => {
+    const generics = genericStore.getDiagnosesName
+    return generics
 })
 
 const isDrugmodalOpen = ref(false)
 const Duration = ref(0)
 const FrequencyPerDay = ref('')
-const selectedDrugId = ref(0)
+const selectedClass = ref('')
 
 const values = reactive({
-    selectedDrug: {
+    selectedClass: {
         isValid: true,
         val: '',
         required: true
     },
-    diagnosis: {
+    selectedGeneric: {
         isValid: true,
         val: '',
         required: true
@@ -44,24 +44,26 @@ const values = reactive({
     }
 })
 
-async function updateDrug(evt) {
-    values.selectedDrug.val = evt.name
+async function updateClass(evt) {
+    console.log(evt);
+    
+    values.selectedClass.val = evt
 
-    values.diagnosis.val = ''
+    values.selectedGeneric.val = ''
     values.subDiagnosis.val = ''
     values.suspectOrganism.val = ''
 
-    selectedDrugId.value = evt.id
-    // await diagnosisStore.fetchDiagnosesByDrug(selectedDrugId.value)
+    selectedClass.value = evt.id
+    // await genericStore.fetchGenericsByClass(selectedClass.value)
 };
 
 async function updateDiagnosis(evt) {
-    values.diagnosis.val = evt
+    values.selectedGeneric.val = evt
 
     values.subDiagnosis.val = ''
     values.suspectOrganism.val = ''
 
-    // await ageGroupStore.fetchAgeGroupsByDiagnosis(values.diagnosis.val)
+    // await ageGroupStore.fetchAgeGroupsByDiagnosis(values.selectedGeneric.val)
 }
 
 async function updateSubiagnosis(evt) {
@@ -69,31 +71,31 @@ async function updateSubiagnosis(evt) {
 
     values.suspectOrganism.val = ''
 
-    // diagnosisStore.mapSuspectedOrganisms(evt)
+    // genericStore.mapSuspectedOrganisms(evt)
 
     // await ageGroupStore.fetchAgeGroupsByDiagnosis(
-    //     values.diagnosis.val,
+    //     values.selectedGeneric.val,
     //     values.subDiagnosis.val
     // )
 }
 
 async function updateSuspectedOrganism(evt) {
-    values.suspectOrganism.val = evt;
+    // values.suspectOrganism.val = evt;
 
     // await ageGroupStore.fetchAgeGroupsByDiagnosis(
-    //     values.diagnosis.val,
+    //     values.selectedGeneric.val,
     //     values.subDiagnosis.val,
     //     values.suspectOrganism.val
     // )
 }
 
 async function updateAgeGroup(evt) {
-    // const dianogsis = diagnosisStore.getDiagnosis(
-    //     values.diagnosis.val,
+    // const dianogsis = genericStore.getDiagnosis(
+    //     values.selectedGeneric.val,
     //     values.subDiagnosis.val,
     //     values.suspectOrganism.val
     // )
-    // await dosageStore.fetchDosagesByDrugAgegroup(selectedDrugId.value, evt.id, dianogsis.id)
+    // await dosageStore.fetchDosagesByDrugAgegroup(selectedClass.value, evt.id, dianogsis.id)
 }
 
 function clearValidity(fieldName) {
@@ -125,16 +127,17 @@ async function inputTAB(event) {
     let fileData = null
     Papa.parse(file, {
         header: true,
+        encoding: "ISO-8859-1",
         skipEmptyLines: true,
         complete: async function (results) {
             console.log(results.data);
             fileData = results.data
             for (let i = 0; i < fileData.length; i++) {
                 const element = fileData[i];
-                const response = await create('tab-atp-catalogs', element)
-                if (response && response.error) {
-                    console.log(response.error);
-                }
+                // const response = await create('tab-atp-catalogs', element)
+                // if (response && response.error) {
+                //     console.log(response.error);
+                // }
             }
         }.bind(this)
     })
@@ -148,54 +151,61 @@ async function inputTAB(event) {
         <input type="checkbox" class="hidden" style="display: none" name="botcheck" />
 
         <div class="flex md:items-center md:row-reverse justify-between md:justify-normal mb-6"
-            :class="{ 'is-invalid': !values.selectedDrug.isValid }">
+            :class="{ 'is-invalid': !values.selectedClass.isValid }">
             <div class="w-10/12 md:w-6/12 flex items-center  ">
                 <div class="md:w-4/12"></div>
                 <div class="w-10/12 md:w-4/12 md:items-center">
                     <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                        ยาที่ต้องการคำนวน
+                        Class
                     </label>
                 </div>
                 <div class="w-4/12 md:items-center">
                     <div class="flex">
                         <label data-testid="selected-drug-text"
                             class="block text-green-500 text-xl md:text-left mb-1 md:mb-0 pr-4">
-                            {{ values.selectedDrug.val || '-' }}
+                            {{ values.selectedClass.val || '-' }}
                         </label>
-                        <DrugModal btn-text="ข้อมูลยา" :drug-id="selectedDrugId" v-if="values.selectedDrug.val" />
+                        <!-- <ClassModal btn-text="Search Class" :class-data="selectedClass" v-if="values.selectedClass.val" /> -->
                     </div>
                 </div>
             </div>
             <div class="w-6/12 md:w-2/12 flex flex-row-reverse">
                 <div>
-                    <CriteriaSearchdropdown buttonText="ค้นหายา" :isValid="values.selectedDrug.isValid"
-                        @selected-value="updateDrug" @btn-clicked="clearValidity('selectedDrug')" />
-                    <div v-show="!values.selectedDrug.isValid" class="text-red-400 text-sm mt-1">
-                        กรุณาเลือกยา
+                    <ClassSearchdropdown buttonText="Search Class" :isValid="values.selectedClass.isValid"
+                        @selected-value="updateClass" @btn-clicked="clearValidity('selectedClass')" />
+                    <div v-show="!values.selectedClass.isValid" class="text-red-400 text-sm mt-1">
+                        กรุณาเลือก Class
                     </div>
                 </div>
-
             </div>
 
         </div>
 
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.diagnosis.isValid }">
-            <div class="md:w-1/3">
-                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    โรค
-                </label>
+        <div class="flex md:items-center md:row-reverse justify-between md:justify-normal mb-6"
+            :class="{ 'is-invalid': !values.selectedGeneric.isValid }">
+            <div class="w-10/12 md:w-6/12 flex items-center  ">
+                <div class="md:w-4/12"></div>
+                <div class="w-10/12 md:w-4/12 md:items-center">
+                    <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
+                        Generic
+                    </label>
+                </div>
+                <div class="w-4/12 md:items-center">
+                    <div class="flex">
+                        <label
+                            class="block text-green-500 text-xl md:text-left mb-1 md:mb-0 pr-4">
+                            {{ values.selectedGeneric.val || '-' }}
+                        </label>
+                    </div>
+                </div>
             </div>
-            <div class="md:w-1/3">
-                <select data-testid="diagnosis-input" v-model="values.diagnosis.val"
-                    :disabled="!values.selectedDrug.val" @change="updateDiagnosis(values.diagnosis.val)"
-                    @blur="clearValidity('diagnosis')"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="diagnosis in diagnosesData" :value="diagnosis">
-                        {{ diagnosis }}
-                    </option>
-                </select>
-                <div v-show="!values.diagnosis.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือกโรค
+            <div class="w-6/12 md:w-2/12 flex flex-row-reverse">
+                <div>
+                    <GenericSearchDropdown buttonText="Search Generic" :isValid="values.selectedGeneric.isValid"
+                        @selected-value="updateClass" @btn-clicked="clearValidity('selectedGeneric')" />
+                    <div v-show="!values.selectedGeneric.isValid" class="text-red-400 text-sm mt-1">
+                        กรุณาเลือก Generic
+                    </div>
                 </div>
             </div>
         </div>
@@ -207,56 +217,15 @@ async function inputTAB(event) {
             </div>
             <div class="md:w-1/3">
                 <select data-testid="subDiagnosis-input" v-model="values.subDiagnosis.val"
-                    :disabled="!values.diagnosis.val" @change="updateSubiagnosis(values.subDiagnosis.val)"
+                    :disabled="!values.selectedGeneric.val" @change="updateSubiagnosis(values.subDiagnosis.val)"
                     @blur="clearValidity('subDiagnosis')"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="subDiagnoses in subDiagnosesData" :value="subDiagnoses">
                         {{ subDiagnoses }}
                     </option>
                 </select>
-                <div v-show="!values.diagnosis.isValid" class="text-red-400 text-xl text-sm mt-1">
+                <div v-show="!values.selectedGeneric.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือกลักษณะโรค 1
-                </div>
-            </div>
-        </div>
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.suspectOrganism.isValid }">
-            <div class="md:w-1/3">
-                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    ลักษณะโรค 2
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <select data-testid="suspectOrganism-input" v-model="values.suspectOrganism.val"
-                    :disabled="!values.subDiagnosis.val" @change="updateSuspectedOrganism(values.suspectOrganism.val)"
-                    @blur="clearValidity('suspectOrganism')"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="suspectedOrganism in suspectedOrganismsData" :value="suspectedOrganism">
-                        {{ suspectedOrganism }}
-                    </option>
-                </select>
-                <div v-show="!values.diagnosis.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือกลักษณะโรค 2
-                </div>
-            </div>
-        </div>
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.ageRange.isValid }">
-            <div class="md:w-1/3">
-                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    ช่วงอายุ
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <select data-testid="ageRange-input" v-model="values.ageRange.val"
-                    :disabled="!values.suspectOrganism.val" @change="updateAgeGroup(values.ageRange.val)"
-                    @blur="clearValidity('ageRange')"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="ageGroup in ageGroupsData" :value="ageGroup">
-                        {{ ageGroup.AgeRange }}
-                    </option>
-
-                </select>
-                <div v-show="!values.ageRange.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือกช่วงอายุ
                 </div>
             </div>
         </div>
@@ -280,7 +249,7 @@ async function inputTAB(event) {
                     </h3>
                 </div>
                 
-                <DrugDetails />
+                <ClassDetails />
             </LandingModal> -->
         </div>
         <div id="result" class="mt-3 text-center"></div>
