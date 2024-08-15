@@ -3,13 +3,7 @@ import { FwbButton, FwbModal } from 'flowbite-vue'
 import Papa from 'papaparse';
 const { create } = useStrapi()
 
-const genericStore = useGenericStore()
 
-
-const genericsData = computed(() => {
-    const generics = genericStore.getDiagnosesName
-    return generics
-})
 
 const isDrugmodalOpen = ref(false)
 const Duration = ref(0)
@@ -27,7 +21,7 @@ const values = reactive({
         val: '',
         required: true
     },
-    subDiagnosis: {
+    group: {
         isValid: true,
         val: '',
         required: true
@@ -50,32 +44,30 @@ async function updateClass(evt) {
     values.selectedClass.val = evt
 
     values.selectedGeneric.val = ''
-    values.subDiagnosis.val = ''
+    values.group.val = ''
     values.suspectOrganism.val = ''
 
     selectedClass.value = evt.id
-    // await genericStore.fetchGenericsByClass(selectedClass.value)
 };
 
 async function updateDiagnosis(evt) {
     values.selectedGeneric.val = evt
 
-    values.subDiagnosis.val = ''
+    values.group.val = ''
     values.suspectOrganism.val = ''
 
     // await ageGroupStore.fetchAgeGroupsByDiagnosis(values.selectedGeneric.val)
 }
 
 async function updateSubiagnosis(evt) {
-    values.subDiagnosis.val = evt
+    values.group.val = evt
 
     values.suspectOrganism.val = ''
 
-    // genericStore.mapSuspectedOrganisms(evt)
 
     // await ageGroupStore.fetchAgeGroupsByDiagnosis(
     //     values.selectedGeneric.val,
-    //     values.subDiagnosis.val
+    //     values.group.val
     // )
 }
 
@@ -84,18 +76,12 @@ async function updateSuspectedOrganism(evt) {
 
     // await ageGroupStore.fetchAgeGroupsByDiagnosis(
     //     values.selectedGeneric.val,
-    //     values.subDiagnosis.val,
+    //     values.group.val,
     //     values.suspectOrganism.val
     // )
 }
 
 async function updateAgeGroup(evt) {
-    // const dianogsis = genericStore.getDiagnosis(
-    //     values.selectedGeneric.val,
-    //     values.subDiagnosis.val,
-    //     values.suspectOrganism.val
-    // )
-    // await dosageStore.fetchDosagesByDrugAgegroup(selectedClass.value, evt.id, dianogsis.id)
 }
 
 function clearValidity(fieldName) {
@@ -209,23 +195,23 @@ async function inputTAB(event) {
                 </div>
             </div>
         </div>
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.subDiagnosis.isValid }">
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.group.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    ลักษณะโรค 1
+                    Group
                 </label>
             </div>
             <div class="md:w-1/3">
-                <select data-testid="subDiagnosis-input" v-model="values.subDiagnosis.val"
-                    :disabled="!values.selectedGeneric.val" @change="updateSubiagnosis(values.subDiagnosis.val)"
-                    @blur="clearValidity('subDiagnosis')"
+                <select v-model="values.group.val"
+                    @change="updateSubiagnosis(values.group.val)"
+                    @blur="clearValidity('group')"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="subDiagnoses in subDiagnosesData" :value="subDiagnoses">
                         {{ subDiagnoses }}
                     </option>
                 </select>
                 <div v-show="!values.selectedGeneric.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือกลักษณะโรค 1
+                    กรุณาเลือก Group
                 </div>
             </div>
         </div>
