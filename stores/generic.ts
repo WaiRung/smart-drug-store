@@ -40,14 +40,25 @@ export const useGenericStore = defineStore('useGenericStore', () => {
     //     }
     // }
 
-    async function fetchGenerics() {
+    async function fetchGenerics(className: string = '') {
         try {
+            const filterClassName: any = {
+                'CLASS': {
+                    $containsi: className ? className : ''
+                }
+            }
+
+            const filterObj = {
+                ...filterClassName
+            }
+
             const response1 = await find<any>('tab-atp-catalogs', {
                 fields: ['GENERIC'],
                 pagination: {
                     page: 1,
                     pageSize: 100,
                 },
+                filters: filterObj,
             },);
             const response2 = await find<any>('tab-atp-catalogs', {
                 fields: ['GENERIC'],
@@ -55,6 +66,7 @@ export const useGenericStore = defineStore('useGenericStore', () => {
                     page: 2,
                     pageSize: 100,
                 },
+                filters: filterObj,
             },);
             const response3 = await find<any>('tab-atp-catalogs', {
                 fields: ['GENERIC'],
@@ -62,6 +74,7 @@ export const useGenericStore = defineStore('useGenericStore', () => {
                     page: 3,
                     pageSize: 100,
                 },
+                filters: filterObj,
             },);
             const response4 = await find<any>('tab-atp-catalogs', {
                 fields: ['GENERIC'],
@@ -69,6 +82,7 @@ export const useGenericStore = defineStore('useGenericStore', () => {
                     page: 4,
                     pageSize: 100,
                 },
+                filters: filterObj,
             },);
             const response5 = await find<any>('tab-atp-catalogs', {
                 fields: ['GENERIC'],
@@ -76,6 +90,7 @@ export const useGenericStore = defineStore('useGenericStore', () => {
                     page: 5,
                     pageSize: 100,
                 },
+                filters: filterObj,
             },);
             const response6 = await find<any>('tab-atp-catalogs', {
                 fields: ['GENERIC'],
@@ -83,6 +98,7 @@ export const useGenericStore = defineStore('useGenericStore', () => {
                     page: 6,
                     pageSize: 100,
                 },
+                filters: filterObj,
             },);
             if (response1 && response2 && response3 && response4 && response5 && response6) {
 

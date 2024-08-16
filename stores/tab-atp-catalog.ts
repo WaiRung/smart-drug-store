@@ -21,14 +21,25 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
         }
     })
 
-    async function fetchClasses() {
+    async function fetchClasses(generic: string = '') {
         try {
+            const filterGeneric: any = {
+                'GENERIC': {
+                    $containsi: generic ? generic : ''
+                }
+            }
+
+            const filterObj = {
+                ...filterGeneric
+            }
+
             const response1 = await find<any>('tab-atp-catalogs', {
                 fields: ['CLASS'],
                 pagination: {
                     page: 1,
                     pageSize: 100,
                 },
+                filters: filterObj,
             },);
             const response2 = await find<any>('tab-atp-catalogs', {
                 fields: ['CLASS'],
@@ -36,6 +47,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
                     page: 2,
                     pageSize: 100,
                 },
+                filters: filterObj,
             },);
             const response3 = await find<any>('tab-atp-catalogs', {
                 fields: ['CLASS'],
@@ -43,6 +55,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
                     page: 3,
                     pageSize: 100,
                 },
+                filters: filterObj,
             },);
             const response4 = await find<any>('tab-atp-catalogs', {
                 fields: ['CLASS'],
@@ -50,6 +63,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
                     page: 4,
                     pageSize: 100,
                 },
+                filters: filterObj,
             },);
             const response5 = await find<any>('tab-atp-catalogs', {
                 fields: ['CLASS'],
@@ -57,6 +71,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
                     page: 5,
                     pageSize: 100,
                 },
+                filters: filterObj,
             },);
             const response6 = await find<any>('tab-atp-catalogs', {
                 fields: ['CLASS'],
@@ -64,6 +79,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
                     page: 6,
                     pageSize: 100,
                 },
+                filters: filterObj,
             },);
             if (response1 && response2 && response3 && response4 && response5 && response6) {
 

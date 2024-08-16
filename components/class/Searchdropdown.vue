@@ -27,9 +27,9 @@ const classes = computed(() => {
 const selectedValue = ref('')
 
 
-async function fetchClasses() {
+async function fetchClasses(genericName = '') {
     errorStore.clearError()
-    await tabATP_CATALOGStore.fetchClasses()
+    await tabATP_CATALOGStore.fetchClasses(genericName)
 }
 
 const classData = computed(() => {
