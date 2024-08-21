@@ -27,11 +27,13 @@ export default defineNuxtConfig({
     // Options
     url: 'https://drug-strapi-api.demo.egat.work'
   },
+
   app: {
     pageTransition: {
       name: 'page',
       mode: 'out-in'
     }
-  }
+  },
 
+  compatibilityDate: '2024-08-20'
 })

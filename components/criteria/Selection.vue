@@ -4,15 +4,18 @@ import Papa from 'papaparse';
 const { create } = useStrapi()
 import { useTabATP_CATALOGStore } from '@/stores/tab-atp-catalog'
 import { useGenericStore } from '~/stores/generic'
+import { useGroupStore } from '~/stores/group';
 
 const genericStore = useGenericStore()
 const tabATP_CATALOGStore = useTabATP_CATALOGStore()
+const groupStore = useGroupStore()
 
+const groupData = computed(() => {
+    const groups = groupStore.getGroups()
+    return groups
 
+})
 
-const isDrugmodalOpen = ref(false)
-const Duration = ref(0)
-const FrequencyPerDay = ref('')
 const selectedClass = ref('')
 
 const values = reactive({
@@ -22,6 +25,11 @@ const values = reactive({
         required: true
     },
     selectedGeneric: {
+        isValid: true,
+        val: '',
+        required: true
+    },
+    group: {
         isValid: true,
         val: '',
         required: true
@@ -36,19 +44,14 @@ const values = reactive({
         val: '',
         required: true
     },
-    ageRange: {
-        isValid: true,
-        val: '',
-        required: true
-    }
 })
 
 async function updateClass(evt) {
-    
+
     values.selectedClass.val = evt
 
     values.selectedGeneric.val = ''
-    values.infectSite.val = ''
+    values.group.val = ''
     values.suspectOrganism.val = ''
 
     selectedClass.value = evt.id
@@ -59,35 +62,25 @@ async function updateClass(evt) {
 async function updateGeneric(evt) {
     values.selectedGeneric.val = evt
 
-    values.infectSite.val = ''
+    values.group.val = ''
     values.suspectOrganism.val = ''
 
     await tabATP_CATALOGStore.fetchClasses(evt)
+    
+
+    await groupStore.fetchGroupsByGeneric(evt)
 }
 
-async function updateSubiagnosis(evt) {
-    values.infectSite.val = evt
+async function updateGroup(evt) {
+    values.group.val = evt
 
     values.suspectOrganism.val = ''
 
-
-    // await ageGroupStore.fetchAgeGroupsByDiagnosis(
+    
+    // await groupStore.fetchGroupsByGeneric(
     //     values.selectedGeneric.val,
-    //     values.infectSite.val
+    //     values.group.val
     // )
-}
-
-async function updateSuspectedOrganism(evt) {
-    // values.suspectOrganism.val = evt;
-
-    // await ageGroupStore.fetchAgeGroupsByDiagnosis(
-    //     values.selectedGeneric.val,
-    //     values.infectSite.val,
-    //     values.suspectOrganism.val
-    // )
-}
-
-async function updateAgeGroup(evt) {
 }
 
 function clearValidity(fieldName) {
@@ -95,7 +88,7 @@ function clearValidity(fieldName) {
 }
 
 
-function onClickCal() {
+function onClickNext() {
 
     const numberRegex = /\d+/;
     // const match = dosagesData.value[0].DosagePerDay.match(numberRegex);
@@ -109,7 +102,7 @@ function onClickCal() {
 
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
-    console.log('onClickCal', slideStore.getDirection);
+    console.log('onClickNext', slideStore.getDirection);
     navigateTo('/cpg')
 
 }
@@ -130,10 +123,28 @@ async function inputTAB(event) {
                 // if (response && response.error) {
                 //     console.log(response.error);
                 // }
+                console.log(element);
+
             }
         }.bind(this)
     })
+}
 
+async function inputMSD(event) {
+    var reader = new FileReader();
+    reader.onload = async function (event) {
+        var jsonObj = JSON.parse(event.target.result);
+        
+        for (let i = 0; i < jsonObj.length; i++) {
+            const element = jsonObj[i];
+            console.log(element);
+            // const response = await create('msd-cpgs', element)
+            //     if (response && response.error) {
+            //         console.log(response.error);
+            //     }
+        }
+    }
+    reader.readAsText(event.target.files[0]);
 }
 </script>
 
@@ -184,8 +195,7 @@ async function inputTAB(event) {
                 </div>
                 <div class="w-4/12 md:items-center">
                     <div class="flex">
-                        <label
-                            class="block text-green-500 text-xl md:text-left mb-1 md:mb-0 pr-4">
+                        <label class="block text-green-500 text-xl md:text-left mb-1 md:mb-0 pr-4">
                             {{ values.selectedGeneric.val || '-' }}
                         </label>
                     </div>
@@ -201,30 +211,30 @@ async function inputTAB(event) {
                 </div>
             </div>
         </div>
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.infectSite.isValid }">
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.group.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    Infect Site
+                    Group
                 </label>
             </div>
             <div class="md:w-1/3">
-                <select v-model="values.infectSite.val"
-                    @change="updateSubiagnosis(values.infectSite.val)"
-                    @blur="clearValidity('infectSite')"
+                <select v-model="values.group.val" @change="updateGroup(values.group.val)"
+                    @blur="clearValidity('group')"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="subDiagnoses in subDiagnosesData" :value="subDiagnoses">
-                        {{ subDiagnoses }}
+                    <option v-for="group in groupData" :value="group">
+                        {{ group }}
                     </option>
                 </select>
                 <div v-show="!values.selectedGeneric.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือก Infect Site
+                    กรุณาเลือก Group
                 </div>
             </div>
         </div>
 
         <div class="flex justify-center mt-12">
             <!-- <input type="file" @change="inputTAB" multiple> -->
-            <LandingButton data-testid="criteria-next-button" @click="onClickCal" type="button" size="lg">
+            <!-- <input type="file" @change="inputMSD" multiple> -->
+            <LandingButton data-testid="criteria-next-button" @click="onClickNext" type="button" size="lg">
                 <p class="text-xl">Next</p>
             </LandingButton>
             <!-- <LandingModal :show="isDrugmodalOpen" title="ผลการคำนวนยา" @close="isDrugmodalOpen = false"
