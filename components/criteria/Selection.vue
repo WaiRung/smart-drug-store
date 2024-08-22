@@ -6,11 +6,13 @@ import { useTabATP_CATALOGStore } from '@/stores/tab-atp-catalog'
 import { useGenericStore } from '~/stores/generic'
 import { useGroupStore } from '~/stores/group'
 import { useAgeStore } from '~/stores/age'
+import { usePatienttypeStore } from '~/stores/patient_type'
 
 const genericStore = useGenericStore()
 const tabATP_CATALOGStore = useTabATP_CATALOGStore()
 const groupStore = useGroupStore()
 const ageStore = useAgeStore()
+const patientTypeStore = usePatienttypeStore()
 
 const groupData = computed(() => {
     const groups = groupStore.getGroups()
@@ -20,6 +22,11 @@ const groupData = computed(() => {
 const ageData = computed(() => {
     const ages = ageStore.getAges()
     return ages
+})
+
+const patienttypeData = computed(() => {
+    const patienttypes = patientTypeStore.getPatienttypes()
+    return patienttypes
 })
 
 const values = reactive({
@@ -43,16 +50,21 @@ const values = reactive({
         val: '',
         required: true
     },
+    selectedPatienttype: {
+        isValid: true,
+        val: '',
+        required: true
+    },
     selectedInfectSite: {
         isValid: true,
         val: '',
         required: true
     },
-    // suspectOrganism: {
-    //     isValid: true,
-    //     val: '',
-    //     required: true
-    // },
+    suspectOrganism: {
+        isValid: true,
+        val: '',
+        required: true
+    },
 })
 
 async function updateClass(evt) {
@@ -61,6 +73,7 @@ async function updateClass(evt) {
 
     values.selectedGeneric.val = ''
     values.selectedGroup.val = ''
+    values.selectedPatienttype.val = ''
     values.suspectOrganism.val = ''
     
 
@@ -71,7 +84,8 @@ async function updateGeneric(evt) {
     values.selectedGeneric.val = evt
 
     values.selectedGroup.val = ''
-    values.suspectOrganism.val = ''
+    values.selectedAge.val = ''
+    values.selectedPatienttype.val = ''
 
     await tabATP_CATALOGStore.fetchClasses(evt)
     
@@ -85,11 +99,23 @@ async function updateGroup(evt) {
     values.suspectOrganism.val = ''
 
     
-    await ageStore.fetchAgesByGroup(evt)
+    await ageStore.fetchAgesByGenericGroup(values.selectedGeneric.val, evt)
 }
 
 async function updateAge(evt) {
     values.selectedAge.val = evt
+
+    await patientTypeStore.fetchPatientypeByGenericGroupAge(
+        values.selectedGeneric.val, 
+        values.selectedGroup.val,
+        values.selectedAge.val
+    )
+}
+
+async function updatePatienttype(evt) {
+    values.selectedPatienttype.val = evt
+
+    
 }
 
 function clearValidity(fieldName) {
@@ -258,6 +284,27 @@ async function inputMSD(event) {
                 </select>
                 <div v-show="!values.selectedGeneric.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือก Age
+                </div>
+            </div>
+        </div>
+
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.selectedAge.isValid }">
+            <div class="md:w-1/3">
+                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    Patient Type
+                </label>
+            </div>
+            <div class="md:w-1/3">
+                <select v-model="values.selectedPatienttype.val" @change="updatePatienttype(values.selectedPatienttype.val)"
+                    @blur="clearValidity('selectedPatienttype')"
+                    :disabled="!values.selectedAge.val"
+                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
+                    <option v-for="patienttype in patienttypeData" :value="patienttype">
+                        {{ patienttype }}
+                    </option>
+                </select>
+                <div v-show="!values.selectedGeneric.isValid" class="text-red-400 text-xl text-sm mt-1">
+                    กรุณาเลือก Patient Type
                 </div>
             </div>
         </div>

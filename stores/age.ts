@@ -11,8 +11,14 @@ export const useAgeStore = defineStore('useAgeStore', () => {
         }
     })
 
-    async function fetchAgesByGroup(group: string) {
+    async function fetchAgesByGenericGroup(generic: string, group: string) {
         try {
+            const filterGeneric: any = {
+                'GENERIC': {
+                    $containsi: generic ? generic : ''
+                }
+            }
+
             const filterGroup: any = {
                 'GROUP': {
                     $containsi: group ? group : ''
@@ -20,7 +26,8 @@ export const useAgeStore = defineStore('useAgeStore', () => {
             }
 
             const filterObj = {
-                ...filterGroup
+                ...filterGroup,
+                ...filterGeneric
             }
             const response = await find<any>('msd-cpgs', {
                 fields: ['AGE'],
@@ -58,5 +65,5 @@ export const useAgeStore = defineStore('useAgeStore', () => {
     }
 
 
-    return { getAges, fetchAgesByGroup }
+    return { getAges, fetchAgesByGenericGroup }
 })
