@@ -58,7 +58,7 @@ export const useGroupStore = defineStore('useGroupStore', () => {
             errorStore.setError(error)
           }
         } else {
-    
+            return []
         }
       }
 

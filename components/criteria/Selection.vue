@@ -4,19 +4,23 @@ import Papa from 'papaparse';
 const { create } = useStrapi()
 import { useTabATP_CATALOGStore } from '@/stores/tab-atp-catalog'
 import { useGenericStore } from '~/stores/generic'
-import { useGroupStore } from '~/stores/group';
+import { useGroupStore } from '~/stores/group'
+import { useAgeStore } from '~/stores/age'
 
 const genericStore = useGenericStore()
 const tabATP_CATALOGStore = useTabATP_CATALOGStore()
 const groupStore = useGroupStore()
+const ageStore = useAgeStore()
 
 const groupData = computed(() => {
     const groups = groupStore.getGroups()
     return groups
-
 })
 
-const selectedClass = ref('')
+const ageData = computed(() => {
+    const ages = ageStore.getAges()
+    return ages
+})
 
 const values = reactive({
     selectedClass: {
@@ -30,6 +34,11 @@ const values = reactive({
         required: true
     },
     group: {
+        isValid: true,
+        val: '',
+        required: true
+    },
+    age: {
         isValid: true,
         val: '',
         required: true
@@ -53,8 +62,7 @@ async function updateClass(evt) {
     values.selectedGeneric.val = ''
     values.group.val = ''
     values.suspectOrganism.val = ''
-
-    selectedClass.value = evt.id
+    
 
     await genericStore.fetchGenerics(evt)
 };
@@ -77,10 +85,11 @@ async function updateGroup(evt) {
     values.suspectOrganism.val = ''
 
     
-    // await groupStore.fetchGroupsByGeneric(
-    //     values.selectedGeneric.val,
-    //     values.group.val
-    // )
+    await ageStore.fetchAgesByGroup(evt)
+}
+
+async function updateAge(evt) {
+    values.age.val = evt
 }
 
 function clearValidity(fieldName) {
@@ -227,6 +236,26 @@ async function inputMSD(event) {
                 </select>
                 <div v-show="!values.selectedGeneric.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือก Group
+                </div>
+            </div>
+        </div>
+
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.age.isValid }">
+            <div class="md:w-1/3">
+                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    Age
+                </label>
+            </div>
+            <div class="md:w-1/3">
+                <select v-model="values.age.val" @change="updateAge(values.age.val)"
+                    @blur="clearValidity('age')"
+                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
+                    <option v-for="age in ageData" :value="age">
+                        {{ age }}
+                    </option>
+                </select>
+                <div v-show="!values.selectedGeneric.isValid" class="text-red-400 text-xl text-sm mt-1">
+                    กรุณาเลือก Age
                 </div>
             </div>
         </div>
