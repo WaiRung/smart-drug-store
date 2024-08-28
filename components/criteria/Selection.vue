@@ -49,6 +49,8 @@ const diagnosisData = computed(() => {
 
 const hypersenstivityData = computed(() => {
     const hypersenstivities = hypersenstivityStore.getHypersensitivities()
+    console.log(hypersenstivities[0]);
+    
     return hypersenstivities
 })
 
@@ -57,148 +59,32 @@ const filterData = computed(() => {
     return filter
 })
 
-const values = reactive({
-    selectedClass: {
-        isValid: true,
-        val: '',
-        required: true
-    },
-    selectedGeneric: {
-        isValid: true,
-        val: '',
-        required: true
-    },
-    selectedGroup: {
-        isValid: true,
-        val: '',
-        required: true
-    },
-    selectedAge: {
-        isValid: true,
-        val: '',
-        required: true
-    },
-    selectedPatienttype: {
-        isValid: true,
-        val: '',
-        required: true
-    },
-    selectedInfectSite: {
-        isValid: true,
-        val: '',
-        required: true
-    },
-    selectedDiagnosis: {
-        isValid: true,
-        val: '',
-        required: true
-    },
-    selectedHypersensitivity: {
-        isValid: true,
-        val: '',
-        required: true
-    }
-})
-
 async function updateClass(evt) {
-
-    values.selectedClass.val = evt
-
-    values.selectedGeneric.val = ''
-    values.selectedGroup.val = ''
-    values.selectedPatienttype.val = ''
-    values.selectedInfectSite.val = ''
-    values.selectedDiagnosis.val = ''
-    values.selectedHypersensitivity.val = ''
-
-    await genericStore.fetchGenerics(evt)
+    msdcpgStore.updateClass(evt)
 };
 
 async function updateGeneric(evt) {
-    values.selectedGeneric.val = evt
-
-    values.selectedGroup.val = ''
-    values.selectedAge.val = ''
-    values.selectedPatienttype.val = ''
-    values.selectedInfectSite.val = ''
-    values.selectedDiagnosis.val = ''
-    values.selectedHypersensitivity.val = ''
-
-    await tabATP_CATALOGStore.fetchClasses(evt)
-    
-    await groupStore.fetchGroupsByGeneric(evt)
+    msdcpgStore.updateGeneric(evt)
 }
 
 async function updateGroup(evt) {
-    values.selectedGroup.val = evt
-
-    values.selectedAge.val = ''
-    values.selectedPatienttype.val = ''
-    values.selectedInfectSite.val = ''
-    values.selectedDiagnosis.val = ''
-    values.selectedHypersensitivity.val = ''
-    
-    await ageStore.fetchAgesByGenericGroup(values.selectedGeneric.val, evt)
+    msdcpgStore.updateGroup(evt)
 }
 
 async function updateAge(evt) {
-    values.selectedAge.val = evt
-
-    values.selectedPatienttype.val = ''
-    values.selectedInfectSite.val = ''
-    values.selectedDiagnosis.val = ''
-    values.selectedHypersensitivity.val = ''
-
-    await patientTypeStore.fetchPatientypeByGenericGroupAge(
-        values.selectedGeneric.val, 
-        values.selectedGroup.val,
-        values.selectedAge.val
-    )
+    msdcpgStore.updateAge(evt)
 }
 
 async function updatePatienttype(evt) {
-    values.selectedPatienttype.val = evt
-
-    values.selectedInfectSite.val = ''
-    values.selectedDiagnosis.val = ''
-    values.selectedHypersensitivity.val = ''
-
-    await infectSiteStore.fetchInfecttypeByGenericGroupAgePatienttype(
-        values.selectedGeneric.val, 
-        values.selectedGroup.val,
-        values.selectedAge.val,
-        values.selectedPatienttype.val
-    )
+    msdcpgStore.updatePatienttype(evt)
 }
 
 async function updateInfectsite(evt) {
-    values.selectedInfectSite.val = evt
-
-    values.selectedDiagnosis.val = ''
-    values.selectedHypersensitivity.val = ''
-
-    await diagnosisStore.fetchDiagnosisByGenericGroupAgePatienttypeInfectsite(
-        values.selectedGeneric.val, 
-        values.selectedGroup.val,
-        values.selectedAge.val,
-        values.selectedPatienttype.val,
-        values.selectedInfectSite.val
-    )
+    msdcpgStore.updateInfectsite(evt)
 }
 
 async function updateDiagnosis(evt) {
-    values.selectedDiagnosis.val = evt
-
-    values.selectedHypersensitivity.val = ''
-
-    await hypersenstivityStore.fetcHypersensitivityByGenericGroupAgePatienttypeInfectsiteDiagnosis(
-        values.selectedGeneric.val, 
-        values.selectedGroup.val,
-        values.selectedAge.val,
-        values.selectedPatienttype.val,
-        values.selectedInfectSite.val,
-        values.selectedDiagnosis
-    )
+    msdcpgStore.updateDiagnosis(evt)
 }
 
 async function updateHypersensitivity(evt) {
@@ -276,7 +162,7 @@ async function inputMSD(event) {
         <input type="checkbox" class="hidden" style="display: none" name="botcheck" />
 
         <div class="flex md:items-center md:row-reverse justify-between md:justify-normal mb-6"
-            :class="{ 'is-invalid': !values.selectedClass.isValid }">
+            :class="{ 'is-invalid': !filterData.selectedClass.isValid }">
             <div class="w-10/12 md:w-6/12 flex items-center  ">
                 <div class="md:w-4/12"></div>
                 <div class="w-10/12 md:w-4/12 md:items-center">
@@ -288,17 +174,17 @@ async function inputMSD(event) {
                     <div class="flex">
                         <label data-testid="selected-drug-text"
                             class="block text-green-500 text-xl md:text-left mb-1 md:mb-0 pr-4">
-                            {{ values.selectedClass.val || '-' }}
+                            {{ filterData.selectedClass.val || '-' }}
                         </label>
-                        <!-- <ClassModal btn-text="Search Class" :class-data="selectedClass" v-if="values.selectedClass.val" /> -->
+                        <!-- <ClassModal btn-text="Search Class" :class-data="selectedClass" v-if="filterData.selectedClass.val" /> -->
                     </div>
                 </div>
             </div>
             <div class="w-6/12 md:w-2/12 flex flex-row-reverse">
                 <div>
-                    <ClassSearchdropdown buttonText="Search Class" :isValid="values.selectedClass.isValid"
+                    <ClassSearchdropdown buttonText="Search Class" :isValid="filterData.selectedClass.isValid"
                         @selected-value="updateClass" @btn-clicked="clearValidity('selectedClass')" />
-                    <div v-show="!values.selectedClass.isValid" class="text-red-400 text-sm mt-1">
+                    <div v-show="!filterData.selectedClass.isValid" class="text-red-400 text-sm mt-1">
                         กรุณาเลือก Class
                     </div>
                 </div>
@@ -307,7 +193,7 @@ async function inputMSD(event) {
         </div>
 
         <div class="flex md:items-center md:row-reverse justify-between md:justify-normal mb-6"
-            :class="{ 'is-invalid': !values.selectedGeneric.isValid }">
+            :class="{ 'is-invalid': !filterData.selectedGeneric.isValid }">
             <div class="w-10/12 md:w-6/12 flex items-center  ">
                 <div class="md:w-4/12"></div>
                 <div class="w-10/12 md:w-4/12 md:items-center">
@@ -318,121 +204,121 @@ async function inputMSD(event) {
                 <div class="w-4/12 md:items-center">
                     <div class="flex">
                         <label class="block text-green-500 text-xl md:text-left mb-1 md:mb-0 pr-4">
-                            {{ values.selectedGeneric.val || '-' }}
+                            {{ filterData.selectedGeneric.val || '-' }}
                         </label>
                     </div>
                 </div>
             </div>
             <div class="w-6/12 md:w-2/12 flex flex-row-reverse">
                 <div>
-                    <GenericSearchDropdown buttonText="Search Generic" :isValid="values.selectedGeneric.isValid"
+                    <GenericSearchDropdown buttonText="Search Generic" :isValid="filterData.selectedGeneric.isValid"
                         @selected-value="updateGeneric" @btn-clicked="clearValidity('selectedGeneric')" />
-                    <div v-show="!values.selectedGeneric.isValid" class="text-red-400 text-sm mt-1">
+                    <div v-show="!filterData.selectedGeneric.isValid" class="text-red-400 text-sm mt-1">
                         กรุณาเลือก Generic
                     </div>
                 </div>
             </div>
         </div>
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.selectedGroup.isValid }">
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedGroup.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
                     Group
                 </label>
             </div>
             <div class="md:w-1/3">
-                <select v-model="values.selectedGroup.val" @change="updateGroup(values.selectedGroup.val)"
+                <select v-model="filterData.selectedGroup.val" @change="updateGroup(filterData.selectedGroup.val)"
                     @blur="clearValidity('selectedGroup')"
-                    :disabled="!values.selectedGeneric.val"
+                    :disabled="!filterData.selectedGeneric.val"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="group in groupData" :value="group">
                         {{ group }}
                     </option>
                 </select>
-                <div v-show="!values.selectedGroup.isValid" class="text-red-400 text-xl text-sm mt-1">
+                <div v-show="!filterData.selectedGroup.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือก Group
                 </div>
             </div>
         </div>
 
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.selectedAge.isValid }">
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedAge.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
                     Age
                 </label>
             </div>
             <div class="md:w-1/3">
-                <select v-model="values.selectedAge.val" @change="updateAge(values.selectedAge.val)"
+                <select v-model="filterData.selectedAge.val" @change="updateAge(filterData.selectedAge.val)"
                     @blur="clearValidity('selectedAge')"
-                    :disabled="!values.selectedGroup.val"
+                    :disabled="!filterData.selectedGroup.val"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="age in ageData" :value="age">
                         {{ age }}
                     </option>
                 </select>
-                <div v-show="!values.selectedGroup.isValid" class="text-red-400 text-xl text-sm mt-1">
+                <div v-show="!filterData.selectedGroup.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือก Age
                 </div>
             </div>
         </div>
 
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.selectedPatienttype.isValid }">
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedPatienttype.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
                     Patient Type
                 </label>
             </div>
             <div class="md:w-1/3">
-                <select v-model="values.selectedPatienttype.val" @change="updatePatienttype(values.selectedPatienttype.val)"
+                <select v-model="filterData.selectedPatienttype.val" @change="updatePatienttype(filterData.selectedPatienttype.val)"
                     @blur="clearValidity('selectedPatienttype')"
-                    :disabled="!values.selectedAge.val"
+                    :disabled="!filterData.selectedAge.val"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="patienttype in patienttypeData" :value="patienttype">
                         {{ patienttype }}
                     </option>
                 </select>
-                <div v-show="!values.selectedPatienttype.isValid" class="text-red-400 text-xl text-sm mt-1">
+                <div v-show="!filterData.selectedPatienttype.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือก Patient Type
                 </div>
             </div>
         </div>
 
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.selectedInfectSite.isValid }">
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedInfectSite.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
                     Infect Site
                 </label>
             </div>
             <div class="md:w-1/3">
-                <select v-model="values.selectedInfectSite.val" @change="updateInfectsite(values.selectedInfectSite.val)"
+                <select v-model="filterData.selectedInfectSite.val" @change="updateInfectsite(filterData.selectedInfectSite.val)"
                     @blur="clearValidity('selectedInfectSite')"
-                    :disabled="!values.selectedPatienttype.val"
+                    :disabled="!filterData.selectedPatienttype.val"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="infectsite in infectsiteData" :value="infectsite">
                         {{ infectsite }}
                     </option>
                 </select>
-                <div v-show="!values.selectedInfectSite.isValid" class="text-red-400 text-xl text-sm mt-1">
+                <div v-show="!filterData.selectedInfectSite.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือก Infect Site
                 </div>
             </div>
         </div>
 
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.selectedDiagnosis.isValid }">
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedDiagnosis.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
                     Diagnosis
                 </label>
             </div>
             <div class="md:w-1/3">
-                <select v-model="values.selectedDiagnosis.val" @change="updateDiagnosis(values.selectedDiagnosis.val)"
+                <select v-model="filterData.selectedDiagnosis.val" @change="updateDiagnosis(filterData.selectedDiagnosis.val)"
                     @blur="clearValidity('selectedDiagnosis')"
-                    :disabled="!values.selectedInfectSite.val"
+                    :disabled="!filterData.selectedInfectSite.val"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="diagnosis in diagnosisData" :value="diagnosis">
                         {{ diagnosis }}
                     </option>
                 </select>
-                <div v-show="!values.selectedDiagnosis.isValid" class="text-red-400 text-xl text-sm mt-1">
+                <div v-show="!filterData.selectedDiagnosis.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือก Infect Site
                 </div>
             </div>
@@ -447,7 +333,10 @@ async function inputMSD(event) {
             <div class="md:w-1/3">
                 <select v-model="filterData.selectedHypersensitivity.val" @change="updateHypersensitivity(filterData.selectedHypersensitivity.val)"
                     @blur="clearValidity('selectedHypersensitivity')"
-                    :disabled="false"
+                    :disabled="!filterData.selectedDiagnosis.val || (
+                        hypersenstivityData.length === 1 &&
+                        hypersenstivityData[0] === ''
+                    )"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="hypersenstivity in hypersenstivityData" :value="hypersenstivity">
                         {{ hypersenstivity }}
