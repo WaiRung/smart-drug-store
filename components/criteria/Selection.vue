@@ -2,8 +2,6 @@
 import { FwbButton, FwbModal } from 'flowbite-vue'
 import Papa from 'papaparse';
 const { create } = useStrapi()
-import { useTabATP_CATALOGStore } from '@/stores/tab-atp-catalog'
-import { useGenericStore } from '~/stores/generic'
 import { useGroupStore } from '~/stores/group'
 import { useAgeStore } from '~/stores/age'
 import { usePatienttypeStore } from '~/stores/patient_type'
@@ -12,8 +10,7 @@ import { useDiagnosisStore } from '~/stores/diagnosis'
 import { useHypersensitivityStore } from '~/stores/hypersenstivity'
 import { useMsdcpgStore } from '~/stores/msdcpg'
 
-const genericStore = useGenericStore()
-const tabATP_CATALOGStore = useTabATP_CATALOGStore()
+
 const groupStore = useGroupStore()
 const ageStore = useAgeStore()
 const patientTypeStore = usePatienttypeStore()
@@ -98,13 +95,6 @@ function clearValidity(fieldName) {
 
 function onClickNext() {
 
-    const numberRegex = /\d+/;
-    // const match = dosagesData.value[0].DosagePerDay.match(numberRegex);
-
-    // const doseNum = match ? parseInt(match[0], 10) : null;
-
-    // Duration.value = dosagesData.value[0].Duration
-    // FrequencyPerDay.value = dosagesData.value[0].FrequencyPerDay
 
     // isDrugmodalOpen.value = true
 
