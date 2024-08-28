@@ -25,7 +25,7 @@ const msdcpgData = computed(() => {
 </script>
 
 <template>
-    <fwb-table striped>
+    <fwb-table hoverable>
       <fwb-table-head>
         <fwb-table-head-cell>Serverity</fwb-table-head-cell>
         <fwb-table-head-cell>Risk Organism</fwb-table-head-cell>
@@ -36,7 +36,7 @@ const msdcpgData = computed(() => {
         </fwb-table-head-cell> -->
       </fwb-table-head>
       <fwb-table-body>
-        <fwb-table-row v-for="msdcpg in msdcpgData" :key="msdcpg.id">
+        <fwb-table-row v-for="msdcpg in msdcpgData" :key="msdcpg.id" class="hover:cursor-pointer">
           <fwb-table-cell>{{ msdcpg.attributes.SEVERITY }}</fwb-table-cell>
           <fwb-table-cell>{{ msdcpg.attributes.RISK_ORGANISM }}</fwb-table-cell>
           <fwb-table-cell>{{ msdcpg.DOSE_CHECK }}</fwb-table-cell>
@@ -47,7 +47,6 @@ const msdcpgData = computed(() => {
             </fwb-a>
           </fwb-table-cell> -->
         </fwb-table-row>
-        
       </fwb-table-body>
     </fwb-table>
   </template>
