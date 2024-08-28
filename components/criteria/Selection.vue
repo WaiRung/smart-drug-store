@@ -10,6 +10,7 @@ import { usePatienttypeStore } from '~/stores/patient_type'
 import { useInfectsiteStore } from '~/stores/infect_site'
 import { useDiagnosisStore } from '~/stores/diagnosis'
 import { useHypersensitivityStore } from '~/stores/hypersenstivity'
+import { useMsdcpgStore } from '~/stores/msdcpg'
 
 const genericStore = useGenericStore()
 const tabATP_CATALOGStore = useTabATP_CATALOGStore()
@@ -19,6 +20,7 @@ const patientTypeStore = usePatienttypeStore()
 const infectSiteStore = useInfectsiteStore()
 const diagnosisStore = useDiagnosisStore()
 const hypersenstivityStore = useHypersensitivityStore()
+const msdcpgStore = useMsdcpgStore()
 
 const groupData = computed(() => {
     const groups = groupStore.getGroups()
@@ -48,6 +50,11 @@ const diagnosisData = computed(() => {
 const hypersenstivityData = computed(() => {
     const hypersenstivities = hypersenstivityStore.getHypersensitivities()
     return hypersenstivities
+})
+
+const filterData = computed(() => {
+    const filter = msdcpgStore.getFilter()
+    return filter
 })
 
 const values = reactive({
@@ -195,11 +202,11 @@ async function updateDiagnosis(evt) {
 }
 
 async function updateHypersensitivity(evt) {
-    values.selectedHypersensitivity.val = evt
+    msdcpgStore.updateHypersensitivity(evt)
 }
 
 function clearValidity(fieldName) {
-    values[fieldName].isValid = true
+    msdcpgStore.clearValidity(fieldName)
 }
 
 
@@ -431,22 +438,22 @@ async function inputMSD(event) {
             </div>
         </div>
 
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.selectedHypersensitivity.isValid }">
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedHypersensitivity.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
                     Hypersensitivity
                 </label>
             </div>
             <div class="md:w-1/3">
-                <select v-model="values.selectedHypersensitivity.val" @change="updateHypersensitivity(values.selectedHypersensitivity.val)"
+                <select v-model="filterData.selectedHypersensitivity.val" @change="updateHypersensitivity(filterData.selectedHypersensitivity.val)"
                     @blur="clearValidity('selectedHypersensitivity')"
-                    :disabled="!values.selectedDiagnosis.val"
+                    :disabled="false"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="hypersenstivity in hypersenstivityData" :value="hypersenstivity">
                         {{ hypersenstivity }}
                     </option>
                 </select>
-                <div v-show="!values.selectedHypersensitivity.isValid" class="text-red-400 text-xl text-sm mt-1">
+                <div v-show="!filterData.selectedHypersensitivity.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือก Hypersensitivity
                 </div>
             </div>
