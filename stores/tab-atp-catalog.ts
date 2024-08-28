@@ -21,7 +21,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
         }
     })
 
-    async function fetchClasses(generic: string = '') {
+    async function fetchClassesByGeneric(generic: string = '') {
         try {
             const filterGeneric: any = {
                 'GENERIC': {
@@ -154,7 +154,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
     return {
         getClassess,
         getATPs,
-        fetchClasses,
+        fetchClassesByGeneric,
         fetchATPSByGenericClass,
         getFilteredClasses
     }

@@ -13,7 +13,7 @@ export const useGenericStore = defineStore('useGenericStore', () => {
         }
     })
 
-    // async function fetchGenericsByClass(drugId: number) {
+    // async function fetchGenerics(drugId: number) {
     //     try {
     //         const filterObj = drugId ? {
     //             drug: {
@@ -40,7 +40,7 @@ export const useGenericStore = defineStore('useGenericStore', () => {
     //     }
     // }
 
-    async function fetchGenerics(className: string = '') {
+    async function fetchGenericsByClass(className: string = '') {
         try {
             const filterClassName: any = {
                 'CLASS': {
@@ -139,7 +139,7 @@ export const useGenericStore = defineStore('useGenericStore', () => {
 
     return { 
         getGenerics,
-        fetchGenerics,
+        fetchGenericsByClass,
         getFilteredGenerics,
 
     }

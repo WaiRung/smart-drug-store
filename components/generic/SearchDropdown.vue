@@ -22,9 +22,9 @@ const emit = defineEmits(['selected-value', 'btn-clicked'])
 
 const selectedValue = ref('')
 
-async function fetchGenerics(className = '') {
+async function fetchGenericsByClass(className = '') {
     errorStore.clearError()
-    await genericStore.fetchGenerics(className)
+    await genericStore.fetchGenericsByClass(className)
 }
 
 const genericData = computed(() => {
@@ -47,7 +47,7 @@ function onSelect(genericName) {
 function onClick() {
     emit('btn-clicked')
 }
-fetchGenerics()
+fetchGenericsByClass()
 onMounted(() => {
     initDropdowns();
     // if (data.value) {

@@ -97,7 +97,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             prop.val = ''
         }
 
-        await genericStore.fetchGenerics(filter.selectedClass.val)
+        await genericStore.fetchGenericsByClass(filter.selectedClass.val)
     }
 
     async function updateGeneric(evt: any) {
@@ -118,7 +118,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             prop.val = ''
         }
 
-        await tabATP_CATALOGStore.fetchClasses(filter.selectedGeneric.val)
+        await tabATP_CATALOGStore.fetchClassesByGeneric(filter.selectedGeneric.val)
         await groupStore.fetchGroupsByGeneric(filter.selectedGeneric.val)
     }
 

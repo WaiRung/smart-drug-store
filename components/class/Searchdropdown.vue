@@ -27,9 +27,9 @@ const classes = computed(() => {
 const selectedValue = ref('')
 
 
-async function fetchClasses(genericName = '') {
+async function fetchClassesByGeneric(genericName = '') {
     errorStore.clearError()
-    await tabATP_CATALOGStore.fetchClasses(genericName)
+    await tabATP_CATALOGStore.fetchClassesByGeneric(genericName)
 }
 
 const classData = computed(() => {
@@ -56,7 +56,7 @@ function onSelect(className) {
 function onClick() {
     emit('btn-clicked')
 }
-fetchClasses()
+fetchClassesByGeneric()
 
 onMounted(() => {
     initDropdowns();
