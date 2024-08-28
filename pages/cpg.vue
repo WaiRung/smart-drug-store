@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useSlideStore } from '@/stores/slide'
 
+
 function onClickBack() {
 
     definePageMeta({
@@ -30,6 +31,7 @@ function onClickBack() {
             <template v-slot:desc3>Criteria Selection</template>
             <template v-slot:desc4>Criteria Selection</template>
         </CpgSectionhead>
+        <!-- <LandingLoadingsquare /> -->
         <div class="grid gap-10 mx-auto max-w-4xl mt-12">
             <div>
                 <CpgTable />
