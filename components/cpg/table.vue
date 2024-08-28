@@ -25,6 +25,7 @@ const msdcpgData = computed(() => {
 </script>
 
 <template>
+  <CpgModal btn-text="Search Class" :class-data="{}" v-if="false" />
     <fwb-table hoverable>
       <fwb-table-head>
         <fwb-table-head-cell>Serverity</fwb-table-head-cell>

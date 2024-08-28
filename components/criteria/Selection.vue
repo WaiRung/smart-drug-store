@@ -166,7 +166,6 @@ async function inputMSD(event) {
                             class="block text-green-500 text-xl md:text-left mb-1 md:mb-0 pr-4">
                             {{ filterData.selectedClass.val || '-' }}
                         </label>
-                        <!-- <ClassModal btn-text="Search Class" :class-data="selectedClass" v-if="filterData.selectedClass.val" /> -->
                     </div>
                 </div>
             </div>

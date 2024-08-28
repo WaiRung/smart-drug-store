@@ -47,7 +47,7 @@ function showModal() {
       </div>
     </template>
     <template #body>
-      <ClassDetails :drug-data="drugData" />
+      <CpgDetails :drug-data="drugData" />
     </template>
     <!-- <template #footer>
       <div class="flex justify-between">
