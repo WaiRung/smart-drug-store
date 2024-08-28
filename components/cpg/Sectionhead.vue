@@ -4,6 +4,15 @@ defineProps({
         default: "center",
     },
 });
+
+import { useMsdcpgStore } from '~/stores/msdcpg'
+
+const msdcpgStore = useMsdcpgStore()
+
+const filterData = computed(() => {
+    const filter = msdcpgStore.getFilter()
+    return filter
+})
 </script>
 
 <template>

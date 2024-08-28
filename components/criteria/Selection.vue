@@ -97,10 +97,10 @@ function onClickNext() {
 
 
     // isDrugmodalOpen.value = true
-
+    msdcpgStore.fetchMsdcpgsByFilter()
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
-    console.log('onClickNext', slideStore.getDirection);
+    // console.log('onClickNext', slideStore.getDirection);
     navigateTo('/cpg')
 
 }

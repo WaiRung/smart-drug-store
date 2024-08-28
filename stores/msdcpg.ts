@@ -11,6 +11,7 @@ import { useDiagnosisStore } from '#imports'
 import { useHypersensitivityStore } from './hypersenstivity'
 
 export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
+    const { find } = useStrapi()
 
     const genericStore = useGenericStore()
     const tabATP_CATALOGStore = useTabATP_CATALOGStore()
@@ -255,6 +256,90 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         filter[fieldName as keyof typeof filter].isValid = true
     }
 
+    function resetMsdcpgs() {
+        try {
+            msdcpgs.value = []
+        } catch (error) {
+            const errorStore = useErrorStore()
+            errorStore.setError(error)
+        }
+    }
+
+    async function fetchMsdcpgsByFilter() {
+        try {
+            const filterGeneric: any = {
+                'GENERIC': {
+                    $containsi: filter.selectedGeneric.val ? filter.selectedGeneric.val : ''
+                }
+            }
+
+            const filterGroup: any = {
+                'GROUP': {
+                    $containsi: filter.selectedGroup.val ? filter.selectedGroup.val : ''
+                }
+            }
+
+            const filterAge: any = {
+                'AGE': {
+                    $containsi: filter.selectedAge.val ? filter.selectedAge.val : ''
+                }
+            }
+
+            const filterPatienttype: any = {
+                'PATIENT_TYPE': {
+                    $containsi: filter.selectedPatienttype.val ? filter.selectedPatienttype.val : ''
+                }
+            }
+
+            const filterInfectsite: any = {
+                'INFECT_SITE': {
+                    $containsi: filter.selectedInfectSite.val ? filter.selectedInfectSite.val : ''
+                }
+            }
+
+            const filterDiagnosis: any = {
+                'DIAGNOSIS': {
+                    $containsi: filter.selectedDiagnosis.val ? filter.selectedDiagnosis.val : ''
+                }
+            }
+            const filterObj = {
+                ...filterGroup,
+                ...filterGeneric,
+                ...filterAge,
+                ...filterPatienttype,
+                ...filterInfectsite,
+                ...filterDiagnosis
+            }
+            const response = await find<any>('msd-cpgs', {
+                fields: [
+                    'SEVERITY',
+                    'RISK_ORGANISM',
+                    'DOSE_L',
+                    'DOSE_U',
+                    'DOSE_UNIT',
+                    'DOSE_LBL',
+                    'DRUG_RM',
+                    'DOSE_M',
+                    'DOSE_M_UNIT',
+                    'DOSE_M_LBL',
+                ],
+                pagination: {
+                    page: 1,
+                    pageSize: 100,
+                },
+                filters: filterObj,
+            });
+            if (response) {
+                msdcpgs.value = response.data
+                console.log(response.data);
+                
+            }
+        } catch (error) {
+            const errorStore = useErrorStore()
+            errorStore.setError(error)
+        }
+    }
+
     return {
         getFilter,
         getMsdcpgs,
@@ -266,6 +351,8 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         updateInfectsite,
         updateDiagnosis,
         updateHypersensitivity,
-        clearValidity
+        clearValidity,
+        resetMsdcpgs,
+        fetchMsdcpgsByFilter
     }
 })

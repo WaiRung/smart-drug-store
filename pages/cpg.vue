@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import { useSlideStore } from '@/stores/slide'
 
-
 function onClickBack() {
 
     definePageMeta({
-    pageTransition: {
-        name: 'slide-left',
-        mode: 'out-in'
-    },
-    middleware(to, from) {
-        const slideStore = useSlideStore()
-        if (to.meta.pageTransition && typeof to.meta.pageTransition !== 'boolean') {
-            to.meta.pageTransition.name = slideStore.getDirection
+        pageTransition: {
+            name: 'slide-left',
+            mode: 'out-in'
+        },
+        middleware(to, from) {
+            const slideStore = useSlideStore()
+            if (to.meta.pageTransition && typeof to.meta.pageTransition !== 'boolean') {
+                to.meta.pageTransition.name = slideStore.getDirection
+            }
         }
-    }
-})
+    })
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-right')
     navigateTo('/criteria-selection')
