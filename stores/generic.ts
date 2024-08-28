@@ -128,8 +128,8 @@ export const useGenericStore = defineStore('useGenericStore', () => {
     function getFilteredGenerics(searchText:string) {
         
         if (searchText) {
+            const filtered = generics.value.filter((genericLabel: string) => genericLabel.toLowerCase().startsWith(searchText));
             
-            const filtered = generics.value.filter((genericLabel: string) => genericLabel.startsWith(searchText));
             filteredGenerics.value = filtered
         } else {
             filteredGenerics.value = generics.value

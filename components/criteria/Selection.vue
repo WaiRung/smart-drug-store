@@ -9,6 +9,7 @@ import { useAgeStore } from '~/stores/age'
 import { usePatienttypeStore } from '~/stores/patient_type'
 import { useInfectsiteStore } from '~/stores/infect_site'
 import { useDiagnosisStore } from '~/stores/diagnosis'
+import { useHypersensitivityStore } from '~/stores/hypersenstivity'
 
 const genericStore = useGenericStore()
 const tabATP_CATALOGStore = useTabATP_CATALOGStore()
@@ -17,6 +18,7 @@ const ageStore = useAgeStore()
 const patientTypeStore = usePatienttypeStore()
 const infectSiteStore = useInfectsiteStore()
 const diagnosisStore = useDiagnosisStore()
+const hypersenstivityStore = useHypersensitivityStore()
 
 const groupData = computed(() => {
     const groups = groupStore.getGroups()
@@ -41,6 +43,11 @@ const infectsiteData = computed(() => {
 const diagnosisData = computed(() => {
     const diagnoses = diagnosisStore.getDiagnoses()
     return diagnoses
+})
+
+const hypersenstivityData = computed(() => {
+    const hypersenstivities = hypersenstivityStore.getHypersensitivities()
+    return hypersenstivities
 })
 
 const values = reactive({
@@ -78,6 +85,11 @@ const values = reactive({
         isValid: true,
         val: '',
         required: true
+    },
+    selectedHypersensitivity: {
+        isValid: true,
+        val: '',
+        required: true
     }
 })
 
@@ -90,7 +102,7 @@ async function updateClass(evt) {
     values.selectedPatienttype.val = ''
     values.selectedInfectSite.val = ''
     values.selectedDiagnosis.val = ''
-    
+    values.selectedHypersensitivity.val = ''
 
     await genericStore.fetchGenerics(evt)
 };
@@ -103,6 +115,7 @@ async function updateGeneric(evt) {
     values.selectedPatienttype.val = ''
     values.selectedInfectSite.val = ''
     values.selectedDiagnosis.val = ''
+    values.selectedHypersensitivity.val = ''
 
     await tabATP_CATALOGStore.fetchClasses(evt)
     
@@ -116,7 +129,7 @@ async function updateGroup(evt) {
     values.selectedPatienttype.val = ''
     values.selectedInfectSite.val = ''
     values.selectedDiagnosis.val = ''
-
+    values.selectedHypersensitivity.val = ''
     
     await ageStore.fetchAgesByGenericGroup(values.selectedGeneric.val, evt)
 }
@@ -127,6 +140,7 @@ async function updateAge(evt) {
     values.selectedPatienttype.val = ''
     values.selectedInfectSite.val = ''
     values.selectedDiagnosis.val = ''
+    values.selectedHypersensitivity.val = ''
 
     await patientTypeStore.fetchPatientypeByGenericGroupAge(
         values.selectedGeneric.val, 
@@ -140,6 +154,7 @@ async function updatePatienttype(evt) {
 
     values.selectedInfectSite.val = ''
     values.selectedDiagnosis.val = ''
+    values.selectedHypersensitivity.val = ''
 
     await infectSiteStore.fetchInfecttypeByGenericGroupAgePatienttype(
         values.selectedGeneric.val, 
@@ -153,6 +168,7 @@ async function updateInfectsite(evt) {
     values.selectedInfectSite.val = evt
 
     values.selectedDiagnosis.val = ''
+    values.selectedHypersensitivity.val = ''
 
     await diagnosisStore.fetchDiagnosisByGenericGroupAgePatienttypeInfectsite(
         values.selectedGeneric.val, 
@@ -165,6 +181,21 @@ async function updateInfectsite(evt) {
 
 async function updateDiagnosis(evt) {
     values.selectedDiagnosis.val = evt
+
+    values.selectedHypersensitivity.val = ''
+
+    await hypersenstivityStore.fetcHypersensitivityByGenericGroupAgePatienttypeInfectsiteDiagnosis(
+        values.selectedGeneric.val, 
+        values.selectedGroup.val,
+        values.selectedAge.val,
+        values.selectedPatienttype.val,
+        values.selectedInfectSite.val,
+        values.selectedDiagnosis
+    )
+}
+
+async function updateHypersensitivity(evt) {
+    values.selectedHypersensitivity.val = evt
 }
 
 function clearValidity(fieldName) {
@@ -399,6 +430,29 @@ async function inputMSD(event) {
                 </div>
             </div>
         </div>
+
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !values.selectedHypersensitivity.isValid }">
+            <div class="md:w-1/3">
+                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    Hypersensitivity
+                </label>
+            </div>
+            <div class="md:w-1/3">
+                <select v-model="values.selectedHypersensitivity.val" @change="updateHypersensitivity(values.selectedHypersensitivity.val)"
+                    @blur="clearValidity('selectedHypersensitivity')"
+                    :disabled="!values.selectedDiagnosis.val"
+                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
+                    <option v-for="hypersenstivity in hypersenstivityData" :value="hypersenstivity">
+                        {{ hypersenstivity }}
+                    </option>
+                </select>
+                <div v-show="!values.selectedHypersensitivity.isValid" class="text-red-400 text-xl text-sm mt-1">
+                    กรุณาเลือก Hypersensitivity
+                </div>
+            </div>
+        </div>
+
+
 
         <div class="flex justify-center mt-12">
             <!-- <input type="file" @change="inputTAB" multiple> -->
