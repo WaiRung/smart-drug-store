@@ -28,7 +28,10 @@ const msdcpgDetail = computed(() => {
     >
       <h5 class="text-white text-3xl md:text-2xl">Recommended Antibiotics</h5>
       <p class="text-lime-500 mt-4 text-lg md:text-xl">
-        {{ msdcpgDetail.attributes?.INDICATION_LABEL }}
+        {{ msdcpgDetail.attributes?.ANTIBIOTIC_LABEL }}
       </p>
     </div>
+    <p class="mt-10">Remarks <span v-if="!msdcpgDetail.attributes?.RM_RX && !msdcpgDetail.attributes?.RM_DURATION">-</span></p>
+    <p>{{ msdcpgDetail.attributes?.RM_RX }}</p>
+    <p>{{ msdcpgDetail.attributes?.RM_DURATION }}</p>
 </template>
