@@ -11,7 +11,7 @@ import { useDiagnosisStore } from '#imports'
 import { useHypersensitivityStore } from './hypersenstivity'
 
 export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
-    const { find } = useStrapi()
+    const { find, findOne } = useStrapi()
 
     const genericStore = useGenericStore()
     const tabATP_CATALOGStore = useTabATP_CATALOGStore()
@@ -66,6 +66,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     })
 
     const msdcpgs: any = ref([])
+    const msdcpg: any = reactive({})
 
     const getFilter = computed(() => {
         return () => {
@@ -76,6 +77,12 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     const getMsdcpgs = computed(() => {
         return () => {
             return msdcpgs.value
+        }
+    })
+
+    const getMsdcpg = computed(() => {
+        return () => {
+            return msdcpg
         }
     })
 
@@ -340,9 +347,22 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         }
     }
 
+    async function fetchMsdcpgById(ID: string) {
+        try {
+            const response = await findOne<any>('msd-cpgs', ID)
+            if (response) {
+                Object.assign(msdcpg, response.data)
+            }
+        } catch (error) {
+            const errorStore = useErrorStore()
+            errorStore.setError(error)
+        }
+    }
+
     return {
         getFilter,
         getMsdcpgs,
+        getMsdcpg,
         updateClass,
         updateGeneric,
         updateGroup,
@@ -353,6 +373,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         updateHypersensitivity,
         clearValidity,
         resetMsdcpgs,
-        fetchMsdcpgsByFilter
+        fetchMsdcpgsByFilter,
+        fetchMsdcpgById
     }
 })

@@ -1,35 +1,34 @@
 <script setup>
-const props = defineProps({
-  drugData: {
-    type: Object,
-    default: {}
-  },
-})
+import { useMsdcpgStore } from '~/stores/msdcpg'
 
-onMounted(() => {
-  console.log(props.drugData)
+const msdcpgStore = useMsdcpgStore()
+
+const msdcpgDetail = computed(() => {
+    const rawmsdcpg = msdcpgStore.getMsdcpg()
+    const msdcpg = {
+      ...rawmsdcpg,
+      // DOSE_CHECK: `${msdcpg.attributes.DOSE_L}${msdcpg.attributes.DOSE_U ? '-' + msdcpg.attributes.DOSE_U : ''} ${msdcpg.attributes.DOSE_UNIT}${msdcpg.attributes.DOSE_LBL} ${msdcpg.attributes.DRUG_RM}`,
+      // DOSE_M_CHECK: `${msdcpg.attributes.DOSE_M} ${msdcpg.attributes.DOSE_M_UNIT}${msdcpg.attributes.DOSE_M_LBL}`
+    }
+    return msdcpg
 })
 </script>
 
 <template>
-  <div class="mt-4 gap-16">
-    <div v-for="(value, key) in drugKeyDisplay(drugData)" :key="key" class="grid grid-cols-8 gap-4 items-start">
-      <h1 class="col-span-2 font-semibold text-xl">{{ drugKeyTranslate(key) }}</h1>
-      <!-- <div class=" mt-1 bg-black rounded-full p-2 w-8 h-8 shrink-0">
-        <Icon class="text-white" :name="item.icon" /> 
-      </div> -->
-      <div class="col-span-6">
-        <div v-if="key === 'ADR'" class="text-lg">
-          <h1 v-for="(value, key) in value" :key="key" class="">
-            <span class="font-semibold text-xl">{{ key }}</span> :
-            <span v-for="(item, index) in value" :key="index" class="text-xl">{{ item }}{{ index !== value.length - 1 ? ',' : '' }}</span>
-          </h1>
-        </div>
-        <h3 v-else class=" text-lg">{{ value || '-' }}</h3>
-        <p class="text-slate-500 mt-2 leading-relaxed">
-          <!-- {{ item.interaction }} -->
-        </p>
-      </div>
+  <div
+      class="bg-green-900 px-20 py-2 mt-20 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center"
+    >
+      <h5 class="text-white text-3xl md:text-2xl">Indication Summary</h5>
+      <p class="text-lime-500 mt-4 text-lg md:text-xl">
+        {{ msdcpgDetail.attributes?.INDICATION_LABEL }}
+      </p>
     </div>
-  </div>
+    <div
+      class="bg-green-900 px-20 py-2 mt-20 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center"
+    >
+      <h5 class="text-white text-3xl md:text-2xl">Recommended Antibiotics</h5>
+      <p class="text-lime-500 mt-4 text-lg md:text-xl">
+        {{ msdcpgDetail.attributes?.INDICATION_LABEL }}
+      </p>
+    </div>
 </template>
