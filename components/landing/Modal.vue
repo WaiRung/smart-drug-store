@@ -47,7 +47,7 @@ function closeModalCancel() {
     <template #body>
       <slot></slot>
     </template>
-    <template #footer v-if="!fixed">
+    <template #footer v-if="fixed">
       <div class="flex justify-between">
         <fwb-button @click="closeModal" type="button" color="green">
           ตกลง

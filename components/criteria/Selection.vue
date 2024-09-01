@@ -375,11 +375,6 @@ async function inputMSD(event) {
                 @click="onClickNext" type="button" size="lg">
                 <p class="text-xl">Search</p>
             </LandingButton>
-            <LandingButton
-                :disabled="!filterData.selectedGeneric.val"
-                @click="onClickNext" type="button" size="lg">
-                <p class="text-xl">Search</p>
-            </LandingButton>
         </div>
         <div id="result" class="mt-3 text-center"></div>
     </form>

@@ -30,7 +30,7 @@ const msdcpgDetail = computed(() => {
 
   <h2 class="mb-2 text-lg font-semibold">Remarks </h2>
   <ul class="max-w-md space-y-1 list-disc list-inside">
-    <li>
+    <li v-if="msdcpgDetail.attributes?.RM_RX">
       {{ msdcpgDetail.attributes?.RM_RX }}
     </li>
     <li v-if=" msdcpgDetail.attributes?.RM_DURATION">
