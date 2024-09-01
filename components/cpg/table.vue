@@ -32,7 +32,7 @@ function openModal(msdcpg) {
 </script>
 
 <template>
-  <!-- <CpgModal btn-text="Search Class" :class-data="{}" v-if="true" /> -->
+  <!-- <CpgModal btn-text="Search" :class-data="{}" v-if="true" /> -->
    <LandingModal
     :show="isModalOpen"
     title="ผลการคำนวนยา"

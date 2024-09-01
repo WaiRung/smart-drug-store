@@ -17,7 +17,7 @@ function onClickBack() {
     })
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-right')
-    navigateTo('/criteria-selection')
+    navigateTo('/')
 
 }
 </script>

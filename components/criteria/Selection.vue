@@ -46,8 +46,6 @@ const diagnosisData = computed(() => {
 
 const hypersenstivityData = computed(() => {
     const hypersenstivities = hypersenstivityStore.getHypersensitivities()
-    console.log(hypersenstivities[0]);
-    
     return hypersenstivities
 })
 
@@ -113,7 +111,7 @@ async function inputTAB(event) {
         encoding: "ISO-8859-1",
         skipEmptyLines: true,
         complete: async function (results) {
-            console.log(results.data);
+            console.log('results.data', results.data);
             fileData = results.data
             for (let i = 0; i < fileData.length; i++) {
                 const element = fileData[i];
@@ -171,7 +169,7 @@ async function inputMSD(event) {
             </div>
             <div class="w-6/12 md:w-2/12 flex flex-row-reverse">
                 <div>
-                    <ClassSearchdropdown buttonText="Search Class" :isValid="filterData.selectedClass.isValid"
+                    <ClassSearchdropdown buttonText="Search" :isValid="filterData.selectedClass.isValid"
                         @selected-value="updateClass" @btn-clicked="clearValidity('selectedClass')" />
                     <div v-show="!filterData.selectedClass.isValid" class="text-red-400 text-sm mt-1">
                         กรุณาเลือก Class
@@ -200,7 +198,7 @@ async function inputMSD(event) {
             </div>
             <div class="w-6/12 md:w-2/12 flex flex-row-reverse">
                 <div>
-                    <GenericSearchDropdown buttonText="Search Generic" :isValid="filterData.selectedGeneric.isValid"
+                    <GenericSearchDropdown buttonText="Search" :isValid="filterData.selectedGeneric.isValid"
                         @selected-value="updateGeneric" @btn-clicked="clearValidity('selectedGeneric')" />
                     <div v-show="!filterData.selectedGeneric.isValid" class="text-red-400 text-sm mt-1">
                         กรุณาเลือก Generic

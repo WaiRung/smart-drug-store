@@ -6,7 +6,7 @@ const menuitems = [
   },
   {
     title: "Pricing",
-    path: "/criteria-selection",
+    path: "/old-index",
   },
   {
     title: "About",
