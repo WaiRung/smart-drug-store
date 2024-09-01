@@ -2,6 +2,8 @@
 import { FwbButton, FwbModal } from 'flowbite-vue'
 import Papa from 'papaparse';
 const { create } = useStrapi()
+import { useTabATP_CATALOGStore } from '@/stores/tab-atp-catalog'
+import { useGenericStore } from '~/stores/generic';
 import { useGroupStore } from '~/stores/group'
 import { useAgeStore } from '~/stores/age'
 import { usePatienttypeStore } from '~/stores/patient_type'
@@ -10,7 +12,8 @@ import { useDiagnosisStore } from '~/stores/diagnosis'
 import { useHypersensitivityStore } from '~/stores/hypersenstivity'
 import { useMsdcpgStore } from '~/stores/msdcpg'
 
-
+const tabATP_CATALOGStore = useTabATP_CATALOGStore()
+const genericStore = useGenericStore()
 const groupStore = useGroupStore()
 const ageStore = useAgeStore()
 const patientTypeStore = usePatienttypeStore()
@@ -53,6 +56,11 @@ const filterData = computed(() => {
     const filter = msdcpgStore.getFilter()
     return filter
 })
+
+async function clearClassGeneric() {
+    msdcpgStore.updateClass('')
+    await tabATP_CATALOGStore.fetchClassesByGeneric('')
+}
 
 async function updateClass(evt) {
     msdcpgStore.updateClass(evt)
@@ -158,13 +166,20 @@ async function inputMSD(event) {
                         Class
                     </label>
                 </div>
-                <div class="w-4/12 md:items-center">
+                <div class="w-3/12 md:items-center">
                     <div class="flex">
                         <label data-testid="selected-drug-text"
                             class="block text-green-500 text-xl md:text-left mb-1 md:mb-0 pr-4">
                             {{ filterData.selectedClass.val || '-' }}
                         </label>
                     </div>
+                </div>
+                <div class="w-1/12 md:items-center">
+                    <fwb-button v-if="filterData.selectedClass.val"  @click.prevent="clearClassGeneric" size="xs" color="light" pill>
+                        <div class="flex">
+                          <Icon class="text-green-500" name="f7:question" />
+                        </div>
+                    </fwb-button>
                 </div>
             </div>
             <div class="w-6/12 md:w-2/12 flex flex-row-reverse">

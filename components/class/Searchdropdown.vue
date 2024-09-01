@@ -1,8 +1,10 @@
 <script setup>
 import { initDropdowns } from 'flowbite'
+import { useMsdcpgStore } from '~/stores/msdcpg'
 import { useTabATP_CATALOGStore } from '@/stores/tab-atp-catalog'
 import { useErrorStore } from '@/stores/error'
 
+const msdcpgStore = useMsdcpgStore()
 const tabATP_CATALOGStore = useTabATP_CATALOGStore()
 const errorStore = useErrorStore()
 
@@ -19,18 +21,10 @@ const props = defineProps({
 
 const emit = defineEmits(['selected-value', 'btn-clicked'])
 
-const classes = computed(() => {
-    const classes = tabATP_CATALOGStore.getClassess
-    return classes
+const filterData = computed(() => {
+    const filter = msdcpgStore.getFilter()
+    return filter
 })
-
-const selectedValue = ref('')
-
-
-async function fetchClassesByGeneric(genericName = '') {
-    errorStore.clearError()
-    await tabATP_CATALOGStore.fetchClassesByGeneric(genericName)
-}
 
 const classData = computed(() => {
     const classes = tabATP_CATALOGStore.getClassess()
@@ -38,8 +32,9 @@ const classData = computed(() => {
 
 })
 
-const handleModalClose = () => {
-  reloadNuxtApp()
+async function fetchClassesByGeneric(genericName = '') {
+    errorStore.clearError()
+    await tabATP_CATALOGStore.fetchClassesByGeneric(genericName)
 }
 
 function onSearch(evt) {
@@ -49,7 +44,6 @@ function onSearch(evt) {
 }
 
 function onSelect(className) {
-    selectedValue.value = className
     emit('selected-value', className)
 }
 
@@ -107,7 +101,7 @@ onMounted(() => {
             aria-labelledby="dropdownSearchButton">
             <li v-for="data in classData" :key="data">
                 <div class="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                    <input type="radio" :value="data" v-model="selectedValue" @click="onSelect(data)"
+                    <input type="radio" :value="data" v-model="filterData.selectedClass.val" @click="onSelect(data)"
                         DrugName="default-radio"
                         class="cursor-pointer w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         data-testid="search-dropdown-radio-input">

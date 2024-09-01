@@ -1,9 +1,10 @@
 <script setup>
 import { initDropdowns } from 'flowbite'
-import { useTabATP_CATALOGStore } from '@/stores/tab-atp-catalog'
+import { useMsdcpgStore } from '~/stores/msdcpg'
 import { useGenericStore } from '~/stores/generic';
 import { useErrorStore } from '@/stores/error'
 
+const msdcpgStore = useMsdcpgStore()
 const genericStore = useGenericStore()
 const errorStore = useErrorStore()
 
@@ -20,7 +21,10 @@ const props = defineProps({
 
 const emit = defineEmits(['selected-value', 'btn-clicked'])
 
-const selectedValue = ref('')
+const filterData = computed(() => {
+    const filter = msdcpgStore.getFilter()
+    return filter
+})
 
 async function fetchGenericsByClass(className = '') {
     errorStore.clearError()
@@ -40,7 +44,6 @@ function onSearch(evt) {
 }
 
 function onSelect(genericName) {
-    selectedValue.value = genericName
     emit('selected-value', genericName)
 }
 
@@ -94,7 +97,7 @@ onMounted(() => {
             aria-labelledby="dropdownGenericButton">
             <li v-for="data in genericData" :key="data">
                 <div class="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                    <input type="radio" :value="data" v-model="selectedValue" @click="onSelect(data)"
+                    <input type="radio" :value="data" v-model="filterData.selectedGeneric.val" @click="onSelect(data)"
                         DrugName="default-radio"
                         class="cursor-pointer w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         data-testid="search-dropdown-radio-input">

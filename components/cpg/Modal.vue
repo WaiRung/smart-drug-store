@@ -33,7 +33,7 @@ function showModal() {
 </script>
 
 <template>
-  <fwb-button data-testid="drugDetail-modal-button" size="xs" color="light" @click.prevent="showModal" pill>
+  <fwb-button size="xs" color="light" @click.prevent="showModal" pill>
     <div class="flex">
       <Icon class="text-green-500" name="f7:question" />
     </div>
