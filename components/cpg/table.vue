@@ -35,7 +35,7 @@ function openModal(msdcpg) {
   <!-- <CpgModal btn-text="Search" :class-data="{}" v-if="true" /> -->
    <LandingModal
     :show="isModalOpen"
-    title="ผลการคำนวนยา"
+    title="Antibiotic Result"
     @close="isModalOpen = false"
     @close-cancel="isModalOpen = false">
     <CpgDetails />

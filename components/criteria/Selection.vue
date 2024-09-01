@@ -335,30 +335,19 @@ async function inputMSD(event) {
             </div>
         </div>
 
-
-
         <div class="flex justify-center mt-12">
             <!-- <input type="file" @change="inputTAB" multiple> -->
             <!-- <input type="file" @change="inputMSD" multiple> -->
-            <LandingButton data-testid="criteria-next-button" @click="onClickNext" type="button" size="lg">
-                <p class="text-xl">Next</p>
+            <LandingButton
+                :disabled="!filterData.selectedGeneric.val"
+                @click="onClickNext" type="button" size="lg">
+                <p class="text-xl">Search</p>
             </LandingButton>
-            <!-- <LandingModal :show="isDrugmodalOpen" title="ผลการคำนวนยา" @close="isDrugmodalOpen = false"
-                @close-cancel="isDrugmodalOpen = false">
-                <div  style="display: flex; justify-content: center" class="md:w-3/3 text-xl">
-                    <h3>
-                        <span class="font-bold">ครั้งต่อวัน</span> {{ FrequencyPerDay }}
-
-                    </h3>
-                </div>
-                <div style="display: flex; justify-content: center" class="md:w-3/3 text-xl">
-                    <h3>
-                        <span class="font-bold">ระยะเวลา</span> {{ Duration }}
-                    </h3>
-                </div>
-                
-                <ClassDetails />
-            </LandingModal> -->
+            <LandingButton
+                :disabled="!filterData.selectedGeneric.val"
+                @click="onClickNext" type="button" size="lg">
+                <p class="text-xl">Search</p>
+            </LandingButton>
         </div>
         <div id="result" class="mt-3 text-center"></div>
     </form>

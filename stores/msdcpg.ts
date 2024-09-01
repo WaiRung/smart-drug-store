@@ -329,6 +329,11 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
                     'DOSE_M',
                     'DOSE_M_UNIT',
                     'DOSE_M_LBL',
+
+                    'INDICATION_LABEL',
+                    'ANTIBIOTIC_LABEL',
+                    'RM_RX',
+                    'RM_DURATION'
                 ],
                 pagination: {
                     page: 1,
@@ -346,12 +351,11 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             errorStore.setError(error)
         }
     }
-
     async function fetchMsdcpgById(ID: string) {
         try {
-            const response = await findOne<any>('msd-cpgs', ID)
-            if (response) {
-                Object.assign(msdcpg, response.data)
+            const foundMsdcpg = msdcpgs.value.find((msdcpg: { id: string }) => msdcpg.id === ID);
+            if (foundMsdcpg) {
+                Object.assign(msdcpg, foundMsdcpg)
             }
         } catch (error) {
             const errorStore = useErrorStore()
