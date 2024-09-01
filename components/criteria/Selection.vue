@@ -57,8 +57,14 @@ const filterData = computed(() => {
     return filter
 })
 
-async function clearClassGeneric() {
+async function clearClass() {
+    filterData.value.selectedClass.val = ''
     msdcpgStore.updateClass('')
+    await tabATP_CATALOGStore.fetchClassesByGeneric('')
+}
+async function clearGeneric() {
+    filterData.value.selectedGeneric.val = ''
+    msdcpgStore.updateGeneric('')
     await tabATP_CATALOGStore.fetchClassesByGeneric('')
 }
 
@@ -166,7 +172,7 @@ async function inputMSD(event) {
                         Class
                     </label>
                 </div>
-                <div class="w-3/12 md:items-center">
+                <div class="w-4/12 md:items-center">
                     <div class="flex">
                         <label data-testid="selected-drug-text"
                             class="block text-green-500 text-xl md:text-left mb-1 md:mb-0 pr-4">
@@ -174,16 +180,18 @@ async function inputMSD(event) {
                         </label>
                     </div>
                 </div>
-                <div class="w-1/12 md:items-center">
-                    <fwb-button v-if="filterData.selectedClass.val"  @click.prevent="clearClassGeneric" size="xs" color="light" pill>
-                        <div class="flex">
-                          <Icon class="text-green-500" name="f7:question" />
-                        </div>
-                    </fwb-button>
-                </div>
             </div>
             <div class="w-6/12 md:w-2/12 flex flex-row-reverse">
                 <div>
+                    <fwb-button
+                        v-if="filterData.selectedClass.val"
+                        @click.prevent="clearClass"
+                        size="xs" color="light" pill
+                        class="mr-1">
+                        <div class="flex">
+                          <Icon class="text-green-500" name="f7:clear" />
+                        </div>
+                    </fwb-button>
                     <ClassSearchdropdown buttonText="Search" :isValid="filterData.selectedClass.isValid"
                         @selected-value="updateClass" @btn-clicked="clearValidity('selectedClass')" />
                     <div v-show="!filterData.selectedClass.isValid" class="text-red-400 text-sm mt-1">
@@ -213,6 +221,15 @@ async function inputMSD(event) {
             </div>
             <div class="w-6/12 md:w-2/12 flex flex-row-reverse">
                 <div>
+                    <fwb-button
+                        v-if="filterData.selectedGeneric.val" 
+                        @click.prevent="clearGeneric"
+                        size="xs" color="light" pill
+                        class="mr-1">
+                        <div class="flex">
+                          <Icon class="text-green-500" name="f7:clear" />
+                        </div>
+                    </fwb-button>
                     <GenericSearchDropdown buttonText="Search" :isValid="filterData.selectedGeneric.isValid"
                         @selected-value="updateGeneric" @btn-clicked="clearValidity('selectedGeneric')" />
                     <div v-show="!filterData.selectedGeneric.isValid" class="text-red-400 text-sm mt-1">
