@@ -1,14 +1,29 @@
-<script setup>
+<script setup lang="ts">
+import { useSlideStore } from '@/stores/slide'
 definePageMeta({
-  layout: "landing",
-});
+    pageTransition: {
+        name: 'slide-left',
+        mode: 'out-in'
+    },
+    middleware(to, from) {
+        const slideStore = useSlideStore()
+        if (to.meta.pageTransition && typeof to.meta.pageTransition !== 'boolean') {
+            to.meta.pageTransition.name = slideStore.getDirection
+        }
+    }
+})
 </script>
 
 <template>
-  <LandingContainer>
-    <LandingHero></LandingHero>
-    <LandingFeatures></LandingFeatures>
-    <LandingLogos></LandingLogos>
-    <LandingCta></LandingCta>
-  </LandingContainer>
+    <LandingContainer>
+        <LandingSectionhead>
+            <template v-slot:title>Criteria</template>
+            <template v-slot:desc>Criteria Selection</template>
+        </LandingSectionhead>
+        <div class="grid gap-10 mx-auto max-w-4xl mt-16">
+            <div>
+                <CriteriaSelection />
+            </div>
+        </div>
+    </LandingContainer>
 </template>
