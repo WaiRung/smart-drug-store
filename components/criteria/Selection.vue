@@ -187,9 +187,9 @@ async function inputMSD(event) {
                         v-if="filterData.selectedClass.val"
                         @click.prevent="clearClass"
                         size="xs" color="light" pill
-                        class="mr-1">
+                        class="text-red-500 hover:text-white border-red-500 hover:bg-red-500 focus:outline-none mr-1">
                         <div class="flex">
-                          <Icon class="text-green-500" name="f7:clear" />
+                          <Icon class="" name="f7:clear" />
                         </div>
                     </fwb-button>
                     <ClassSearchdropdown buttonText="Search" :isValid="filterData.selectedClass.isValid"
@@ -225,9 +225,9 @@ async function inputMSD(event) {
                         v-if="filterData.selectedGeneric.val" 
                         @click.prevent="clearGeneric"
                         size="xs" color="light" pill
-                        class="mr-1">
+                        class="text-red-500 hover:text-white border-red-500 hover:bg-red-500 focus:outline-none mr-1">
                         <div class="flex">
-                          <Icon class="text-green-500" name="f7:clear" />
+                          <Icon class="" name="f7:clear" />
                         </div>
                     </fwb-button>
                     <GenericSearchDropdown buttonText="Search" :isValid="filterData.selectedGeneric.isValid"
