@@ -28,7 +28,9 @@ const msdcpgDetail = computed(() => {
     </p>
   </div>
 
-  <h2 class="mb-2 text-lg font-semibold">Remarks </h2>
+  <h2
+    v-if="msdcpgDetail.attributes?.RM_RX || msdcpgDetail.attributes?.RM_DURATION"
+    class="mb-2 text-lg font-semibold">Remarks </h2>
   <ul class="max-w-md space-y-1 list-disc list-inside">
     <li v-if="msdcpgDetail.attributes?.RM_RX">
       {{ msdcpgDetail.attributes?.RM_RX }}

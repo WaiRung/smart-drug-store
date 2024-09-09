@@ -43,6 +43,11 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             val: '',
             required: true
         },
+        selectedWeight: {
+            isValid: true,
+            val: '',
+            required: true
+        },
         selectedPatienttype: {
             isValid: true,
             val: '',
@@ -83,6 +88,21 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     const getMsdcpg = computed(() => {
         return () => {
             return msdcpg
+        }
+    })
+
+    const getCaluculatedLabel = computed(() => {
+        return () => {
+            console.log(filter.selectedWeight);
+            if (!msdcpg) {
+                return null
+            }
+            if (!filter.selectedWeight) {
+                return msdcpg.attribute.ANTIBIOTIC_LABEL
+            }
+            if (!msdcpg.attribute.DOSE_U) {
+                
+            }
         }
     })
 
@@ -357,9 +377,22 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             if (foundMsdcpg) {
                 Object.assign(msdcpg, foundMsdcpg)
             }
+            
         } catch (error) {
             const errorStore = useErrorStore()
             errorStore.setError(error)
+        }
+    }
+
+    function onChangeWeight(evt: any) {
+        console.log(evt.target.value);
+        const regex = /^\d+(\.\d+)?$/;
+        if (regex.test(evt.target.value)) {
+            filter.selectedWeight.isValid = true
+            filter.selectedWeight.val = evt.target.value
+        } else {
+            filter.selectedWeight.isValid = false
+            filter.selectedWeight.val = evt.target.value = ''
         }
     }
 
@@ -378,6 +411,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         clearValidity,
         resetMsdcpgs,
         fetchMsdcpgsByFilter,
-        fetchMsdcpgById
+        fetchMsdcpgById,
+        onChangeWeight
     }
 })
