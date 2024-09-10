@@ -106,8 +106,6 @@ function clearValidity(fieldName) {
 
 
 function onClickNext() {
-
-
     // isDrugmodalOpen.value = true
     msdcpgStore.fetchMsdcpgsByFilter()
     const slideStore = useSlideStore()
@@ -149,6 +147,23 @@ async function inputMSD(event) {
             const element = jsonObj[i];
             console.log(element);
             // const response = await create('msd-cpgs', element)
+            //     if (response && response.error) {
+            //         console.log(response.error);
+            //     }
+        }
+    }
+    reader.readAsText(event.target.files[0]);
+}
+
+async function inputATB_INFO_ADJUST(event) {
+    var reader = new FileReader();
+    reader.onload = async function (event) {
+        var jsonObj = JSON.parse(event.target.result);
+        
+        for (let i = 0; i < jsonObj.length; i++) {
+            const element = jsonObj[i];
+            console.log(element);
+            // const response = await create('atb-info-adjusts', element)
             //     if (response && response.error) {
             //         console.log(response.error);
             //     }
@@ -370,6 +385,7 @@ async function inputMSD(event) {
         <div class="flex justify-center mt-12">
             <!-- <input type="file" @change="inputTAB" multiple> -->
             <!-- <input type="file" @change="inputMSD" multiple> -->
+             <!-- <input type="file" @change="inputATB_INFO_ADJUST" multiple> -->
             <LandingButton
                 :disabled="!filterData.selectedGeneric.val"
                 @click="onClickNext" type="button" size="lg">
