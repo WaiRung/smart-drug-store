@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { FwbButton, FwbModal } from 'flowbite-vue'
 
 const props = defineProps({
@@ -18,17 +17,17 @@ const emit = defineEmits(['close', 'close-cancel']);
 
 
 function closeModal() {
-  if (props.fixed) {
-    return;
-  }
+  // if (props.fixed) {
+  //   return;
+  // }
   console.log('closeModal');
   emit('close');
 }
 
 function closeModalCancel() {
-  if (props.fixed) {
-    return;
-  }
+  // if (props.fixed) {
+  //   return;
+  // }
   console.log('closeModalCancel');
   
   emit('close-cancel');
@@ -38,11 +37,16 @@ function closeModalCancel() {
 
 <template>
 
-  <fwb-modal v-if="show" @close="closeModal" data-testid="custom-modal">
+  <fwb-modal
+    v-if="show"
+    not-escapable
+    >
     <template #header>
-      <div class="font-bold flex items-center text-2xl">
-        {{ title }}
-      </div>
+      <slot name="header">
+        <div class="font-bold flex items-center text-2xl">
+          {{ title }}
+        </div>
+      </slot>
     </template>
     <template #body>
       <slot></slot>
@@ -59,3 +63,9 @@ function closeModalCancel() {
     </template>
   </fwb-modal>
 </template>
+
+<style scoped>
+button.text-gray-400 {
+  display: hidden !important;
+}
+</style>

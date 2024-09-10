@@ -29,16 +29,26 @@ function openModal(msdcpg) {
   msdcpgStore.fetchMsdcpgById(msdcpg.id)  
   isModalOpen.value = true
 }
+
+function closeModal() {
+  isModalOpen.value = false
+  const slideStore = useSlideStore()
+    slideStore.setDirection('slide-left')
+    // console.log('onClickNext', slideStore.getDirection);
+    navigateTo('/dosage')
+}
 </script>
 
 <template>
   <!-- <CpgModal btn-text="Search" :class-data="{}" v-if="true" /> -->
    <LandingModal
+    :fixed="true"
     :show="isModalOpen"
     title="Antibiotic Result"
-    @close="isModalOpen = false"
+    @close="closeModal"
     @close-cancel="isModalOpen = false">
-    <CpgDetails />
+   
+    <CpgDetails #body />
    </LandingModal>
     <fwb-table hoverable>
       <fwb-table-head>

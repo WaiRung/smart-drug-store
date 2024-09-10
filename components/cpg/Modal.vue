@@ -24,6 +24,7 @@ const drugData = computed(() => {
 })
 
 function closeModal() {
+  
   isShowModal.value = false
 }
 function showModal() {
@@ -40,7 +41,9 @@ function showModal() {
 
   </fwb-button>
 
-  <fwb-modal v-if="isShowModal" @close="closeModal" data-testid="drugDetail-modal">
+  <fwb-modal
+    v-if="isShowModal"
+    @close="closeModal">
     <template #header>
       <div class="font-bold flex items-center text-2xl">
         {{ btnText }}
@@ -49,7 +52,7 @@ function showModal() {
     <template #body>
       <CpgDetails :drug-data="drugData" />
     </template>
-    <!-- <template #footer>
+    <template #footer>
       <div class="flex justify-between">
         <fwb-button @click="closeModal" color="alternative">
           Decline
@@ -58,6 +61,6 @@ function showModal() {
           I accept
         </fwb-button>
       </div>
-    </template> -->
+    </template>
   </fwb-modal>
 </template>

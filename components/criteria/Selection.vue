@@ -100,10 +100,6 @@ async function updateHypersensitivity(evt) {
     msdcpgStore.updateHypersensitivity(evt)
 }
 
-function onChangeWeight(evt) {
-    msdcpgStore.onChangeWeight(evt)
-}
-
 function clearValidity(fieldName) {
     msdcpgStore.clearValidity(fieldName)
 }
@@ -178,7 +174,7 @@ async function inputMSD(event) {
                 </div>
                 <div class="w-4/12 md:items-center">
                     <div class="flex">
-                        <label data-testid="selected-drug-text"
+                        <label
                             class="block text-green-500 text-xl md:text-left mb-1 md:mb-0 pr-4">
                             {{ filterData.selectedClass.val || '-' }}
                         </label>
@@ -280,25 +276,6 @@ async function inputMSD(event) {
                 </select>
                 <div v-show="!filterData.selectedGroup.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือก Age
-                </div>
-            </div>
-        </div>
-
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedWeight.isValid }">
-            <div class="md:w-1/3">
-                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    Weight (Kg.)
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <input
-                    type="text"
-                    :disabled="!filterData.selectedGeneric.val"
-                    @input="onChangeWeight($event)"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500"
-                >
-                <div v-show="!filterData.selectedGroup.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือก Weight
                 </div>
             </div>
         </div>
