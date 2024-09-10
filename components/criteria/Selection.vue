@@ -138,6 +138,7 @@ async function inputTAB(event) {
     })
 }
 
+// https://tableconvert.com/excel-to-json
 async function inputMSD(event) {
     var reader = new FileReader();
     reader.onload = async function (event) {
