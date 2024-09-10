@@ -42,10 +42,24 @@ function openModal(msdcpg) {
    </LandingModal>
     <fwb-table hoverable>
       <fwb-table-head>
-        <fwb-table-head-cell>Serverity</fwb-table-head-cell>
-        <fwb-table-head-cell>Risk Organism</fwb-table-head-cell>
-        <fwb-table-head-cell>Dose check</fwb-table-head-cell>
-        <fwb-table-head-cell>Dose M check</fwb-table-head-cell>
+        <fwb-table-head-cell>
+          <p class="text-base">Serverity</p>
+        </fwb-table-head-cell>
+        <fwb-table-head-cell>
+          <p class="text-base">
+            Risk Organism
+          </p>
+        </fwb-table-head-cell>
+        <fwb-table-head-cell>
+          <p class="text-base">
+            Dose check
+          </p>
+          </fwb-table-head-cell>
+        <fwb-table-head-cell>
+          <p class="text-base">
+            Dose M check
+          </p>
+        </fwb-table-head-cell>
         <!-- <fwb-table-head-cell>
           <span class="sr-only">Edit</span>
         </fwb-table-head-cell> -->
@@ -56,10 +70,26 @@ function openModal(msdcpg) {
           :key="msdcpg.id"
           @click="openModal(msdcpg)"
           class="hover:cursor-pointer">
-          <fwb-table-cell>{{ msdcpg.attributes.SEVERITY }}</fwb-table-cell>
-          <fwb-table-cell>{{ msdcpg.attributes.RISK_ORGANISM }}</fwb-table-cell>
-          <fwb-table-cell>{{ msdcpg.DOSE_CHECK }}</fwb-table-cell>
-          <fwb-table-cell>{{ msdcpg.DOSE_M_CHECK }}</fwb-table-cell>
+          <fwb-table-cell>
+            <p class="text-base">
+              {{ msdcpg.attributes.SEVERITY }}
+            </p>
+          </fwb-table-cell>
+          <fwb-table-cell>
+            <p class="text-base">
+              {{ msdcpg.attributes.RISK_ORGANISM }}
+            </p>
+          </fwb-table-cell>
+          <fwb-table-cell>
+            <p class="text-base">
+              {{ msdcpg.DOSE_CHECK }}
+            </p>
+          </fwb-table-cell>
+          <fwb-table-cell>
+            <p class="text-base">
+              {{ msdcpg.DOSE_M_CHECK }}
+            </p>
+          </fwb-table-cell>
           <!-- <fwb-table-cell>
             <fwb-a href="#">
               Edit
