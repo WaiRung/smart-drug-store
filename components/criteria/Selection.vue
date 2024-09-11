@@ -206,6 +206,23 @@ async function inputATB_INFO_DDI(event) {
     }
     reader.readAsText(event.target.files[0]);
 }
+
+async function inputATB_INFO_AE(event) {
+    var reader = new FileReader();
+    reader.onload = async function (event) {
+        var jsonObj = JSON.parse(event.target.result);
+        
+        for (let i = 0; i < jsonObj.length; i++) {
+            const element = jsonObj[i];
+            console.log(element);
+            const response = await create('atb-info-aes', element)
+                if (response && response.error) {
+                    console.log(response.error);
+                }
+        }
+    }
+    reader.readAsText(event.target.files[0]);
+}
 </script>
 
 <template>
@@ -423,6 +440,7 @@ async function inputATB_INFO_DDI(event) {
             <!-- <input type="file" @change="inputATB_INFO_ADJUST" multiple> -->
              <!-- <input type="file" @change="inputATB_INFO_ALERT" multiple> -->
              <!-- <input type="file" @change="inputATB_INFO_DDI" multiple> -->
+              <!-- <input type="file" @change="inputATB_INFO_AE" multiple> -->
             <LandingButton
                 :disabled="!filterData.selectedGeneric.val"
                 @click="onClickNext" type="button" size="lg">
