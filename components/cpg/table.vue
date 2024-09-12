@@ -35,7 +35,7 @@ function closeModal() {
   const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
     // console.log('onClickNext', slideStore.getDirection);
-    navigateTo('/dosage')
+    navigateTo('/time')
 }
 </script>
 

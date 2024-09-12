@@ -23,6 +23,15 @@ async function onChangeFreq(evt) {
 function clearValidity(fieldName) {
     dosageStore.clearValidity(fieldName)
 }
+
+function onClickNext() {
+    // isDrugmodalOpen.value = true
+    msdcpgStore.fetchMsdcpgsByFilter()
+    const slideStore = useSlideStore()
+    slideStore.setDirection('slide-left')
+    // console.log('onClickNext', slideStore.getDirection);
+    navigateTo('/cpg')
+}
 </script>
 
 <template>
@@ -81,6 +90,14 @@ function clearValidity(fieldName) {
                 </div>
             </div>
 
+        </div>
+
+        <div class="flex justify-center mt-12">
+            <LandingButton
+                :disabled="!filterData.selectedFrequency.val && !filterData.selectedWeight.val"
+                @click="onClickNext" type="button" size="lg">
+                <p class="text-xl">Search</p>
+            </LandingButton>
         </div>
     </form>
 </template>

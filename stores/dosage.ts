@@ -1,7 +1,10 @@
 import { defineStore } from 'pinia'
+import { useMsdcpgStore } from '#imports';
 import { useErrorStore } from './error'
 
 export const useDosageStore = defineStore('useDosageStore', () => {
+    const msdcpgStore = useMsdcpgStore()
+
     const filter = reactive({
         selectedWeight: {
             isValid: true,
@@ -23,7 +26,9 @@ export const useDosageStore = defineStore('useDosageStore', () => {
 
     const getCaluculatedLabel = computed(() => {
         return () => {
-            console.log(filter.selectedWeight);
+            console.log('selectedWeight : ', filter.selectedWeight);
+            console.log('msdcpg : ', msdcpgStore.getFilter());
+            
             // if (!msdcpg) {
             //     return null
             // }
@@ -37,7 +42,6 @@ export const useDosageStore = defineStore('useDosageStore', () => {
     })
 
     function onChangeWeight(evt: any) {
-        console.log(evt.target.value);
         const regex = /^\d+(\.\d+)?$/;
         if (regex.test(evt.target.value)) {
             filter.selectedWeight.isValid = true
@@ -55,6 +59,7 @@ export const useDosageStore = defineStore('useDosageStore', () => {
     return {
         getFilter,
         onChangeWeight,
-        clearValidity
+        clearValidity,
+        getCaluculatedLabel
     }
 })

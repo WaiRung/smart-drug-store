@@ -21,9 +21,11 @@ export const useREF_FREQStore = defineStore('useREF_FREQStore', () => {
                 filters: {},
             },);
             if (response) {
-                frequencies.value = response.data
-                // filteredFrequencies.value = response.data
-                console.log(response.data);
+                const rawFrequencies = response.data
+                const unique = mergeObjects(rawFrequencies)
+                
+                frequencies.value = unique
+                filteredFrequencies.value = unique
                 
             }
         } catch (error) {

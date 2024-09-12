@@ -112,7 +112,6 @@ function onClickNext() {
     slideStore.setDirection('slide-left')
     // console.log('onClickNext', slideStore.getDirection);
     navigateTo('/cpg')
-
 }
 
 async function inputTAB(event) {
