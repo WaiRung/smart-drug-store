@@ -8,6 +8,11 @@ export const useDosageStore = defineStore('useDosageStore', () => {
             val: '',
             required: true
         },
+        selectedFrequency: {
+            isValid: true,
+            val: '',
+            required: true
+        }
     })
 
     const getFilter = computed(() => {
@@ -43,8 +48,13 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         }
     }
 
+    function clearValidity(fieldName: string) {
+        filter[fieldName as keyof typeof filter].isValid = true
+    }
+
     return {
         getFilter,
-        onChangeWeight
+        onChangeWeight,
+        clearValidity
     }
 })
