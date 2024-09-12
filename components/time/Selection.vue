@@ -1,10 +1,12 @@
 <script setup>
 import { FwbButton } from 'flowbite-vue'
-import { useDosageStore } from '~/stores/dosage';
-import { useREF_FREQStore } from '~/stores/ref_freq';
+import { useDosageStore } from '~/stores/dosage'
+import { useREF_FREQStore } from '~/stores/ref_freq'
+import { useTabATP_CATALOGStore } from '~/stores/tab-atp-catalog'
 
 const dosageStore = useDosageStore()
 const ref_freqStore = useREF_FREQStore()
+const tabATP_CATALOGStore = useTabATP_CATALOGStore()
 
 const filterData = computed(() => {
     const filter = dosageStore.getFilter()
@@ -15,10 +17,13 @@ function onChangeWeight(evt) {
     dosageStore.onChangeWeight(evt)
 }
 
-async function onChangeFreq(evt) {
-    
-    // msdcpgStore.onChangeFreq(evt)
+async function onChangeFrequency(filterObj) {
+    dosageStore.onChangeFrequency(filterObj)
 };
+
+function clearFrequency() {
+    filterData.value.selectedFrequency.val = ''
+}
 
 function clearValidity(fieldName) {
     dosageStore.clearValidity(fieldName)
@@ -26,11 +31,11 @@ function clearValidity(fieldName) {
 
 function onClickNext() {
     // isDrugmodalOpen.value = true
-    msdcpgStore.fetchMsdcpgsByFilter()
+    tabATP_CATALOGStore.fetchATPSByGenericClass()
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
     // console.log('onClickNext', slideStore.getDirection);
-    navigateTo('/cpg')
+    navigateTo('/dosage')
 }
 </script>
 
@@ -66,7 +71,7 @@ function onClickNext() {
                     <div class="flex">
                         <label
                             class="block text-green-500 text-xl md:text-left mb-1 md:mb-0 pr-4">
-                            {{ filterData.selectedFrequency.val || '-' }}
+                            {{ filterData.selectedFrequency.val || '-' }} <span v-if="filterData.selectedFrequency.val"> ครั้งต่อวัน</span>
                         </label>
                     </div>
                 </div>
@@ -75,7 +80,7 @@ function onClickNext() {
                 <div>
                     <fwb-button
                         v-if="filterData.selectedFrequency.val"
-                        @click.prevent="clearClass"
+                        @click.prevent="clearFrequency"
                         size="xs" color="light" pill
                         class="text-red-500 hover:text-white border-red-500 hover:bg-red-500 focus:outline-none mr-1">
                         <div class="flex">
@@ -83,7 +88,7 @@ function onClickNext() {
                         </div>
                     </fwb-button>
                     <FrequencySearchdropdown buttonText="Search" :isValid="filterData.selectedFrequency.isValid"
-                        @selected-value="onChangeFreq" @btn-clicked="clearValidity('selectedFrequency')" />
+                        @selected-value="onChangeFrequency" @btn-clicked="clearValidity('selectedFrequency')" />
                     <div v-show="!filterData.selectedFrequency.isValid" class="text-red-400 text-sm mt-1">
                         กรุณาเลือก Frequency
                     </div>

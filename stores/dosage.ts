@@ -28,7 +28,7 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         return () => {
             console.log('selectedWeight : ', filter.selectedWeight);
             console.log('msdcpg : ', msdcpgStore.getFilter());
-            
+
             // if (!msdcpg) {
             //     return null
             // }
@@ -36,7 +36,7 @@ export const useDosageStore = defineStore('useDosageStore', () => {
             //     return msdcpg.attribute.ANTIBIOTIC_LABEL
             // }
             // if (!msdcpg.attribute.DOSE_U) {
-                
+
             // }
         }
     })
@@ -52,6 +52,11 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         }
     }
 
+    function onChangeFrequency(filterObj: any) {
+        
+        filter.selectedFrequency.val = filterObj.attributes.Time
+    }
+
     function clearValidity(fieldName: string) {
         filter[fieldName as keyof typeof filter].isValid = true
     }
@@ -59,6 +64,7 @@ export const useDosageStore = defineStore('useDosageStore', () => {
     return {
         getFilter,
         onChangeWeight,
+        onChangeFrequency,
         clearValidity,
         getCaluculatedLabel
     }

@@ -343,7 +343,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             });
             if (response) {
                 msdcpgs.value = response.data
-                console.log(response.data);
                 
             }
         } catch (error) {
