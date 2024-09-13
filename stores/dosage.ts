@@ -24,11 +24,31 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         }
     })
 
-    const getCaluculatedLabel = computed(() => {
+    const getTotalDailyDosage = computed(() => {
         return () => {
-            console.log('selectedWeight : ', filter.selectedWeight);
-            console.log('msdcpg : ', msdcpgStore.getFilter());
+            // console.log('selectedWeight : ', filter.selectedWeight);
+            // console.log('msdcpg : ', msdcpgStore.getFilter());
+            const msdcpg = msdcpgStore.getMsdcpg()
+            console.log('atps : ', msdcpgStore.getMsdcpg())
+            const DOSE_LBL = msdcpg.attributes.DOSE_LBL
+            const weightNum = Number(filter.selectedWeight.val)
+            const timeNum = Number(filter.selectedFrequency.val)
 
+            if (DOSE_LBL === '/kg/day') {
+                const lowerLimit = msdcpg.attributes.DOSE_L*weightNum
+                const upperLimit = msdcpg.attributes.DOSE_U*weightNum
+                console.log(`${lowerLimit} - ${upperLimit}`);
+                return `${lowerLimit} - ${upperLimit} .mg, g or MU`
+                
+                
+            } else if (DOSE_LBL === '/kg/dose') {
+                const lowerLimit = msdcpg.attributes.DOSE_L*weightNum*timeNum
+                const upperLimit = msdcpg.attributes.DOSE_U*weightNum*timeNum
+                console.log(`${lowerLimit} - ${upperLimit}`);
+                return `${lowerLimit} - ${upperLimit} mg, g or MU`
+            } else {
+                
+            }
             // if (!msdcpg) {
             //     return null
             // }
@@ -38,6 +58,19 @@ export const useDosageStore = defineStore('useDosageStore', () => {
             // if (!msdcpg.attribute.DOSE_U) {
 
             // }
+        }
+    })
+
+    const amountPerDose = computed(() => {
+        return () => {
+            const msdcpg = msdcpgStore.getMsdcpg()
+            const DOSE_LBL = msdcpg.attributes.DOSE_LBL
+            const weightNum = Number(filter.selectedWeight.val)
+            const timeNum = Number(filter.selectedFrequency.val)
+            if (DOSE_LBL === '/kg/day') {
+                const lowerLimit = (msdcpg.attributes.DOSE_L*weightNum*timeNum) / timeNum
+                const upperLimit = (msdcpg.attributes.DOSE_U*weightNum*timeNum) / timeNum
+            }
         }
     })
 
@@ -66,6 +99,6 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         onChangeWeight,
         onChangeFrequency,
         clearValidity,
-        getCaluculatedLabel
+        getTotalDailyDosage
     }
 })

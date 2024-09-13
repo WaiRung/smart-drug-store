@@ -276,7 +276,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         try {
             const filterGeneric: any = {
                 'GENERIC': {
-                    $containsi: filter.selectedGeneric.val ? filter.selectedGeneric.val : ''
+                    $eqi: filter.selectedGeneric.val ? filter.selectedGeneric.val : ''
                 }
             }
 

@@ -15,7 +15,6 @@ const TabATPStore = useTabATP_CATALOGStore()
 
 const TabATPData = computed(() => {
     const tabatps = TabATPStore.getATPs()
-    
     return tabatps
 })
 
@@ -39,6 +38,7 @@ function closeModal() {
     <LandingModal :fixed="true" :show="isModalOpen" title="Antibiotic Result" @close="closeModal"
         @close-cancel="isModalOpen = false">
         <!-- <CpgDetails #body /> -->
+         <DosageDetails #body />
     </LandingModal>
     <fwb-table hoverable>
       <fwb-table-head>
