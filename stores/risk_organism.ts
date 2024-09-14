@@ -1,30 +1,31 @@
 import { defineStore } from 'pinia'
 import { useErrorStore } from './error'
 
-export const useServerityStore = defineStore('useServerityStore', () => {
+export const useRiskorganismStore = defineStore('useRiskorganismStore', () => {
     const { find } = useStrapi()
 
-    const serverities: any = ref([])
+    const riskOrganisms: any = ref([])
 
-    const getServerities = computed(() => {
+    const getRiskOrganisms = computed(() => {
         return () => {
-            return serverities.value
+            return riskOrganisms.value
         }
     })
 
-    async function fetchServerityByGroupAgeInfectedsiteDiagNosis(
+    async function fetchRiskorganismByGroupAgeInfectedsiteDiagnisisServerity(
         group: string,
         age: string,
         infect_site: string,
-        diagnosis: string
+        diagnosis: string,
+        serverity: string
     ) {
         try {
-
             const filterGroup: any = {
                 'GROUP': {
                     $containsi: group ? group : ''
                 }
             }
+
             const filterAge: any = {
                 'AGE': {
                     $containsi: age ? age : ''
@@ -43,41 +44,47 @@ export const useServerityStore = defineStore('useServerityStore', () => {
                 }
             }
 
+            const filterServerity: any = {
+                'SEVERITY': {
+                    $containsi: serverity ? serverity : ''
+                }
+            }
+
             const filterObj = {
                 ...filterGroup,
                 ...filterAge,
                 ...filterInfectsite,
-                ...filterDiagnosis
+                ...filterDiagnosis,
+                ...filterServerity
             }
+
             const response = await find<any>('msd-cpgs', {
-                fields: ['SEVERITY'],
+                fields: ['RISK_ORGANISM'],
                 pagination: {
                     page: 1,
                     pageSize: 100,
                 },
                 filters: filterObj,
             });
-
             if (response) {
-                serverities.value = response.data
-                mapServerities()
+                riskOrganisms.value = response.data
+                mapRiskorganisms()
             }
         } catch (error) {
-            const errorStore = useErrorStore()
-            errorStore.setError(error)
+            
         }
     }
 
-    function mapServerities() {
-        if (serverities.value) {
+    function mapRiskorganisms() {
+        if (riskOrganisms.value) {
             try {
-                const stringServerities = serverities.value.map((age: { attributes: { SEVERITY: string; }; }) => age.attributes.SEVERITY);
-                const uniq = [...new Set(stringServerities)]
+                const stringRiskorganisms = riskOrganisms.value.map((age: { attributes: { RISK_ORGANISM: string; }; }) => age.attributes.RISK_ORGANISM);
+                const uniq = [...new Set(stringRiskorganisms)]
 
-                serverities.value = uniq
+                riskOrganisms.value = uniq
             } catch (error) {
                 const errorStore = useErrorStore()
-                errorStore.setError(error)
+              errorStore.setError(error)
             }
         } else {
             return []
@@ -85,7 +92,7 @@ export const useServerityStore = defineStore('useServerityStore', () => {
     }
 
     return {
-        getServerities,
-        fetchServerityByGroupAgeInfectedsiteDiagNosis
+        getRiskOrganisms,
+        fetchRiskorganismByGroupAgeInfectedsiteDiagnisisServerity
     }
 })

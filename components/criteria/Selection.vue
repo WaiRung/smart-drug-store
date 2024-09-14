@@ -9,7 +9,8 @@ import { useAgeStore } from '~/stores/age'
 import { usePatienttypeStore } from '~/stores/patient_type'
 import { useInfectsiteStore } from '~/stores/infect_site'
 import { useDiagnosisStore } from '~/stores/diagnosis'
-import { useServerityStore } from '~/stores/serverity';
+import { useServerityStore } from '~/stores/serverity'
+import { useRiskorganismStore } from '~/stores/risk_organism'
 import { useHypersensitivityStore } from '~/stores/hypersenstivity'
 import { useMsdcpgStore } from '~/stores/msdcpg'
 
@@ -21,6 +22,7 @@ const patientTypeStore = usePatienttypeStore()
 const infectSiteStore = useInfectsiteStore()
 const diagnosisStore = useDiagnosisStore()
 const serverityStore = useServerityStore()
+const riskOrganismStore = useRiskorganismStore()
 const hypersenstivityStore = useHypersensitivityStore()
 const msdcpgStore = useMsdcpgStore()
 
@@ -52,6 +54,11 @@ const diagnosisData = computed(() => {
 const serverityData  = computed(() => {
     const serverities = serverityStore.getServerities()
     return serverities
+})
+
+const riskOrgnaismData = computed(() => {
+    const riskOrganisms = riskOrganismStore.getRiskOrganisms()
+    return riskOrganisms
 })
 
 const hypersenstivityData = computed(() => {
@@ -111,6 +118,10 @@ async function updateDiagnosis(evt) {
 
 async function updateServerity(evt) {
     msdcpgStore.updateServerity(evt)
+}
+
+async function updateRiskorganism(evt) {
+    msdcpgStore.updateRiskOrganism(evt)
 }
 
 async function updateHypersensitivity(evt) {
@@ -275,7 +286,7 @@ async function inputATB_INFO_AE(event) {
             <div class="md:w-1/3">
                 <select v-model="filterData.selectedAge.val" @change="updateAge(filterData.selectedAge.val)"
                     @blur="clearValidity('selectedAge')"
-                    :disabled="!filterData.selectedGroup.val"
+                    :disabled="!filterData.selectedGroup.val || ageData.length === 0"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="age in ageData" :value="age">
                         {{ age }}
@@ -296,7 +307,7 @@ async function inputATB_INFO_AE(event) {
             <div class="md:w-1/3">
                 <select v-model="filterData.selectedInfectSite.val" @change="updateInfectsite(filterData.selectedInfectSite.val)"
                     @blur="clearValidity('selectedInfectSite')"
-                    :disabled="!filterData.selectedAge.val"
+                    :disabled="!filterData.selectedAge.val || infectsiteData.length === 0"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="infectsite in infectsiteData" :value="infectsite">
                         {{ infectsite }}
@@ -317,7 +328,7 @@ async function inputATB_INFO_AE(event) {
             <div class="md:w-1/3">
                 <select v-model="filterData.selectedDiagnosis.val" @change="updateDiagnosis(filterData.selectedDiagnosis.val)"
                     @blur="clearValidity('selectedDiagnosis')"
-                    :disabled="!filterData.selectedInfectSite.val"
+                    :disabled="!filterData.selectedInfectSite.val || diagnosisData.length === 0"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="diagnosis in diagnosisData" :value="diagnosis">
                         {{ diagnosis }}
@@ -338,7 +349,7 @@ async function inputATB_INFO_AE(event) {
             <div class="md:w-1/3">
                 <select v-model="filterData.selectedServerity.val" @change="updateServerity(filterData.selectedServerity.val)"
                     @blur="clearValidity('selectedServerity')"
-                    :disabled="!filterData.selectedDiagnosis.val"
+                    :disabled="!filterData.selectedDiagnosis.val || serverityData.length === 0"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="serverity in serverityData" :value="serverity">
                         {{ serverity }}
@@ -346,6 +357,27 @@ async function inputATB_INFO_AE(event) {
                 </select>
                 <div v-show="!filterData.selectedServerity.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือก Serverity
+                </div>
+            </div>
+        </div>
+
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedRiskorganism.isValid }">
+            <div class="md:w-1/3">
+                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    Risk Organism
+                </label>
+            </div>
+            <div class="md:w-1/3">
+                <select v-model="filterData.selectedRiskorganism.val" @change="updateRiskorganism(filterData.selectedRiskorganism.val)"
+                    @blur="clearValidity('selectedRiskorganism')"
+                    :disabled="!filterData.selectedServerity.val || riskOrgnaismData.length === 0"
+                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
+                    <option v-for="riskOrganism in riskOrgnaismData" :value="riskOrganism">
+                        {{ riskOrganism }}
+                    </option>
+                </select>
+                <div v-show="!filterData.selectedRiskorganism.isValid" class="text-red-400 text-xl text-sm mt-1">
+                    กรุณาเลือก Risk Organism
                 </div>
             </div>
         </div>

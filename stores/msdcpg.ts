@@ -7,6 +7,7 @@ import { useAgeStore } from '#imports'
 import { useInfectsiteStore } from '#imports'
 import { useDiagnosisStore } from '#imports'
 import { useServerityStore } from '#imports';
+import { useRiskorganismStore } from '#imports';
 import { useHypersensitivityStore } from '#imports'
 import { usePatienttypeStore } from '#imports'
 
@@ -21,6 +22,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     const infectSiteStore = useInfectsiteStore()
     const diagnosisStore = useDiagnosisStore()
     const serverityStore = useServerityStore()
+    const riskOrganismStore = useRiskorganismStore()
     const hypersenstivityStore = useHypersensitivityStore()
     const patientTypeStore = usePatienttypeStore()
     const genericStore = useGenericStore()
@@ -47,6 +49,11 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             required: true
         },
         selectedServerity: {
+            isValid: true,
+            val: '',
+            required: true
+        },
+        selectedRiskorganism: {
             isValid: true,
             val: '',
             required: true
@@ -105,6 +112,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             'selectedInfectSite',
             'selectedDiagnosis',
             'selectedServerity',
+            'selectedRiskorganism',
             'selectedHypersensitivity'
         ]
 
@@ -129,6 +137,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             'selectedInfectSite',
             'selectedDiagnosis',
             'selectedServerity',
+            'selectedRiskorganism',
             'selectedHypersensitivity'
         ]
 
@@ -159,6 +168,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             'selectedPatienttype',
             'selectedDiagnosis',
             'selectedServerity',
+            'selectedRiskorganism',
             'selectedHypersensitivity'
         ]
 
@@ -183,6 +193,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             'selectedClass',
             'selectedPatienttype',
             'selectedServerity',
+            'selectedRiskorganism',
             'selectedHypersensitivity'
         ]
 
@@ -207,6 +218,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             'selectedGeneric',
             'selectedClass',
             'selectedPatienttype',
+            'selectedRiskorganism',
             'selectedHypersensitivity'
         ]
 
@@ -216,7 +228,32 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             prop.val = ''
         }
 
-        // await risk
+        await riskOrganismStore.fetchRiskorganismByGroupAgeInfectedsiteDiagnisisServerity(
+            filter.selectedGroup.val,
+            filter.selectedAge.val,
+            filter.selectedInfectSite.val,
+            filter.selectedDiagnosis.val,
+            filter.selectedServerity.val
+        )
+    }
+
+    async function updateRiskOrganism(evt: any) {
+        filter.selectedRiskorganism.val = evt
+
+        const nullKeys = [
+            'selectedGeneric',
+            'selectedClass',
+            'selectedPatienttype',
+            'selectedHypersensitivity'
+        ]
+
+        for (let i = 0; i < nullKeys.length; i++) {
+            const key = nullKeys[i];
+            const prop = filter[key as keyof typeof filter]
+            prop.val = ''
+        }
+
+
     }
 
     async function updatePatienttype(evt: any) {
@@ -413,6 +450,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         updateInfectsite,
         updateDiagnosis,
         updateServerity,
+        updateRiskOrganism,
         updateHypersensitivity,
         clearValidity,
         resetMsdcpgs,
