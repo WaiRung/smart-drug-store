@@ -12,19 +12,12 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
         }
     })
 
-    async function fetchDiagnosisByGenericGroupAgePatienttypeInfectsite(
-        generic: string,
+    async function fetchDiagnosisByGroupAgeInfectsite(
         group: string,
         age: string,
-        patient_type: string,
         infect_site: string
     ) {
         try {
-            const filterGeneric: any = {
-                'GENERIC': {
-                    $containsi: generic ? generic : ''
-                }
-            }
 
             const filterGroup: any = {
                 'GROUP': {
@@ -38,12 +31,6 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
                 }
             }
 
-            const filterPatienttype: any = {
-                'PATIENT_TYPE': {
-                    $containsi: patient_type ? patient_type : ''
-                }
-            }
-
             const filterInfectsite: any = {
                 'INFECT_SITE': {
                     $containsi: infect_site ? infect_site : ''
@@ -52,9 +39,7 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
 
             const filterObj = {
                 ...filterGroup,
-                ...filterGeneric,
                 ...filterAge,
-                ...filterPatienttype,
                 ...filterInfectsite
             }
 
@@ -94,6 +79,6 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
 
     return {
         getDiagnoses,
-        fetchDiagnosisByGenericGroupAgePatienttypeInfectsite
+        fetchDiagnosisByGroupAgeInfectsite
     }
 })

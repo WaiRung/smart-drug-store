@@ -86,6 +86,133 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         }
     })
 
+    async function updateGroup(evt: any) {
+        filter.selectedGroup.val = evt
+
+        const nullKeys = [
+            'selectedGeneric',
+            'selectedClass',
+            'selectedAge',
+            'selectedPatienttype',
+            'selectedInfectSite',
+            'selectedDiagnosis',
+            'selectedHypersensitivity'
+        ]
+
+        for (let i = 0; i < nullKeys.length; i++) {
+            const key = nullKeys[i];
+            const prop = filter[key as keyof typeof filter]
+            prop.val = ''
+        }
+
+        await ageStore.fetchAgesByGroup(
+            filter.selectedGroup.val
+        )
+    }
+
+    async function updateAge(evt: any) {
+        filter.selectedAge.val = evt
+
+        const nullKeys = [
+            'selectedGeneric',
+            'selectedClass',
+            'selectedPatienttype',
+            'selectedInfectSite',
+            'selectedDiagnosis',
+            'selectedHypersensitivity'
+        ]
+
+        for (let i = 0; i < nullKeys.length; i++) {
+            const key = nullKeys[i];
+            const prop = filter[key as keyof typeof filter]
+            prop.val = ''
+        }
+
+        // await patientTypeStore.fetchPatientypeByGenericGroupAge(
+        //     filter.selectedGeneric.val, 
+        //     filter.selectedGroup.val,
+        //     filter.selectedAge.val
+        // )
+
+        await infectSiteStore.fetchInfectsiteByGroupAge(
+            filter.selectedGroup.val,
+            filter.selectedAge.val,
+        )
+    }
+
+    async function updateInfectsite(evt: any) {
+        filter.selectedInfectSite.val = evt
+
+        const nullKeys = [
+            'selectedGeneric',
+            'selectedClass',
+            'selectedPatienttype',
+            'selectedDiagnosis',
+            'selectedHypersensitivity'
+        ]
+
+        for (let i = 0; i < nullKeys.length; i++) {
+            const key = nullKeys[i];
+            const prop = filter[key as keyof typeof filter]
+            prop.val = ''
+        }
+
+        await diagnosisStore.fetchDiagnosisByGroupAgeInfectsite(
+            filter.selectedGroup.val,
+            filter.selectedAge.val,
+            filter.selectedInfectSite.val
+        )
+    }
+
+    async function updateDiagnosis(evt: any) {
+        filter.selectedDiagnosis.val = evt
+
+        const nullKeys = [
+            'selectedGeneric',
+            'selectedClass',
+            'selectedPatienttype',
+            'selectedHypersensitivity'
+        ]
+
+        for (let i = 0; i < nullKeys.length; i++) {
+            const key = nullKeys[i];
+            const prop = filter[key as keyof typeof filter]
+            prop.val = ''
+        }
+
+        // await hypersenstivityStore.fetcHypersensitivityByGenericGroupAgePatienttypeInfectsiteDiagnosis(
+        //     filter.selectedGeneric.val, 
+        //     filter.selectedGroup.val,
+        //     filter.selectedAge.val,
+        //     filter.selectedPatienttype.val,
+        //     filter.selectedInfectSite.val,
+        //     filter.selectedDiagnosis.val
+        // )
+
+        // await serverity
+    }
+
+    async function updatePatienttype(evt: any) {
+        filter.selectedPatienttype.val = evt
+
+        const nullKeys = [
+            'selectedInfectSite',
+            'selectedDiagnosis',
+            'selectedHypersensitivity'
+        ]
+
+        for (let i = 0; i < nullKeys.length; i++) {
+            const key = nullKeys[i];
+            const prop = filter[key as keyof typeof filter]
+            prop.val = ''
+        }
+
+        await infectSiteStore.fetchInfectsiteByGroupAge(
+            filter.selectedGroup.val,
+            filter.selectedAge.val,
+        )
+    }
+
     async function updateClass(evt: any) {
         filter.selectedClass.val = evt
 
@@ -127,122 +254,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         }
 
         await tabATP_CATALOGStore.fetchClassesByGeneric(filter.selectedGeneric.val)
-    }
-
-    async function updateGroup(evt: any) {
-        filter.selectedGroup.val = evt
-
-        const nullKeys = [
-            'selectedGeneric',
-            'selectedClass',
-            'selectedAge',
-            'selectedPatienttype',
-            'selectedInfectSite',
-            'selectedDiagnosis',
-            'selectedHypersensitivity'
-        ]
-
-        for (let i = 0; i < nullKeys.length; i++) {
-            const key = nullKeys[i];
-            const prop = filter[key as keyof typeof filter]
-            prop.val = ''
-        }
-
-        await ageStore.fetchAgesByGroup(
-            filter.selectedGroup.val
-        )
-    }
-
-    async function updateAge(evt: any) {
-        filter.selectedAge.val = evt
-
-        const nullKeys = [
-            'selectedPatienttype',
-            'selectedInfectSite',
-            'selectedDiagnosis',
-            'selectedHypersensitivity'
-        ]
-
-        for (let i = 0; i < nullKeys.length; i++) {
-            const key = nullKeys[i];
-            const prop = filter[key as keyof typeof filter]
-            prop.val = ''
-        }
-
-        await patientTypeStore.fetchPatientypeByGenericGroupAge(
-            filter.selectedGeneric.val, 
-            filter.selectedGroup.val,
-            filter.selectedAge.val
-        )
-    }
-
-    async function updatePatienttype(evt: any) {
-        filter.selectedPatienttype.val = evt
-
-        const nullKeys = [
-            'selectedInfectSite',
-            'selectedDiagnosis',
-            'selectedHypersensitivity'
-        ]
-
-        for (let i = 0; i < nullKeys.length; i++) {
-            const key = nullKeys[i];
-            const prop = filter[key as keyof typeof filter]
-            prop.val = ''
-        }
-
-        await infectSiteStore.fetchInfecttypeByGenericGroupAgePatienttype(
-            filter.selectedGeneric.val, 
-            filter.selectedGroup.val,
-            filter.selectedAge.val,
-            filter.selectedPatienttype.val
-        )
-    }
-
-    async function updateInfectsite(evt: any) {
-        filter.selectedInfectSite.val = evt
-
-        const nullKeys = [
-            'selectedDiagnosis',
-            'selectedHypersensitivity'
-        ]
-
-        for (let i = 0; i < nullKeys.length; i++) {
-            const key = nullKeys[i];
-            const prop = filter[key as keyof typeof filter]
-            prop.val = ''
-        }
-
-        await diagnosisStore.fetchDiagnosisByGenericGroupAgePatienttypeInfectsite(
-            filter.selectedGeneric.val, 
-            filter.selectedGroup.val,
-            filter.selectedAge.val,
-            filter.selectedPatienttype.val,
-            filter.selectedInfectSite.val
-        )
-    }
-
-    async function updateDiagnosis(evt: any) {
-        filter.selectedDiagnosis.val = evt
-
-        const nullKeys = [
-            'selectedHypersensitivity'
-        ]
-
-        for (let i = 0; i < nullKeys.length; i++) {
-            const key = nullKeys[i];
-            const prop = filter[key as keyof typeof filter]
-            prop.val = ''
-        }
-
-        await hypersenstivityStore.fetcHypersensitivityByGenericGroupAgePatienttypeInfectsiteDiagnosis(
-            filter.selectedGeneric.val, 
-            filter.selectedGroup.val,
-            filter.selectedAge.val,
-            filter.selectedPatienttype.val,
-            filter.selectedInfectSite.val,
-            filter.selectedDiagnosis.val
-        )
     }
 
     async function updateHypersensitivity(evt: any) {

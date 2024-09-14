@@ -12,18 +12,12 @@ export const useInfectsiteStore = defineStore('useInfectsiteStore', () => {
         }
     })
 
-    async function fetchInfecttypeByGenericGroupAgePatienttype(
-        generic: string,
+    async function fetchInfectsiteByGroupAge(
         group: string,
         age: string,
-        patient_type: string
     ) {
         try {
-            const filterGeneric: any = {
-                'GENERIC': {
-                    $containsi: generic ? generic : ''
-                }
-            }
+            
 
             const filterGroup: any = {
                 'GROUP': {
@@ -37,17 +31,9 @@ export const useInfectsiteStore = defineStore('useInfectsiteStore', () => {
                 }
             }
 
-            const filterPatienttype: any = {
-                'PATIENT_TYPE': {
-                    $containsi: patient_type ? patient_type : ''
-                }
-            }
-
             const filterObj = {
                 ...filterGroup,
-                ...filterGeneric,
                 ...filterAge,
-                ...filterPatienttype
             }
 
             const response = await find<any>('msd-cpgs', {
@@ -89,6 +75,6 @@ export const useInfectsiteStore = defineStore('useInfectsiteStore', () => {
 
     return {
         getInfectsites,
-        fetchInfecttypeByGenericGroupAgePatienttype
+        fetchInfectsiteByGroupAge
     }
 })
