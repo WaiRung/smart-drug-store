@@ -11,6 +11,26 @@ export const useGroupStore = defineStore('useGroupStore', () => {
         }
     })
 
+    async function fetchGroups() {
+        try {
+            const response = await find<any>('msd-cpgs', {
+                fields: ['GROUP'],
+                pagination: {
+                    page: 1,
+                    pageSize: 100,
+                },
+                
+            });
+            if (response) {
+                groups.value = response.data;
+                mapGroups()
+            }
+        } catch (error) {
+            const errorStore = useErrorStore()
+            errorStore.setError(error)
+        }
+    }
+
     async function fetchGroupsByGeneric(
         generic: string,
     ) {
@@ -62,5 +82,9 @@ export const useGroupStore = defineStore('useGroupStore', () => {
         }
       }
 
-      return { groups, getGroups, fetchGroupsByGeneric }
+      return {
+        groups,
+        getGroups,
+        fetchGroups,
+        fetchGroupsByGeneric }
 })

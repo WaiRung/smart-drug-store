@@ -23,17 +23,17 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     const hypersenstivityStore = useHypersensitivityStore()
 
     const filter = reactive({
+        selectedGroup: {
+            isValid: true,
+            val: '',
+            required: true
+        },
         selectedClass: {
             isValid: true,
             val: '',
             required: true
         },
         selectedGeneric: {
-            isValid: true,
-            val: '',
-            required: true
-        },
-        selectedGroup: {
             isValid: true,
             val: '',
             required: true
@@ -90,8 +90,8 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         filter.selectedClass.val = evt
 
         const nullKeys = [
-            'selectedGeneric',
             'selectedGroup',
+            'selectedGeneric',
             'selectedAge',
             'selectedPatienttype',
             'selectedInfectSite',
@@ -127,13 +127,14 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         }
 
         await tabATP_CATALOGStore.fetchClassesByGeneric(filter.selectedGeneric.val)
-        await groupStore.fetchGroupsByGeneric(filter.selectedGeneric.val)
     }
 
     async function updateGroup(evt: any) {
         filter.selectedGroup.val = evt
 
         const nullKeys = [
+            'selectedGeneric',
+            'selectedClass',
             'selectedAge',
             'selectedPatienttype',
             'selectedInfectSite',
@@ -147,8 +148,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             prop.val = ''
         }
 
-        await ageStore.fetchAgesByGenericGroup(
-            filter.selectedGeneric.val,
+        await ageStore.fetchAgesByGroup(
             filter.selectedGroup.val
         )
     }
