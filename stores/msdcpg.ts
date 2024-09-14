@@ -1,29 +1,52 @@
 import { defineStore } from 'pinia'
 import { useErrorStore } from './error'
 
-import { useGenericStore } from '#imports'
 import { useTabATP_CATALOGStore } from '#imports'
 import { useGroupStore } from '#imports'
 import { useAgeStore } from '#imports'
-import { usePatienttypeStore } from '#imports'
 import { useInfectsiteStore } from '#imports'
 import { useDiagnosisStore } from '#imports'
-import { useHypersensitivityStore } from './hypersenstivity'
+import { useServerityStore } from '#imports';
+import { useHypersensitivityStore } from '#imports'
+import { usePatienttypeStore } from '#imports'
+
+import { useGenericStore } from '#imports'
 
 export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     const { find, findOne } = useStrapi()
 
-    const genericStore = useGenericStore()
     const tabATP_CATALOGStore = useTabATP_CATALOGStore()
     const groupStore = useGroupStore()
     const ageStore = useAgeStore()
-    const patientTypeStore = usePatienttypeStore()
     const infectSiteStore = useInfectsiteStore()
     const diagnosisStore = useDiagnosisStore()
+    const serverityStore = useServerityStore()
     const hypersenstivityStore = useHypersensitivityStore()
+    const patientTypeStore = usePatienttypeStore()
+    const genericStore = useGenericStore()
 
     const filter = reactive({
         selectedGroup: {
+            isValid: true,
+            val: '',
+            required: true
+        },
+        selectedAge: {
+            isValid: true,
+            val: '',
+            required: true
+        },
+        selectedInfectSite: {
+            isValid: true,
+            val: '',
+            required: true
+        },
+        selectedDiagnosis: {
+            isValid: true,
+            val: '',
+            required: true
+        },
+        selectedServerity: {
             isValid: true,
             val: '',
             required: true
@@ -38,22 +61,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             val: '',
             required: true
         },
-        selectedAge: {
-            isValid: true,
-            val: '',
-            required: true
-        },
         selectedPatienttype: {
-            isValid: true,
-            val: '',
-            required: true
-        },
-        selectedInfectSite: {
-            isValid: true,
-            val: '',
-            required: true
-        },
-        selectedDiagnosis: {
             isValid: true,
             val: '',
             required: true
@@ -96,6 +104,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             'selectedPatienttype',
             'selectedInfectSite',
             'selectedDiagnosis',
+            'selectedServerity',
             'selectedHypersensitivity'
         ]
 
@@ -119,6 +128,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             'selectedPatienttype',
             'selectedInfectSite',
             'selectedDiagnosis',
+            'selectedServerity',
             'selectedHypersensitivity'
         ]
 
@@ -148,6 +158,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             'selectedClass',
             'selectedPatienttype',
             'selectedDiagnosis',
+            'selectedServerity',
             'selectedHypersensitivity'
         ]
 
@@ -171,6 +182,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             'selectedGeneric',
             'selectedClass',
             'selectedPatienttype',
+            'selectedServerity',
             'selectedHypersensitivity'
         ]
 
@@ -180,16 +192,31 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             prop.val = ''
         }
 
-        // await hypersenstivityStore.fetcHypersensitivityByGenericGroupAgePatienttypeInfectsiteDiagnosis(
-        //     filter.selectedGeneric.val, 
-        //     filter.selectedGroup.val,
-        //     filter.selectedAge.val,
-        //     filter.selectedPatienttype.val,
-        //     filter.selectedInfectSite.val,
-        //     filter.selectedDiagnosis.val
-        // )
+        await serverityStore.fetchServerityByGroupAgeInfectedsiteDiagNosis(
+            filter.selectedGroup.val,
+            filter.selectedAge.val,
+            filter.selectedInfectSite.val,
+            filter.selectedDiagnosis.val
+        )
+    }
 
-        // await serverity
+    async function updateServerity(evt: any) {
+        filter.selectedServerity.val = evt
+
+        const nullKeys = [
+            'selectedGeneric',
+            'selectedClass',
+            'selectedPatienttype',
+            'selectedHypersensitivity'
+        ]
+
+        for (let i = 0; i < nullKeys.length; i++) {
+            const key = nullKeys[i];
+            const prop = filter[key as keyof typeof filter]
+            prop.val = ''
+        }
+
+        // await risk
     }
 
     async function updatePatienttype(evt: any) {
@@ -385,6 +412,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         updatePatienttype,
         updateInfectsite,
         updateDiagnosis,
+        updateServerity,
         updateHypersensitivity,
         clearValidity,
         resetMsdcpgs,
