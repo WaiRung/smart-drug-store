@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useRouter } from 'nuxt/app'
 import { useSlideStore } from '@/stores/slide'
 
 function onClickBack() {
@@ -17,8 +18,8 @@ function onClickBack() {
     })
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-right')
-    navigateTo('/')
-
+    const router = useRouter()
+    router.back()
 }
 </script>
 

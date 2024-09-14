@@ -349,11 +349,11 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
 
     async function fetchMsdcpgsByFilter() {
         try {
-            const filterGeneric: any = {
-                'GENERIC': {
-                    $eqi: filter.selectedGeneric.val ? filter.selectedGeneric.val : ''
-                }
-            }
+            // const filterGeneric: any = {
+            //     'GENERIC': {
+            //         $eqi: filter.selectedGeneric.val ? filter.selectedGeneric.val : ''
+            //     }
+            // }
 
             const filterGroup: any = {
                 'GROUP': {
@@ -364,12 +364,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             const filterAge: any = {
                 'AGE': {
                     $containsi: filter.selectedAge.val ? filter.selectedAge.val : ''
-                }
-            }
-
-            const filterPatienttype: any = {
-                'PATIENT_TYPE': {
-                    $containsi: filter.selectedPatienttype.val ? filter.selectedPatienttype.val : ''
                 }
             }
 
@@ -384,13 +378,34 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
                     $containsi: filter.selectedDiagnosis.val ? filter.selectedDiagnosis.val : ''
                 }
             }
+
+            const filterServerity: any = {
+                'SEVERITY': {
+                    $containsi: filter.selectedServerity.val ? filter.selectedServerity.val : ''
+                }
+            }
+
+            const filterriskOrgnaism: any = {
+                'RISK_ORGANISM': {
+                    $containsi: filter.selectedRiskorganism.val ? filter.selectedRiskorganism.val : ''
+                }
+            }
+
+            const filterHypersensitivity: any = {
+                'HYPERSENSITIVITY': {
+                    $containsi: filter.selectedHypersensitivity.val ? filter.selectedHypersensitivity.val : ''
+                }
+            }
+
             const filterObj = {
+                // ...filterGeneric,
                 ...filterGroup,
-                ...filterGeneric,
                 ...filterAge,
-                ...filterPatienttype,
                 ...filterInfectsite,
-                ...filterDiagnosis
+                ...filterDiagnosis,
+                ...filterServerity,
+                ...filterriskOrgnaism,
+                ...filterHypersensitivity,
             }
             const response = await find<any>('msd-cpgs', {
                 fields: [
