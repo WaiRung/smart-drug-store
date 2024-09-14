@@ -382,7 +382,34 @@ async function inputATB_INFO_AE(event) {
             </div>
         </div>
 
-        <div class="flex md:items-center md:row-reverse justify-between md:justify-normal mb-6"
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedHypersensitivity.isValid }">
+            <div class="md:w-1/3">
+                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    Hypersensitivity
+                </label>
+            </div>
+            <div class="md:w-1/3">
+                <select v-model="filterData.selectedHypersensitivity.val" @change="updateHypersensitivity(filterData.selectedHypersensitivity.val)"
+                    @blur="clearValidity('selectedHypersensitivity')"
+                    :disabled="!filterData.selectedRiskorganism.val || (
+                        hypersenstivityData.length === 0 ||
+                        (
+                            hypersenstivityData.length === 1 &&
+                            hypersenstivityData[0] === ''
+                        )
+                    )"
+                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
+                    <option v-for="hypersenstivity in hypersenstivityData" :value="hypersenstivity">
+                        {{ hypersenstivity }}
+                    </option>
+                </select>
+                <div v-show="!filterData.selectedHypersensitivity.isValid" class="text-red-400 text-xl text-sm mt-1">
+                    กรุณาเลือก Hypersensitivity
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="flex md:items-center md:row-reverse justify-between md:justify-normal mb-6"
             :class="{ 'is-invalid': !filterData.selectedClass.isValid }">
             <div class="w-10/12 md:w-6/12 flex items-center  ">
                 <div class="md:w-4/12"></div>
@@ -419,9 +446,9 @@ async function inputATB_INFO_AE(event) {
                 </div>
             </div>
 
-        </div>
+        </div> -->
 
-        <div class="flex md:items-center md:row-reverse justify-between md:justify-normal mb-6"
+        <!-- <div class="flex md:items-center md:row-reverse justify-between md:justify-normal mb-6"
             :class="{ 'is-invalid': !filterData.selectedGeneric.isValid }">
             <div class="w-10/12 md:w-6/12 flex items-center  ">
                 <div class="md:w-4/12"></div>
@@ -456,9 +483,9 @@ async function inputATB_INFO_AE(event) {
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedPatienttype.isValid }">
+        <!-- <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedPatienttype.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
                     Patient Type
@@ -477,31 +504,7 @@ async function inputATB_INFO_AE(event) {
                     กรุณาเลือก Patient Type
                 </div>
             </div>
-        </div>
-
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedHypersensitivity.isValid }">
-            <div class="md:w-1/3">
-                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    Hypersensitivity
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <select v-model="filterData.selectedHypersensitivity.val" @change="updateHypersensitivity(filterData.selectedHypersensitivity.val)"
-                    @blur="clearValidity('selectedHypersensitivity')"
-                    :disabled="!filterData.selectedDiagnosis.val || (
-                        hypersenstivityData.length === 1 &&
-                        hypersenstivityData[0] === ''
-                    )"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="hypersenstivity in hypersenstivityData" :value="hypersenstivity">
-                        {{ hypersenstivity }}
-                    </option>
-                </select>
-                <div v-show="!filterData.selectedHypersensitivity.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือก Hypersensitivity
-                </div>
-            </div>
-        </div>
+        </div> -->
 
         <div class="flex justify-center mt-12">
             <!-- <input type="file" @change="inputTAB" multiple> -->
@@ -511,7 +514,7 @@ async function inputATB_INFO_AE(event) {
              <!-- <input type="file" @change="inputATB_INFO_DDI" multiple> -->
               <!-- <input type="file" @change="inputATB_INFO_AE" multiple> -->
             <LandingButton
-                :disabled="!filterData.selectedGeneric.val"
+                :disabled="!filterData.selectedDiagnosis.val"
                 @click="onClickNext" type="button" size="lg">
                 <p class="text-xl">Search</p>
             </LandingButton>
