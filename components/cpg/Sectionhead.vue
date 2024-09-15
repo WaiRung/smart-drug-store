@@ -9,8 +9,8 @@ import { useMsdcpgStore } from '~/stores/msdcpg'
 
 const msdcpgStore = useMsdcpgStore()
 
-const filterData = computed(() => {
-    const filter = msdcpgStore.getFilter()
+const tableFilter = computed(() => {
+    const filter = msdcpgStore.getTablefilter()
     return filter
 })
 
@@ -36,10 +36,28 @@ const dosecheckData = computed(() => {
 
 const dosemaxData = computed(() => {
     const doseMaxes = msdcpgStore.getMsdCpgTableFilter('DOSE_M_CHECK')
-    console.log(doseMaxes[0].length);
-    
     return doseMaxes
 })
+
+async function updateGeneric(evt) {
+    msdcpgStore.updateGeneric(evt)
+}
+
+async function updateRX(evt) {
+    msdcpgStore.updateRX(evt)
+}
+
+async function updateDosetype(evt) {
+    msdcpgStore.updateDosetype(evt)
+}
+
+async function updateDosagecheck(evt) {
+    msdcpgStore.updateDosagecheck(evt)
+}
+
+async function updateDosagemax(evt) {
+    msdcpgStore.updateDosagemax(evt)
+}
 </script>
 
 <template>
@@ -48,6 +66,8 @@ const dosemaxData = computed(() => {
             <div
                 :class="['w-full', 'md:w-1/5', 'sm:w-1/2', 'mt-8', 'px-3', 'flex', 'flex-direction-row', align === 'center' && 'text-center']">
                 <select
+                    v-model="tableFilter.selectedGeneric.val"
+                    @change="updateGeneric"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option value="">Select Generic</option>
                     <option v-for="generic in genericData" :value="generic">
@@ -58,6 +78,8 @@ const dosemaxData = computed(() => {
             </div>
             <div :class="['w-full', 'md:w-1/5', 'sm:w-1/2', 'mt-8', 'px-3', align === 'center' && 'text-center']">
                 <select
+                    v-model="tableFilter.selectedRxoption.val"
+                    @change="updateRX"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option value="">Select Rx Option</option>
                     <option v-for="rxoption in rxoptionData" :value="rxoption">
@@ -67,6 +89,8 @@ const dosemaxData = computed(() => {
             </div>
             <div :class="['w-full', 'md:w-1/5', 'sm:w-1/2', 'mt-8', 'px-3', align === 'center' && 'text-center']">
                 <select
+                    v-model="tableFilter.selectedDosagetype.val"
+                    @change="updateDosetype"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option value="">Select Dose Type</option>
                     <option v-for="dosetype in dosetypeData" :value="dosetype">
@@ -76,6 +100,8 @@ const dosemaxData = computed(() => {
             </div>
             <div :class="['w-full', 'md:w-1/5', 'sm:w-1/2', 'mt-8', 'px-3', align === 'center' && 'text-center']">
                 <select
+                    v-model="tableFilter.selectedDosagecheck.val"
+                    @change="updateDosagecheck"
                     :disabled="
                         dosetypeData.length === 0 ||
                         (
@@ -95,6 +121,8 @@ const dosemaxData = computed(() => {
             </div>
             <div :class="['w-full', 'md:w-1/5', 'sm:w-1/2', 'mt-8', 'px-3', align === 'center' && 'text-center']">
                 <select
+                    v-model="tableFilter.selectedDosagemax.val"
+                    @change="updateDosagemax"
                     :disabled="
                         dosemaxData.length === 0 ||
                         (
