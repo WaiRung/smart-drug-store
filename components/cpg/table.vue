@@ -17,8 +17,8 @@ const msdcpgData = computed(() => {
     const rawmsdcpgs = msdcpgStore.getMsdcpgs()
     const msdcpgs = rawmsdcpgs.map(msdcpg => ({
       ...msdcpg,
-      DOSE_CHECK: `${msdcpg.attributes.DOSE_L}${msdcpg.attributes.DOSE_U ? '-' + msdcpg.attributes.DOSE_U : ''} ${msdcpg.attributes.DOSE_UNIT}${msdcpg.attributes.DOSE_LBL} ${msdcpg.attributes.DRUG_RM}`,
-      DOSE_M_CHECK: `${msdcpg.attributes.DOSE_M} ${msdcpg.attributes.DOSE_M_UNIT}${msdcpg.attributes.DOSE_M_LBL}`
+      // DOSE_CHECK: `${msdcpg.attributes.DOSE_L}${msdcpg.attributes.DOSE_U ? '-' + msdcpg.attributes.DOSE_U : ''} ${msdcpg.attributes.DOSE_UNIT}${msdcpg.attributes.DOSE_LBL} ${msdcpg.attributes.DRUG_RM}`,
+      // DOSE_M_CHECK: `${msdcpg.attributes.DOSE_M} ${msdcpg.attributes.DOSE_M_UNIT}${msdcpg.attributes.DOSE_M_LBL}`
     }))
     return msdcpgs
 })
@@ -53,20 +53,20 @@ function closeModal() {
     <fwb-table hoverable>
       <fwb-table-head>
         <fwb-table-head-cell>
-          <p class="text-base">Serverity</p>
+          <p class="text-lg">Serverity</p>
         </fwb-table-head-cell>
         <fwb-table-head-cell>
-          <p class="text-base">
+          <p class="text-lg">
             Risk Organism
           </p>
         </fwb-table-head-cell>
         <fwb-table-head-cell>
-          <p class="text-base">
+          <p class="text-lg">
             Dose check
           </p>
           </fwb-table-head-cell>
         <fwb-table-head-cell>
-          <p class="text-base">
+          <p class="text-lg">
             Dose M check
           </p>
         </fwb-table-head-cell>
@@ -81,23 +81,23 @@ function closeModal() {
           @click="openModal(msdcpg)"
           class="hover:cursor-pointer">
           <fwb-table-cell>
-            <p class="text-base">
+            <p class="text-lg">
               {{ msdcpg.attributes.SEVERITY }}
             </p>
           </fwb-table-cell>
           <fwb-table-cell>
-            <p class="text-base">
+            <p class="text-lg">
               {{ msdcpg.attributes.RISK_ORGANISM }}
             </p>
           </fwb-table-cell>
           <fwb-table-cell>
-            <p class="text-base">
-              {{ msdcpg.DOSE_CHECK }}
+            <p class="text-lg">
+              {{ msdcpg.attributes.DOSE_CHECK }}
             </p>
           </fwb-table-cell>
           <fwb-table-cell>
-            <p class="text-base">
-              {{ msdcpg.DOSE_M_CHECK }}
+            <p class="text-lg">
+              {{ msdcpg.attributes.DOSE_M_CHECK }}
             </p>
           </fwb-table-cell>
           <!-- <fwb-table-cell>

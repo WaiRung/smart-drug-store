@@ -95,6 +95,13 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         }
     })
 
+    const getMsdCpgTableFilter = computed(() => {
+        return (property: string) => {
+            const uniqueProperty = [...new Set(msdcpgs.value.map((item: { attributes: { [x: string]: any } }) => item.attributes[property]))];
+            return uniqueProperty
+        }
+    })
+
     const getMsdcpg = computed(() => {
         return () => {
             return msdcpg
@@ -409,6 +416,13 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             }
             const response = await find<any>('msd-cpgs', {
                 fields: [
+                    'GENERIC',
+                    'RX_OPTION',
+                    'DOSE_TYPE',
+
+                    // 'DOSE_CHECK',
+                    // 'DOSE_M_CHECK',
+
                     'SEVERITY',
                     'RISK_ORGANISM',
                     'DOSE_L',
@@ -432,8 +446,18 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
                 filters: filterObj,
             });
             if (response) {
-                msdcpgs.value = response.data
                 
+                const calculatedMmsdcpgs = response.data.map(msdcpg => ({
+                    id: msdcpg.id,
+                    attributes: {
+                        ...msdcpg.attributes,
+                        DOSE_CHECK: `${msdcpg.attributes.DOSE_L}${msdcpg.attributes.DOSE_U ? '-' + msdcpg.attributes.DOSE_U : ''} ${msdcpg.attributes.DOSE_UNIT}${msdcpg.attributes.DOSE_LBL} ${msdcpg.attributes.DRUG_RM}`,
+                        DOSE_M_CHECK: `${msdcpg.attributes.DOSE_M} ${msdcpg.attributes.DOSE_M_UNIT}${msdcpg.attributes.DOSE_M_LBL}`
+                    },
+
+                }))
+                msdcpgs.value = calculatedMmsdcpgs
+
             }
         } catch (error) {
             const errorStore = useErrorStore()
@@ -446,7 +470,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             if (foundMsdcpg) {
                 Object.assign(msdcpg, foundMsdcpg)
             }
-            
+
         } catch (error) {
             const errorStore = useErrorStore()
             errorStore.setError(error)
@@ -456,6 +480,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     return {
         getFilter,
         getMsdcpgs,
+        getMsdCpgTableFilter,
         getMsdcpg,
         updateClass,
         updateGeneric,
