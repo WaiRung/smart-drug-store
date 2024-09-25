@@ -78,5 +78,5 @@ Check out the [deployment documentation](https://nuxt.com/docs/getting-started/d
 
 Check out the [app_template](https://nuxtship.netlify.app) for more information.
 
-Check out the [drug_store](https://smartdrugstore.info/pdc/index.php) for more business infomation.
+Check out the [drug_store](https://onedrive.live.com/?authkey=%21AJev6q6qnu%2Dq6Rk&id=20C5AE3DA8972F07%2119195&cid=20C5AE3DA8972F07) for more business infomation.
 
