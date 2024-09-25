@@ -55,10 +55,10 @@ function showModal() {
     <template #footer>
       <div class="flex justify-between">
         <fwb-button @click="closeModal" color="alternative">
-          Decline
+          Cancel
         </fwb-button>
         <fwb-button @click="closeModal" color="green">
-          I accept
+          Dosage Calculation
         </fwb-button>
       </div>
     </template>

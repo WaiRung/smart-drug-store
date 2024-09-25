@@ -31,12 +31,7 @@ function onClickBack() {
             <div>
                 <CpgTable />
             </div>
-            <div>
-                <LandingButton type="button" @click="onClickBack" size="lg">
-                    <p class="text-xl">back</p>
-                </LandingButton>
-            </div>
-
+            <CpgButtons />
         </div>
     </LandingContainer>
 </template>

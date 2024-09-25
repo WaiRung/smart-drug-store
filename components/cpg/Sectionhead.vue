@@ -61,7 +61,7 @@ async function updateDosagemax(evt) {
 </script>
 
 <template>
-    <div class="mx-20">
+    <div class="lg:mx-20">
         <div class="w-full flex flex-wrap">
             <div
                 :class="['w-full', 'md:w-1/5', 'sm:w-1/2', 'mt-8', 'px-3', 'flex', 'flex-direction-row', align === 'center' && 'text-center']">

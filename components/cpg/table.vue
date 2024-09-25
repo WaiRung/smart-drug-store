@@ -20,6 +20,8 @@ const msdcpgData = computed(() => {
       // DOSE_CHECK: `${msdcpg.attributes.DOSE_L}${msdcpg.attributes.DOSE_U ? '-' + msdcpg.attributes.DOSE_U : ''} ${msdcpg.attributes.DOSE_UNIT}${msdcpg.attributes.DOSE_LBL} ${msdcpg.attributes.DRUG_RM}`,
       // DOSE_M_CHECK: `${msdcpg.attributes.DOSE_M} ${msdcpg.attributes.DOSE_M_UNIT}${msdcpg.attributes.DOSE_M_LBL}`
     }))
+    console.log(msdcpgs);
+    
     return msdcpgs
 })
 
@@ -53,23 +55,26 @@ function closeModal() {
     <fwb-table hoverable>
       <fwb-table-head>
         <fwb-table-head-cell>
-          <p class="text-lg">Serverity</p>
-        </fwb-table-head-cell>
-        <fwb-table-head-cell>
           <p class="text-lg">
-            Risk Organism
+            Generic
           </p>
         </fwb-table-head-cell>
         <fwb-table-head-cell>
           <p class="text-lg">
-            Dose check
+            Rx Option
+          </p>
+        </fwb-table-head-cell>
+        <fwb-table-head-cell>
+          <p class="text-lg">
+            Dose Type
           </p>
           </fwb-table-head-cell>
-        <fwb-table-head-cell>
+          <fwb-table-head-cell>
           <p class="text-lg">
-            Dose M check
+            Dose Check
           </p>
-        </fwb-table-head-cell>
+          </fwb-table-head-cell>
+
         <!-- <fwb-table-head-cell>
           <span class="sr-only">Edit</span>
         </fwb-table-head-cell> -->
@@ -82,12 +87,17 @@ function closeModal() {
           class="hover:cursor-pointer">
           <fwb-table-cell>
             <p class="text-lg">
-              {{ msdcpg.attributes.SEVERITY }}
+              {{ msdcpg.attributes.GENERIC }}
             </p>
           </fwb-table-cell>
           <fwb-table-cell>
             <p class="text-lg">
-              {{ msdcpg.attributes.RISK_ORGANISM }}
+              {{ msdcpg.attributes.RX_OPTION }}
+            </p>
+          </fwb-table-cell>
+          <fwb-table-cell>
+            <p class="text-lg">
+              {{ msdcpg.attributes.DOSE_TYPE }}
             </p>
           </fwb-table-cell>
           <fwb-table-cell>
@@ -95,16 +105,12 @@ function closeModal() {
               {{ msdcpg.attributes.DOSE_CHECK }}
             </p>
           </fwb-table-cell>
-          <fwb-table-cell>
-            <p class="text-lg">
-              {{ msdcpg.attributes.DOSE_M_CHECK }}
-            </p>
-          </fwb-table-cell>
           <!-- <fwb-table-cell>
             <fwb-a href="#">
               Edit
             </fwb-a>
           </fwb-table-cell> -->
+
         </fwb-table-row>
       </fwb-table-body>
     </fwb-table>
