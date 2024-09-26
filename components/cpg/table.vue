@@ -25,7 +25,24 @@ const msdcpgData = computed(() => {
     return msdcpgs
 })
 
+const msdcpgDetail = computed(() => {
+  const rawmsdcpg = msdcpgStore.getMsdcpg()
+  const msdcpg = {
+    ...rawmsdcpg,
+    // DOSE_CHECK: `${msdcpg.attributes.DOSE_L}${msdcpg.attributes.DOSE_U ? '-' + msdcpg.attributes.DOSE_U : ''} ${msdcpg.attributes.DOSE_UNIT}${msdcpg.attributes.DOSE_LBL} ${msdcpg.attributes.DRUG_RM}`,
+    // DOSE_M_CHECK: `${msdcpg.attributes.DOSE_M} ${msdcpg.attributes.DOSE_M_UNIT}${msdcpg.attributes.DOSE_M_LBL}`
+  }
+  return msdcpg
+})
+
 const isModalOpen = ref(false)
+
+function isMsdcpgActive(inputId, rowId) {
+  if (inputId === rowId) {
+    return true
+  }
+  return false
+}
 
 function openModal(msdcpg) {
   msdcpgStore.fetchMsdcpgById(msdcpg.id)  
@@ -35,23 +52,23 @@ function openModal(msdcpg) {
 function closeModal() {
   isModalOpen.value = false
   const slideStore = useSlideStore()
-    slideStore.setDirection('slide-left')
-    // console.log('onClickNext', slideStore.getDirection);
-    navigateTo('/time')
+  slideStore.setDirection('slide-left')
+  msdcpgStore.clearFoundmsdcpg()  
+  // navigateTo('/time')
 }
 </script>
 
 <template>
   <!-- <CpgModal btn-text="Search" :class-data="{}" v-if="true" /> -->
-   <LandingModal
+   <CpgModal
     :fixed="true"
     :show="isModalOpen"
     title="Antibiotic Result"
-    @close="closeModal"
-    @close-cancel="isModalOpen = false">
+    @close="isModalOpen = false"
+    @close-cancel="closeModal">
    
     <CpgDetails #body />
-   </LandingModal>
+   </CpgModal>
     <fwb-table hoverable>
       <fwb-table-head>
         <fwb-table-head-cell>
@@ -84,10 +101,11 @@ function closeModal() {
           v-for="msdcpg in msdcpgData"
           :key="msdcpg.id"
           @click="openModal(msdcpg)"
+          :class="{ 'selected-row': isMsdcpgActive(msdcpgDetail.id, msdcpg.id) }"
           class="hover:cursor-pointer">
           <fwb-table-cell>
             <p class="text-lg">
-              {{ msdcpg.attributes.GENERIC }}
+              {{ msdcpg.attributes.GENERIC }} {{ isMsdcpgActive(msdcpgDetail.id, msdcpg.id) }}
             </p>
           </fwb-table-cell>
           <fwb-table-cell>
@@ -115,3 +133,9 @@ function closeModal() {
       </fwb-table-body>
     </fwb-table>
   </template>
+
+<style scoped>
+.selected-row {
+  background-color: rgb(188, 240, 218);
+}
+</style>

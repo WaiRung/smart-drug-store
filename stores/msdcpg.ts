@@ -574,6 +574,18 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             errorStore.setError(error)
         }
     }
+    function clearFoundmsdcpg() {
+        try {
+            Object.assign(msdcpg, {
+                attributes: null,
+                id: null
+            })
+            
+        } catch (error) {
+            const errorStore = useErrorStore()
+            errorStore.setError(error)
+        }
+    }
 
     return {
         getFilter,
@@ -599,5 +611,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         resetMsdcpgs,
         fetchMsdcpgsByFilter,
         fetchMsdcpgById,
+        clearFoundmsdcpg,
     }
 })

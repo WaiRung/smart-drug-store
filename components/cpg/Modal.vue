@@ -1,66 +1,71 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { FwbButton, FwbModal } from 'flowbite-vue'
-import { useDrugStore } from '@/stores/drug'
 
 const props = defineProps({
-  btnText: {
+  show: Boolean,
+  title: {
     type: String,
-    default: ''
+    default: ""
   },
-  classData: {
-    type: Number,
-    default: ''
+  fixed: {
+    type: Boolean,
+    default: false
   },
-})
+});
 
-const isShowModal = ref(false)
+const emit = defineEmits(['close', 'close-cancel']);
 
-const drugStore = useDrugStore()
-
-const drugData = computed(() => {
-    const drug = drugStore.getDrugs(props.classData)
-    return drug
-})
 
 function closeModal() {
-  
-  isShowModal.value = false
+  // if (props.fixed) {
+  //   return;
+  // }
+  console.log('closeModal');
+  emit('close');
 }
-function showModal() {
 
-  isShowModal.value = true
+function closeModalCancel() {
+  // if (props.fixed) {
+  //   return;
+  // }
+  console.log('closeModalCancel');
+  
+  emit('close-cancel');
 }
+
 </script>
 
 <template>
-  <fwb-button size="xs" color="light" @click.prevent="showModal" pill>
-    <div class="flex">
-      <Icon class="text-green-500" name="f7:question" />
-    </div>
-
-  </fwb-button>
 
   <fwb-modal
-    v-if="isShowModal"
-    @close="closeModal">
+    v-if="show"
+    not-escapable
+    >
     <template #header>
-      <div class="font-bold flex items-center text-2xl">
-        {{ btnText }}
-      </div>
+      <slot name="header">
+        <div class="font-bold flex items-center text-2xl">
+          {{ title }}
+        </div>
+      </slot>
     </template>
     <template #body>
-      <CpgDetails :drug-data="drugData" />
+      <slot></slot>
     </template>
-    <template #footer>
+    <template #footer v-if="fixed">
       <div class="flex justify-between">
-        <fwb-button @click="closeModal" color="alternative">
-          Cancel
+        <fwb-button @click="closeModal" type="button" color="green">
+          เลือก
         </fwb-button>
-        <fwb-button @click="closeModal" color="green">
-          Dosage Calculation
+        <fwb-button @click="closeModalCancel" type="button" color="alternative">
+          ยกเลิก
         </fwb-button>
       </div>
     </template>
   </fwb-modal>
 </template>
+
+<style scoped>
+button.text-gray-400 {
+  display: hidden !important;
+}
+</style>
