@@ -531,11 +531,15 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
                     'DOSE_M',
                     'DOSE_M_UNIT',
                     'DOSE_M_LBL',
+                    'ROUTE',
+                    'FREQ',
+                    'DURATION',
+
+                    'RM_RX',
+                    'RM_DURATION',
 
                     'INDICATION_LABEL',
                     'ANTIBIOTIC_LABEL',
-                    'RM_RX',
-                    'RM_DURATION'
                 ],
                 pagination: {
                     page: 1,
@@ -586,6 +590,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             errorStore.setError(error)
         }
     }
+    
 
     return {
         getFilter,

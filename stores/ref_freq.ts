@@ -14,11 +14,23 @@ export const useREF_FREQStore = defineStore('useREF_FREQStore', () => {
         }
     })
 
-    async function fetchfrequencies() {
+    async function fetchfrequencies(msdcpgFREQ: string = '') {
         try {
+            if (msdcpgFREQ.startsWith('divided ')) {
+                msdcpgFREQ = msdcpgFREQ.replace('divided ', '')
+            }
+            const filterFREQ: any = {
+                'FREQ': {
+                    $eq: msdcpgFREQ
+                }
+            }
+            const filterObj = {
+                ...filterFREQ,
+               
+            }
             const response = await find<any>('ref-freqs', {
                 fields: ['FREQ', 'FREQ_LBL', 'Time'],
-                filters: {},
+                filters: filterObj,
             },);
             if (response) {
                 const rawFrequencies = response.data

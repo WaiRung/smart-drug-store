@@ -105,7 +105,7 @@ function closeModal() {
           class="hover:cursor-pointer">
           <fwb-table-cell>
             <p class="text-lg">
-              {{ msdcpg.attributes.GENERIC }} {{ isMsdcpgActive(msdcpgDetail.id, msdcpg.id) }}
+              {{ msdcpg.attributes.GENERIC }}
             </p>
           </fwb-table-cell>
           <fwb-table-cell>

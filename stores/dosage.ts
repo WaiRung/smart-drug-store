@@ -85,9 +85,10 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         }
     }
 
-    function onChangeFrequency(filterObj: any) {
+    function onChangeFrequency(frequencyTime: string) {
+        console.log(frequencyTime);
         
-        filter.selectedFrequency.val = filterObj.attributes.Time
+        // filter.selectedFrequency.val = filterObj.attributes.Time
     }
 
     function clearValidity(fieldName: string) {
