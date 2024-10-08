@@ -57,9 +57,11 @@ function clearValidity(fieldName) {
 
 function onClickNext() {
     // isDrugmodalOpen.value = true
-    tabATP_CATALOGStore.fetchATPSByGenericClass()
+    tabATP_CATALOGStore.fetchATPSByGenericClass(
+        msdcpgDetail.value.attributes.GENERIC
+    )
     const slideStore = useSlideStore()
-    slideStore.setDirection('slide-left')
+    slideStore.setDirection('slide-right')
     // console.log('onClickNext', slideStore.getDirection);
     navigateTo('/dosage')
 }

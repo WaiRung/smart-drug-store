@@ -22,6 +22,7 @@ const isModalOpen = ref(false)
 
 function openModal(msdcpg) {
     // msdcpgStore.fetchMsdcpgById(msdcpg.id)
+    TabATPStore.getAtpByGeneric(msdcpg.attributes.GENERIC)
     isModalOpen.value = true
 }
 

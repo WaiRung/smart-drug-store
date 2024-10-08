@@ -8,6 +8,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
 
     const filteredClasses: any = ref([])
     const ATPs: any = ref([])
+    const ATP: any = ref({})
 
     const getATPs = computed(() => {
         return () => {
@@ -18,6 +19,14 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
     const getClassess = computed(() => {
         return () => {
             return filteredClasses.value
+        }
+    })
+
+    const getAtpByGeneric = computed(() => {
+        return (generic: string = '') => {
+            const foundTabATP = ATPs.value.find((atp: { attributes: { GENERIC: string; }; }) => atp.attributes.GENERIC === generic)
+            ATP.value = foundTabATP
+            return foundTabATP
         }
     })
 
@@ -106,16 +115,16 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
 
     async function fetchATPSByGenericClass(generic: string = '', className: string = '') {
         try {
-            const filterGeneric: any = {
+            const filterGeneric: any = generic ? {
                 'GENERIC': {
-                    $containsi: generic ? generic : ''
+                    $eqi: generic ? generic : ''
                 }
-            }
-            const filterClassName: any = {
+            } : {}
+            const filterClassName: any = className ? {
                 'CLASS': {
-                    $containsi: className ? className : ''
+                    $eqi: className
                 }
-            }
+            } : {}
             const filterObj = {
                 $or: [
                     filterGeneric,
@@ -154,6 +163,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
     return {
         getClassess,
         getATPs,
+        getAtpByGeneric,
         fetchClassesByGeneric,
         fetchATPSByGenericClass,
         getFilteredClasses

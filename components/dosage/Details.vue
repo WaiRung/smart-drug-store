@@ -7,11 +7,14 @@ const dosageStore = useDosageStore()
 
 const getTotalDailyDosage = computed(() => {
     const totalDailyDosage = dosageStore.getTotalDailyDosage()
+    console.log('getTotalDailyDosage : ', getTotalDailyDosage);
+    
     return totalDailyDosage
 })
 
 </script>
 
 <template>
-    <p>{{ getTotalDailyDosage }}</p>
+    <p v-if="getTotalDailyDosage.lowerLimit">{{ getTotalDailyDosage.lowerLimit }} - {{  getTotalDailyDosage.upperLimit }} mg, g or MU</p>
+    <p v-else></p>
 </template>
