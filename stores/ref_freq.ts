@@ -19,6 +19,15 @@ export const useREF_FREQStore = defineStore('useREF_FREQStore', () => {
             if (msdcpgFREQ.startsWith('divided ')) {
                 msdcpgFREQ = msdcpgFREQ.replace('divided ', '')
             }
+            if (msdcpgFREQ.endsWith(' after loading dose')) {
+                msdcpgFREQ = msdcpgFREQ.replace(' after loading dose', '')
+            }
+            if (msdcpgFREQ.endsWith(' a day')) {
+                msdcpgFREQ = msdcpgFREQ.replace(' a day', '')
+            }
+            if (msdcpgFREQ.endsWith(' a day after loading dose')) {
+                msdcpgFREQ = msdcpgFREQ.replace(' a day after loading dose', '')
+            }
             const filterFREQ: any = {
                 'FREQ': {
                     $eq: msdcpgFREQ
