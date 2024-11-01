@@ -38,13 +38,15 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         const weightNum = Number(filter.selectedWeight.val)
         const timeNum = Number(filter.selectedFrequency.val)
 
+        console.log('getTotalDailyDosage : ' + `${DOSE_LBL}`);
+
         if (DOSE_LBL === '/kg/day') {
             const lowerLimit = msdcpg.attributes.DOSE_L * weightNum
             let upperLimit = msdcpg.attributes.DOSE_U * weightNum
             if (maxdoseNum && upperLimit < maxdoseNum) {
                 upperLimit = maxdoseNum
             }
-            console.log(`${lowerLimit} - ${upperLimit}`);
+            // console.log('getTotalDailyDosage : ' + `${lowerLimit} - ${upperLimit}`);
             return {
                 lowerLimit,
                 upperLimit
