@@ -112,12 +112,47 @@ export const useDosageStore = defineStore('useDosageStore', () => {
             }
         } else {
             const DOSE_CHECK = `${msdcpg.attributes.DOSE_L} ${msdcpg.attributes.DOSE_UNIT}${msdcpg.attributes.DOSE_LBL}`
-            return DOSE_CHECK
+            return {
+                lowerLimit: null,
+                upperLimit: null,
+                DOSE_CHECK
+            }
         }
     }
 
     function mlPerDose() {
         const msdcpg = msdcpgStore.getMsdcpg()
+        const tabATP = tabATP_CATALOGStore.getAtpByGeneric(msdcpg.attributes.GENERIC)
+
+        const DOSE_LBL = msdcpg.attributes.DOSE_LBL
+        const DOSE_M = msdcpg.attributes.DOSE_M
+        const STR_CONTENT = tabATP.attributes.STR_CONTENT
+
+        const maxdoseNum = DOSE_M ?  Number(DOSE_M) : null
+        const weightNum = Number(filter.selectedWeight.val)
+        const timeNum = Number(filter.selectedFrequency.val)
+
+        console.log('mlPerDose : ', tabATP);
+        if (STR_CONTENT === 'mL') {
+            const amountPerDoseLowerLimit = amountPerDose().lowerLimit
+            const amountPerDoseUpperLimit = amountPerDose().upperLimit
+
+            const strTimestrV = Number(msdcpg.attributes.STR) * Number(msdcpg.attributes.STR_V)
+
+            const lowerLimit = amountPerDoseLowerLimit!/strTimestrV
+            const upperLimit = amountPerDoseUpperLimit!/strTimestrV
+            return {
+                lowerLimit,
+                upperLimit
+            }
+        } else {
+            const mlPerDose = `-`
+            return {
+                lowerLimit: null,
+                upperLimit: null,
+                mlPerDose
+            }
+        }
     }
 
     function onChangeWeight(evt: any) {
@@ -147,6 +182,7 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         onChangeFrequency,
         clearValidity,
         getTotalDailyDosage,
-        amountPerDose
+        amountPerDose,
+        mlPerDose
     }
 })

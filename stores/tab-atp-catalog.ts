@@ -24,8 +24,18 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
 
     const getAtpByGeneric = computed(() => {
         return (generic: string = '') => {
-            const foundTabATP = ATPs.value.find((atp: { attributes: { GENERIC: string; }; }) => atp.attributes.GENERIC === generic)
-            ATP.value = foundTabATP
+            let foundTabATP = null
+            
+            if (ATPs.value instanceof  Array) {
+                foundTabATP = ATPs.value.find((atp: { attributes: { GENERIC: string; }; }) => atp.attributes.GENERIC === generic.toUpperCase())
+                ATP.value = foundTabATP
+            } else if (
+                typeof ATPs.value === 'object' &&
+                !Array.isArray(ATPs.value) &&
+                ATPs.value !== null
+            ) {
+                foundTabATP = ATPs.value
+            }
             return foundTabATP
         }
     })
