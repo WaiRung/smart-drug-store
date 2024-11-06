@@ -17,7 +17,7 @@ const getAmountPerdose = computed(() => {
     return totalDailyDosage
 })
 
-const mlPerDose = computed(() => {
+const getmlPerDose = computed(() => {
     const mlPerDose = dosageStore.mlPerDose()
     return mlPerDose
 })
@@ -59,20 +59,19 @@ const mlPerDose = computed(() => {
     </div>
 
     <div class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center">
-        {{ mlPerDose }}
 
         <p
             class="text-white text-3xl md:text-2xl"
             >ml per dose :
             <span 
-                v-if="mlPerDose.lowerLimit"
+                v-if="getmlPerDose.lowerLimit"
                 class="text-lime-300">
-                {{ mlPerDose.lowerLimit }} - {{  mlPerDose.upperLimit }} mg, g or MU
+                {{ getmlPerDose.lowerLimit }} - {{  getmlPerDose.upperLimit }} mg, g or MU
             </span>
             <span v-else>
                 ml per dose :
                     <span class="text-lime-300">
-                        {{ mlPerDose.mlPerDose }}
+                        {{ getmlPerDose.mlPerDose }}
                     </span>
             </span>
         </p>
