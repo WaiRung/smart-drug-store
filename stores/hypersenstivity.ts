@@ -12,20 +12,15 @@ export const useHypersensitivityStore = defineStore('useHypersensitivityStore', 
         }
     })
 
-    async function fetcHypersensitivityByGenericGroupAgePatienttypeInfectsiteDiagnosis(
-        generic: string,
+    async function fetcHypersensitivityByGroupAgeInfectsiteDiagnosisServerityRiskorganism(
         group: string,
         age: string,
-        patient_type: string,
         infect_site: string,
-        diagnosis: string
+        diagnosis: string,
+        serverity: string,
+        risk_organism: string
     ) {
         try {
-            const filterGeneric: any = {
-                'GENERIC': {
-                    $containsi: generic ? generic : ''
-                }
-            }
 
             const filterGroup: any = {
                 'GROUP': {
@@ -36,12 +31,6 @@ export const useHypersensitivityStore = defineStore('useHypersensitivityStore', 
             const filterAge: any = {
                 'AGE': {
                     $containsi: age ? age : ''
-                }
-            }
-
-            const filterPatienttype: any = {
-                'PATIENT_TYPE': {
-                    $containsi: patient_type ? patient_type : ''
                 }
             }
 
@@ -57,13 +46,25 @@ export const useHypersensitivityStore = defineStore('useHypersensitivityStore', 
                 }
             }
 
+            const filterServerity: any = {
+                'SEVERITY': {
+                    $containsi: serverity ? serverity : ''
+                }
+            }
+
+            const filterRiskorganism: any = {
+                'RISK_ORGANISM': {
+                    $containsi: risk_organism ? risk_organism : ''
+                }
+            }
+
             const filterObj = {
                 ...filterGroup,
-                ...filterGeneric,
                 ...filterAge,
-                ...filterPatienttype,
                 ...filterInfectsite,
-                ...filterDiagnosis
+                ...filterDiagnosis,
+                ...filterServerity,
+                ...filterRiskorganism
             }
 
             const response = await find<any>('msd-cpgs', {
@@ -87,9 +88,8 @@ export const useHypersensitivityStore = defineStore('useHypersensitivityStore', 
     function mapHypersensitivities() {
         if (hypersensitivities.value) {
             try {
-                const stringHypersensitivities = hypersensitivities.value.map((age: { attributes: { HYPERSENSITIVITY: string; }; }) => age.attributes.HYPERSENSITIVITY);
+                const stringHypersensitivities = hypersensitivities.value.map((sense: { attributes: { HYPERSENSITIVITY: string; }; }) => sense.attributes.HYPERSENSITIVITY);
                 const uniq = [...new Set(stringHypersensitivities)]
-
                 hypersensitivities.value = uniq
             } catch (error) {
                 const errorStore = useErrorStore()
@@ -102,6 +102,6 @@ export const useHypersensitivityStore = defineStore('useHypersensitivityStore', 
 
     return {
         getHypersensitivities,
-        fetcHypersensitivityByGenericGroupAgePatienttypeInfectsiteDiagnosis
+        fetcHypersensitivityByGroupAgeInfectsiteDiagnosisServerityRiskorganism
     }
 })

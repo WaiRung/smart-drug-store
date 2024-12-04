@@ -50,7 +50,7 @@ function onClickNext() {
             <LandingButton
                 :disabled="!msdcpgData.id"
                 type="button" @click="onClickNext" size="lg">
-                <p class="text-xl">Dose Calulate</p>
+                <p class="text-xl">Dose Calculate</p>
             </LandingButton>
         </div>
     </div>

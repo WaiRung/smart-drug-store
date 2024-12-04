@@ -296,7 +296,15 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             prop.val = ''
         }
 
+        await hypersenstivityStore.fetcHypersensitivityByGroupAgeInfectsiteDiagnosisServerityRiskorganism(
+            filter.selectedGroup.val,
+            filter.selectedAge.val,
+            filter.selectedInfectSite.val,
+            filter.selectedDiagnosis.val,
+            filter.selectedServerity.val,
+            filter.selectedRiskorganism.val
 
+        )
     }
 
     async function updatePatienttype(evt: any) {

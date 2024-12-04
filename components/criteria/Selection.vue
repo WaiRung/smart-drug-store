@@ -389,9 +389,10 @@ async function inputATB_INFO_AE(event) {
                 </label>
             </div>
             <div class="md:w-1/3">
+                <p></p>
                 <select v-model="filterData.selectedHypersensitivity.val" @change="updateHypersensitivity(filterData.selectedHypersensitivity.val)"
                     @blur="clearValidity('selectedHypersensitivity')"
-                    :disabled="!filterData.selectedRiskorganism.val || (
+                    :disabled="(
                         hypersenstivityData.length === 0 ||
                         (
                             hypersenstivityData.length === 1 &&
