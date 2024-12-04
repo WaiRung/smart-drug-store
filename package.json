@@ -11,21 +11,21 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@nuxt/icon": "^1.5.0",
-    "@nuxt/image": "^1.8.0",
-    "@nuxtjs/strapi": "^1.12.0",
+    "@nuxt/icon": "^1.9.0",
+    "@nuxt/image": "^1.8.1",
+    "@nuxtjs/strapi": "^2.0.0",
     "autoprefixer": "^10.4.20",
-    "nuxt": "^3.13.0",
-    "postcss": "^8.4.43",
-    "tailwindcss": "^3.4.10",
-    "vue": "^3.4.38",
-    "vue-router": "^4.4.3"
+    "nuxt": "^3.14.1592",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.5.4",
-    "flowbite": "^2.3.0",
-    "flowbite-vue": "^0.1.5",
+    "@pinia/nuxt": "^0.8.0",
+    "flowbite": "^2.5.2",
+    "flowbite-vue": "^0.1.6",
     "papaparse": "^5.4.1",
-    "pinia": "^2.2.2"
+    "pinia": "^2.2.6"
   }
 }
