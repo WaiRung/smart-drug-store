@@ -12,43 +12,33 @@ export const useInfectsiteStore = defineStore('useInfectsiteStore', () => {
         }
     })
 
-    async function fetchInfectsiteByGroupAge(
-        group: string,
-        age: string,
-    ) {
+    async function fetchInfectsite() {
         try {
-            
-
-            const filterGroup: any = {
-                'GROUP': {
-                    $containsi: group ? group : ''
-                }
-            }
-
-            const filterAge: any = {
-                'AGE': {
-                    $containsi: age ? age : ''
-                }
-            }
-
-            const filterObj = {
-                ...filterGroup,
-                ...filterAge,
-            }
-
-            const response = await find<any>('msd-cpgs', {
+            const response1 = await find<any>('msd-cpgs', {
                 fields: ['INFECT_SITE'],
                 pagination: {
                     page: 1,
                     pageSize: 100,
                 },
-                filters: filterObj,
+                
             });
 
-            if (response) {
-                infectSites.value = response.data;
-                mapInfectsites()
+            const response2 = await find<any>('msd-cpgs', {
+                fields: ['INFECT_SITE'],
+                pagination: {
+                    page: 2,
+                    pageSize: 100,
+                },
                 
+            });
+            if (response1 && response2) {
+                const mergedData = [
+                    response1.data,
+                    response2.data,
+                ];
+                const mergedFlatData = mergedData.flat();
+                infectSites.value = mergedFlatData;
+                mapInfectsites()
             }
         } catch (error) {
             const errorStore = useErrorStore()
@@ -75,6 +65,6 @@ export const useInfectsiteStore = defineStore('useInfectsiteStore', () => {
 
     return {
         getInfectsites,
-        fetchInfectsiteByGroupAge
+        fetchInfectsite
     }
 })

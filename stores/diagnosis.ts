@@ -12,24 +12,10 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
         }
     })
 
-    async function fetchDiagnosisByGroupAgeInfectsite(
-        group: string,
-        age: string,
+    async function fetchDiagnosisByInfectsite(
         infect_site: string
     ) {
         try {
-
-            const filterGroup: any = {
-                'GROUP': {
-                    $containsi: group ? group : ''
-                }
-            }
-
-            const filterAge: any = {
-                'AGE': {
-                    $containsi: age ? age : ''
-                }
-            }
 
             const filterInfectsite: any = {
                 'INFECT_SITE': {
@@ -38,8 +24,6 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
             }
 
             const filterObj = {
-                ...filterGroup,
-                ...filterAge,
                 ...filterInfectsite
             }
 
@@ -79,6 +63,6 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
 
     return {
         getDiagnoses,
-        fetchDiagnosisByGroupAgeInfectsite
+        fetchDiagnosisByInfectsite
     }
 })

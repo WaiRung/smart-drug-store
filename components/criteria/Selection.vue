@@ -71,10 +71,10 @@ const filterData = computed(() => {
     return filter
 })
 
-async function fetchGroups() {
-    await groupStore.fetchGroups()
+async function fetchInfectsite() {
+    await infectSiteStore.fetchInfectsite()
 }
-fetchGroups()
+fetchInfectsite()
 
 
 async function clearClass() {
@@ -257,6 +257,47 @@ async function inputATB_INFO_AE(event) {
         <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
         <input type="checkbox" class="hidden" style="display: none" name="botcheck" />
 
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedInfectSite.isValid }">
+            <div class="md:w-1/3">
+                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    Infect Site
+                </label>
+            </div>
+            <div class="md:w-1/3">
+                <select v-model="filterData.selectedInfectSite.val" @change="updateInfectsite(filterData.selectedInfectSite.val)"
+                    @blur="clearValidity('selectedInfectSite')"
+                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
+                    <option v-for="infectsite in infectsiteData" :value="infectsite">
+                        {{ infectsite }}
+                    </option>
+                </select>
+                <div v-show="!filterData.selectedInfectSite.isValid" class="text-red-400 text-xl text-sm mt-1">
+                    กรุณาเลือก Infect Site
+                </div>
+            </div>
+        </div>
+
+        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedDiagnosis.isValid }">
+            <div class="md:w-1/3">
+                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    Diagnosis
+                </label>
+            </div>
+            <div class="md:w-1/3">
+                <select v-model="filterData.selectedDiagnosis.val" @change="updateDiagnosis(filterData.selectedDiagnosis.val)"
+                    @blur="clearValidity('selectedDiagnosis')"
+                    :disabled="!filterData.selectedInfectSite.val || diagnosisData.length === 0"
+                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
+                    <option v-for="diagnosis in diagnosisData" :value="diagnosis">
+                        {{ diagnosis }}
+                    </option>
+                </select>
+                <div v-show="!filterData.selectedDiagnosis.isValid" class="text-red-400 text-xl text-sm mt-1">
+                    กรุณาเลือก Diagnosis
+                </div>
+            </div>
+        </div>
+
         <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedGroup.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
@@ -294,48 +335,6 @@ async function inputATB_INFO_AE(event) {
                 </select>
                 <div v-show="!filterData.selectedAge.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือก Age
-                </div>
-            </div>
-        </div>
-
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedInfectSite.isValid }">
-            <div class="md:w-1/3">
-                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    Infect Site
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <select v-model="filterData.selectedInfectSite.val" @change="updateInfectsite(filterData.selectedInfectSite.val)"
-                    @blur="clearValidity('selectedInfectSite')"
-                    :disabled="!filterData.selectedAge.val || infectsiteData.length === 0"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="infectsite in infectsiteData" :value="infectsite">
-                        {{ infectsite }}
-                    </option>
-                </select>
-                <div v-show="!filterData.selectedInfectSite.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือก Infect Site
-                </div>
-            </div>
-        </div>
-
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedDiagnosis.isValid }">
-            <div class="md:w-1/3">
-                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    Diagnosis
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <select v-model="filterData.selectedDiagnosis.val" @change="updateDiagnosis(filterData.selectedDiagnosis.val)"
-                    @blur="clearValidity('selectedDiagnosis')"
-                    :disabled="!filterData.selectedInfectSite.val || diagnosisData.length === 0"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="diagnosis in diagnosisData" :value="diagnosis">
-                        {{ diagnosis }}
-                    </option>
-                </select>
-                <div v-show="!filterData.selectedDiagnosis.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือก Diagnosis
                 </div>
             </div>
         </div>
