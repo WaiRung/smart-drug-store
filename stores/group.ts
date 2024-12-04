@@ -11,38 +11,26 @@ export const useGroupStore = defineStore('useGroupStore', () => {
         }
     })
 
-    async function fetchGroups() {
-        try {
-            const response = await find<any>('msd-cpgs', {
-                fields: ['GROUP'],
-                pagination: {
-                    page: 1,
-                    pageSize: 100,
-                },
-                
-            });
-            if (response) {
-                groups.value = response.data;
-                mapGroups()
-            }
-        } catch (error) {
-            const errorStore = useErrorStore()
-            errorStore.setError(error)
-        }
-    }
-
-    async function fetchGroupsByGeneric(
-        generic: string,
+    async function fetchGroupsByInfectsiteDiagnosis(
+        infect_site: string,
+        diagnosis: string
     ) {
         try {
-            const filterGeneric: any = {
-                'GENERIC': {
-                    $containsi: generic ? generic : ''
+            const filterInfectsite: any = {
+                'INFECT_SITE': {
+                    $containsi: infect_site ? infect_site : ''
+                }
+            }
+
+            const filterDiagnosis: any = {
+                'DIAGNOSIS': {
+                    $containsi: diagnosis ? diagnosis : ''
                 }
             }
 
             const filterObj = {
-                ...filterGeneric
+                ...filterInfectsite,
+                ...filterDiagnosis
             }
 
             const response = await find<any>('msd-cpgs', {
@@ -85,6 +73,5 @@ export const useGroupStore = defineStore('useGroupStore', () => {
       return {
         groups,
         getGroups,
-        fetchGroups,
-        fetchGroupsByGeneric }
+        fetchGroupsByInfectsiteDiagnosis }
 })

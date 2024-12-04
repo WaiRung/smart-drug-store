@@ -144,32 +144,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         }
     })
 
-    async function updateGroup(evt: any) {
-        filter.selectedGroup.val = evt
-
-        const nullKeys = [
-            'selectedGeneric',
-            'selectedClass',
-            'selectedAge',
-            'selectedPatienttype',
-            'selectedInfectSite',
-            'selectedDiagnosis',
-            'selectedServerity',
-            'selectedRiskorganism',
-            'selectedHypersensitivity'
-        ]
-
-        for (let i = 0; i < nullKeys.length; i++) {
-            const key = nullKeys[i];
-            const prop = filter[key as keyof typeof filter]
-            prop.val = ''
-        }
-
-        await ageStore.fetchAgesByGroup(
-            filter.selectedGroup.val
-        )
-    }
-
     async function updateAge(evt: any) {
         filter.selectedAge.val = evt
 
@@ -223,9 +197,8 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         filter.selectedDiagnosis.val = evt
 
         const nullKeys = [
-            'selectedGeneric',
-            'selectedClass',
-            'selectedPatienttype',
+            'selectedGroup',
+            'selectedAge',
             'selectedServerity',
             'selectedRiskorganism',
             'selectedHypersensitivity'
@@ -237,11 +210,32 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             prop.val = ''
         }
 
-        await serverityStore.fetchServerityByGroupAgeInfectedsiteDiagNosis(
-            filter.selectedGroup.val,
-            filter.selectedAge.val,
+        await groupStore.fetchGroupsByInfectsiteDiagnosis(
             filter.selectedInfectSite.val,
             filter.selectedDiagnosis.val
+        )
+    }
+
+    async function updateGroup(evt: any) {
+        filter.selectedGroup.val = evt
+
+        const nullKeys = [
+            'selectedAge',
+            'selectedServerity',
+            'selectedRiskorganism',
+            'selectedHypersensitivity'
+        ]
+
+        for (let i = 0; i < nullKeys.length; i++) {
+            const key = nullKeys[i];
+            const prop = filter[key as keyof typeof filter]
+            prop.val = ''
+        }
+
+        await ageStore.fetchAgesByInfectsiteDiagnosisGroup(
+            filter.selectedInfectSite.val,
+            filter.selectedDiagnosis.val,
+            filter.selectedGroup.val
         )
     }
 

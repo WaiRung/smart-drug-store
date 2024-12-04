@@ -307,6 +307,7 @@ async function inputATB_INFO_AE(event) {
             <div class="md:w-1/3">
                 <select v-model="filterData.selectedGroup.val" @change="updateGroup(filterData.selectedGroup.val)"
                     @blur="clearValidity('selectedGroup')"
+                    :disabled="!filterData.selectedDiagnosis.val || groupData.length === 0"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="group in groupData" :value="group">
                         {{ group }}

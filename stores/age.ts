@@ -11,8 +11,24 @@ export const useAgeStore = defineStore('useAgeStore', () => {
         }
     })
 
-    async function fetchAgesByGroup(group: string) {
+    async function fetchAgesByInfectsiteDiagnosisGroup(
+        infect_site: string,
+        diagnosis: string,
+        group: string
+    ) {
         try {
+
+            const filterInfectsite: any = {
+                'INFECT_SITE': {
+                    $containsi: infect_site ? infect_site : ''
+                }
+            }
+
+            const filterDiagnosis: any = {
+                'DIAGNOSIS': {
+                    $containsi: diagnosis ? diagnosis : ''
+                }
+            }
 
             const filterGroup: any = {
                 'GROUP': {
@@ -21,6 +37,8 @@ export const useAgeStore = defineStore('useAgeStore', () => {
             }
 
             const filterObj = {
+                ...filterInfectsite,
+                ...filterDiagnosis,
                 ...filterGroup,
             }
             const response = await find<any>('msd-cpgs', {
@@ -60,6 +78,6 @@ export const useAgeStore = defineStore('useAgeStore', () => {
 
 
     return { getAges,
-        fetchAgesByGroup
+        fetchAgesByInfectsiteDiagnosisGroup
     }
 })
