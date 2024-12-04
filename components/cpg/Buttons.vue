@@ -47,20 +47,20 @@ function onClickNext() {
             </LandingButton>
         </div>
         <div class="grid justify-items-center md:mt-10 order-first md:justify-items-end md:order-last">
-            <LandingButton
+            <!-- <LandingButton
                 :disabled="!msdcpgData.id"
                 type="button" @click="onClickNext" size="lg">
                 <p class="text-xl">Dose Calculate</p>
-            </LandingButton>
+            </LandingButton> -->
         </div>
     </div>
     <div class="grid order-0 md:grid-cols-1 md:order-1">
         <div class="grid justify-items-center mt-0 md:justify-items-end">
-            <LandingButton
+            <!-- <LandingButton
                 :disabled="!msdcpgData.id"
                 type="button" @click="onClickBack" size="lg">
                 <p class="text-xl">Antibiotic Info</p>
-            </LandingButton>
+            </LandingButton> -->
         </div>
     </div>
 </template>

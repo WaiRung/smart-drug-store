@@ -56,6 +56,33 @@ function closeModal() {
   msdcpgStore.clearFoundmsdcpg()  
   // navigateTo('/time')
 }
+
+function onClickNext() {
+    msdcpgStore.fetchMsdcpgsByFilter()
+    const slideStore = useSlideStore()
+    slideStore.setDirection('slide-left')
+    navigateTo('/time')
+}
+
+function onClickBack() {
+
+  definePageMeta({
+      pageTransition: {
+          name: 'slide-left',
+          mode: 'out-in'
+      },
+      middleware(to, from) {
+          const slideStore = useSlideStore()
+          if (to.meta.pageTransition && typeof to.meta.pageTransition !== 'boolean') {
+              to.meta.pageTransition.name = slideStore.getDirection
+          }
+      }
+  })
+  const slideStore = useSlideStore()
+  slideStore.setDirection('slide-right')
+  const router = useRouter()
+  router.back()
+}
 </script>
 
 <template>
@@ -68,6 +95,19 @@ function closeModal() {
     @close-cancel="closeModal">
    
     <CpgDetails #body />
+
+    <div class="flex justify-evenly">
+      <LandingButton
+        type="button" @click="onClickNext" size="lg">
+        <p class="text-xl">Dose Calculate</p>
+      </LandingButton>
+      <LandingButton
+        type="button" @click="onClickBack" size="lg">
+        <p class="text-xl">Antibiotic Info</p>
+      </LandingButton>
+    </div>
+    
+
    </CpgModal>
     <fwb-table hoverable>
       <fwb-table-head>
