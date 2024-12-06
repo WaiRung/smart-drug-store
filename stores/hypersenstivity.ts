@@ -12,27 +12,15 @@ export const useHypersensitivityStore = defineStore('useHypersensitivityStore', 
         }
     })
 
-    async function fetcHypersensitivityByGroupAgeInfectsiteDiagnosisServerityRiskorganism(
-        group: string,
-        age: string,
+    async function fetcHypersensitivityByInfectedsiteDiagNosisGroupAgeServerityRiskorganism(
         infect_site: string,
         diagnosis: string,
+        group: string,
+        age: string,
         serverity: string,
         risk_organism: string
     ) {
         try {
-
-            const filterGroup: any = {
-                'GROUP': {
-                    $containsi: group ? group : ''
-                }
-            }
-
-            const filterAge: any = {
-                'AGE': {
-                    $containsi: age ? age : ''
-                }
-            }
 
             const filterInfectsite: any = {
                 'INFECT_SITE': {
@@ -43,6 +31,18 @@ export const useHypersensitivityStore = defineStore('useHypersensitivityStore', 
             const filterDiagnosis: any = {
                 'DIAGNOSIS': {
                     $containsi: diagnosis ? diagnosis : ''
+                }
+            }
+
+            const filterGroup: any = {
+                'GROUP': {
+                    $containsi: group ? group : ''
+                }
+            }
+
+            const filterAge: any = {
+                'AGE': {
+                    $containsi: age ? age : ''
                 }
             }
 
@@ -102,6 +102,6 @@ export const useHypersensitivityStore = defineStore('useHypersensitivityStore', 
 
     return {
         getHypersensitivities,
-        fetcHypersensitivityByGroupAgeInfectsiteDiagnosisServerityRiskorganism
+        fetcHypersensitivityByInfectedsiteDiagNosisGroupAgeServerityRiskorganism
     }
 })
