@@ -44,7 +44,7 @@ export const useGroupStore = defineStore('useGroupStore', () => {
             if (response) {
                 groups.value = response.data;
                 mapGroups()
-                
+                reorderGroup()
             }
         } catch (error) {
             const errorStore = useErrorStore()
@@ -68,6 +68,20 @@ export const useGroupStore = defineStore('useGroupStore', () => {
         } else {
             return []
         }
+      }
+
+      function reorderGroup() {
+        const defaultOrder = ['NEWBORN', 'CHILD', 'ADULT'];
+        const reorderedArray: string[] = [];
+      
+        // Iterate through the default order and add elements from the input array if they exist
+        defaultOrder.forEach(item => {
+          if (groups.value.includes(item)) {
+            reorderedArray.push(item);
+          }
+        });
+      
+        groups.value = reorderedArray;
       }
 
       return {
