@@ -12,24 +12,13 @@ export const useServerityStore = defineStore('useServerityStore', () => {
         }
     })
 
-    async function fetchServerityByGroupAgeInfectedsiteDiagNosis(
+    async function fetchServerityByInfectedsiteDiagNosisGroupAge(
+        infect_site: string,
+        diagnosis: string,
         group: string,
         age: string,
-        infect_site: string,
-        diagnosis: string
     ) {
         try {
-
-            const filterGroup: any = {
-                'GROUP': {
-                    $containsi: group ? group : ''
-                }
-            }
-            const filterAge: any = {
-                'AGE': {
-                    $containsi: age ? age : ''
-                }
-            }
 
             const filterInfectsite: any = {
                 'INFECT_SITE': {
@@ -40,6 +29,17 @@ export const useServerityStore = defineStore('useServerityStore', () => {
             const filterDiagnosis: any = {
                 'DIAGNOSIS': {
                     $containsi: diagnosis ? diagnosis : ''
+                }
+            }
+
+            const filterGroup: any = {
+                'GROUP': {
+                    $containsi: group ? group : ''
+                }
+            }
+            const filterAge: any = {
+                'AGE': {
+                    $containsi: age ? age : ''
                 }
             }
 
@@ -86,6 +86,6 @@ export const useServerityStore = defineStore('useServerityStore', () => {
 
     return {
         getServerities,
-        fetchServerityByGroupAgeInfectedsiteDiagNosis
+        fetchServerityByInfectedsiteDiagNosisGroupAge
     }
 })

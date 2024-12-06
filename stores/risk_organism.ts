@@ -12,25 +12,14 @@ export const useRiskorganismStore = defineStore('useRiskorganismStore', () => {
         }
     })
 
-    async function fetchRiskorganismByGroupAgeInfectedsiteDiagnisisServerity(
-        group: string,
-        age: string,
+    async function fetchRiskorganismByInfectedsiteDiagNosisGroupAgeServerity(
         infect_site: string,
         diagnosis: string,
-        serverity: string
+        group: string,
+        age: string,
+        serverity: string,
     ) {
         try {
-            const filterGroup: any = {
-                'GROUP': {
-                    $containsi: group ? group : ''
-                }
-            }
-
-            const filterAge: any = {
-                'AGE': {
-                    $containsi: age ? age : ''
-                }
-            }
 
             const filterInfectsite: any = {
                 'INFECT_SITE': {
@@ -41,6 +30,18 @@ export const useRiskorganismStore = defineStore('useRiskorganismStore', () => {
             const filterDiagnosis: any = {
                 'DIAGNOSIS': {
                     $containsi: diagnosis ? diagnosis : ''
+                }
+            }
+
+            const filterGroup: any = {
+                'GROUP': {
+                    $containsi: group ? group : ''
+                }
+            }
+
+            const filterAge: any = {
+                'AGE': {
+                    $containsi: age ? age : ''
                 }
             }
 
@@ -93,6 +94,6 @@ export const useRiskorganismStore = defineStore('useRiskorganismStore', () => {
 
     return {
         getRiskOrganisms,
-        fetchRiskorganismByGroupAgeInfectedsiteDiagnisisServerity
+        fetchRiskorganismByInfectedsiteDiagNosisGroupAgeServerity
     }
 })

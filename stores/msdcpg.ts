@@ -144,31 +144,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         }
     })
 
-    async function updateAge(evt: any) {
-        filter.selectedAge.val = evt
-
-        const nullKeys = [
-            'selectedGeneric',
-            'selectedClass',
-            'selectedPatienttype',
-            'selectedInfectSite',
-            'selectedDiagnosis',
-            'selectedServerity',
-            'selectedRiskorganism',
-            'selectedHypersensitivity'
-        ]
-
-        for (let i = 0; i < nullKeys.length; i++) {
-            const key = nullKeys[i];
-            const prop = filter[key as keyof typeof filter]
-            prop.val = ''
-        }
-
-        // await infectSiteStore.fetchInfectsiteByGroupAge(
-        //     filter.selectedGroup.val,
-        //     filter.selectedAge.val,
-        // )
-    }
 
     async function updateInfectsite(evt: any) {
         filter.selectedInfectSite.val = evt
@@ -239,13 +214,11 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         )
     }
 
-    async function updateServerity(evt: any) {
-        filter.selectedServerity.val = evt
+    async function updateAge(evt: any) {
+        filter.selectedAge.val = evt
 
         const nullKeys = [
-            'selectedGeneric',
-            'selectedClass',
-            'selectedPatienttype',
+            'selectedServerity',
             'selectedRiskorganism',
             'selectedHypersensitivity'
         ]
@@ -256,22 +229,19 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             prop.val = ''
         }
 
-        await riskOrganismStore.fetchRiskorganismByGroupAgeInfectedsiteDiagnisisServerity(
-            filter.selectedGroup.val,
-            filter.selectedAge.val,
+        await serverityStore.fetchServerityByInfectedsiteDiagNosisGroupAge(
             filter.selectedInfectSite.val,
             filter.selectedDiagnosis.val,
-            filter.selectedServerity.val
+            filter.selectedGroup.val,
+            filter.selectedAge.val,
         )
     }
 
-    async function updateRiskOrganism(evt: any) {
-        filter.selectedRiskorganism.val = evt
+    async function updateServerity(evt: any) {
+        filter.selectedServerity.val = evt
 
         const nullKeys = [
-            'selectedGeneric',
-            'selectedClass',
-            'selectedPatienttype',
+            'selectedRiskorganism',
             'selectedHypersensitivity'
         ]
 
@@ -281,11 +251,33 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             prop.val = ''
         }
 
-        await hypersenstivityStore.fetcHypersensitivityByGroupAgeInfectsiteDiagnosisServerityRiskorganism(
-            filter.selectedGroup.val,
-            filter.selectedAge.val,
+        await riskOrganismStore.fetchRiskorganismByInfectedsiteDiagNosisGroupAgeServerity(
             filter.selectedInfectSite.val,
             filter.selectedDiagnosis.val,
+            filter.selectedGroup.val,
+            filter.selectedAge.val,
+            filter.selectedServerity.val,
+        )
+    }
+
+    async function updateRiskOrganism(evt: any) {
+        filter.selectedRiskorganism.val = evt
+
+        const nullKeys = [
+            'selectedHypersensitivity'
+        ]
+
+        for (let i = 0; i < nullKeys.length; i++) {
+            const key = nullKeys[i];
+            const prop = filter[key as keyof typeof filter]
+            prop.val = ''
+        }
+
+        await hypersenstivityStore.fetcHypersensitivityByInfectedsiteDiagNosisGroupAgeServerityRiskorganism(
+            filter.selectedInfectSite.val,
+            filter.selectedDiagnosis.val,
+            filter.selectedGroup.val,
+            filter.selectedAge.val,
             filter.selectedServerity.val,
             filter.selectedRiskorganism.val
 
