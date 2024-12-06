@@ -14,15 +14,15 @@ import { useMsdcpgStore } from '~/stores/msdcpg'
 const msdcpgStore = useMsdcpgStore()
 
 const msdcpgData = computed(() => {
-    const rawmsdcpgs = msdcpgStore.getMsdcpgs()
-    const msdcpgs = rawmsdcpgs.map(msdcpg => ({
-      ...msdcpg,
-      // DOSE_CHECK: `${msdcpg.attributes.DOSE_L}${msdcpg.attributes.DOSE_U ? '-' + msdcpg.attributes.DOSE_U : ''} ${msdcpg.attributes.DOSE_UNIT}${msdcpg.attributes.DOSE_LBL} ${msdcpg.attributes.DRUG_RM}`,
-      // DOSE_M_CHECK: `${msdcpg.attributes.DOSE_M} ${msdcpg.attributes.DOSE_M_UNIT}${msdcpg.attributes.DOSE_M_LBL}`
-    }))
-    console.log(msdcpgs);
-    
-    return msdcpgs
+  const rawmsdcpgs = msdcpgStore.getMsdcpgs()
+  const msdcpgs = rawmsdcpgs.map(msdcpg => ({
+    ...msdcpg,
+    // DOSE_CHECK: `${msdcpg.attributes.DOSE_L}${msdcpg.attributes.DOSE_U ? '-' + msdcpg.attributes.DOSE_U : ''} ${msdcpg.attributes.DOSE_UNIT}${msdcpg.attributes.DOSE_LBL} ${msdcpg.attributes.DRUG_RM}`,
+    // DOSE_M_CHECK: `${msdcpg.attributes.DOSE_M} ${msdcpg.attributes.DOSE_M_UNIT}${msdcpg.attributes.DOSE_M_LBL}`
+  }))
+  console.log(msdcpgs);
+
+  return msdcpgs
 })
 
 const msdcpgDetail = computed(() => {
@@ -45,7 +45,7 @@ function isMsdcpgActive(inputId, rowId) {
 }
 
 function openModal(msdcpg) {
-  msdcpgStore.fetchMsdcpgById(msdcpg.id)  
+  msdcpgStore.fetchMsdcpgById(msdcpg.id)
   isModalOpen.value = true
 }
 
@@ -53,30 +53,30 @@ function closeModal() {
   isModalOpen.value = false
   const slideStore = useSlideStore()
   slideStore.setDirection('slide-left')
-  msdcpgStore.clearFoundmsdcpg()  
+  msdcpgStore.clearFoundmsdcpg()
   // navigateTo('/time')
 }
 
 function onClickNext() {
-    msdcpgStore.fetchMsdcpgsByFilter()
-    const slideStore = useSlideStore()
-    slideStore.setDirection('slide-left')
-    navigateTo('/time')
+  msdcpgStore.fetchMsdcpgsByFilter()
+  const slideStore = useSlideStore()
+  slideStore.setDirection('slide-left')
+  navigateTo('/time')
 }
 
 function onClickBack() {
 
   definePageMeta({
-      pageTransition: {
-          name: 'slide-left',
-          mode: 'out-in'
-      },
-      middleware(to, from) {
-          const slideStore = useSlideStore()
-          if (to.meta.pageTransition && typeof to.meta.pageTransition !== 'boolean') {
-              to.meta.pageTransition.name = slideStore.getDirection
-          }
+    pageTransition: {
+      name: 'slide-left',
+      mode: 'out-in'
+    },
+    middleware(to, from) {
+      const slideStore = useSlideStore()
+      if (to.meta.pageTransition && typeof to.meta.pageTransition !== 'boolean') {
+        to.meta.pageTransition.name = slideStore.getDirection
       }
+    }
   })
   const slideStore = useSlideStore()
   slideStore.setDirection('slide-right')
@@ -87,92 +87,112 @@ function onClickBack() {
 
 <template>
   <!-- <CpgModal btn-text="Search" :class-data="{}" v-if="true" /> -->
-   <CpgModal
-    :fixed="true"
-    :show="isModalOpen"
-    title="Antibiotic Result"
-    @close="isModalOpen = false"
+  <CpgModal :fixed="true" :show="isModalOpen" title="Antibiotic Result" @close="isModalOpen = false"
     @close-cancel="closeModal">
-   
+
     <CpgDetails #body />
 
     <div class="flex justify-evenly">
-      <LandingButton
-        type="button" @click="onClickNext" size="lg">
+      <LandingButton type="button" @click="onClickNext" size="lg">
         <p class="text-xl">Dose Calculate</p>
       </LandingButton>
-      <LandingButton
-        type="button" @click="onClickBack" size="lg">
+      <LandingButton type="button" @click="onClickBack" size="lg">
         <p class="text-xl">Antibiotic Info</p>
       </LandingButton>
     </div>
-    
 
-   </CpgModal>
-    <fwb-table hoverable>
-      <fwb-table-head>
-        <fwb-table-head-cell>
-          <p class="text-lg">
-            Generic
-          </p>
-        </fwb-table-head-cell>
-        <fwb-table-head-cell>
-          <p class="text-lg">
-            Rx Option
-          </p>
-        </fwb-table-head-cell>
-        <fwb-table-head-cell>
-          <p class="text-lg">
-            Dose Type
-          </p>
-          </fwb-table-head-cell>
-          <fwb-table-head-cell>
-          <p class="text-lg">
-            Dose Check
-          </p>
-          </fwb-table-head-cell>
 
-        <!-- <fwb-table-head-cell>
+  </CpgModal>
+  <fwb-table hoverable>
+    <fwb-table-head>
+      <fwb-table-head-cell>
+        <p class="text-lg">
+          Rx
+        </p>
+      </fwb-table-head-cell>
+      <fwb-table-head-cell>
+        <p class="text-lg">
+          Generic
+        </p>
+      </fwb-table-head-cell>
+      <fwb-table-head-cell>
+        <p class="text-lg">
+          Dose
+        </p>
+      </fwb-table-head-cell>
+      <fwb-table-head-cell>
+        <p class="text-lg">
+          Dose Max
+        </p>
+      </fwb-table-head-cell>
+      <fwb-table-head-cell>
+        <p class="text-lg">
+          Route
+        </p>
+      </fwb-table-head-cell>
+      <fwb-table-head-cell>
+        <p class="text-lg">
+          Frequency
+        </p>
+      </fwb-table-head-cell>
+      <fwb-table-head-cell>
+        <p class="text-lg">
+          Duration
+        </p>
+      </fwb-table-head-cell>
+
+      <!-- <fwb-table-head-cell>
           <span class="sr-only">Edit</span>
         </fwb-table-head-cell> -->
-      </fwb-table-head>
-      <fwb-table-body>
-        <fwb-table-row
-          v-for="msdcpg in msdcpgData"
-          :key="msdcpg.id"
-          @click="openModal(msdcpg)"
-          :class="{ 'selected-row': isMsdcpgActive(msdcpgDetail.id, msdcpg.id) }"
-          class="hover:cursor-pointer">
-          <fwb-table-cell>
-            <p class="text-lg">
-              {{ msdcpg.attributes.GENERIC }}
-            </p>
-          </fwb-table-cell>
-          <fwb-table-cell>
-            <p class="text-lg">
-              {{ msdcpg.attributes.RX_OPTION }}
-            </p>
-          </fwb-table-cell>
-          <fwb-table-cell>
-            <p class="text-lg">
-              {{ msdcpg.attributes.DOSE_TYPE }}
-            </p>
-          </fwb-table-cell>
-          <fwb-table-cell>
-            <p class="text-lg">
-              {{ msdcpg.attributes.DOSE_CHECK }}
-            </p>
-          </fwb-table-cell>
-          <!-- <fwb-table-cell>
+    </fwb-table-head>
+    <fwb-table-body>
+      <fwb-table-row v-for="msdcpg in msdcpgData" :key="msdcpg.id" @click="openModal(msdcpg)"
+        :class="{ 'selected-row': isMsdcpgActive(msdcpgDetail.id, msdcpg.id) }" class="hover:cursor-pointer">
+        <fwb-table-cell>
+          <p class="text-lg">
+            {{ msdcpg.attributes.RX_OPTION }}
+          </p>
+        </fwb-table-cell>
+        <fwb-table-cell>
+          <p class="text-lg">
+            {{ msdcpg.attributes.GENERIC }}
+          </p>
+        </fwb-table-cell>
+        <fwb-table-cell>
+          <p class="text-lg">
+            {{ msdcpg.attributes.DOSE_CHECK }}
+          </p>
+        </fwb-table-cell>
+        <fwb-table-cell>
+          <p class="text-lg">
+            {{ msdcpg.attributes.DOSE_M_CHECK }}
+          </p>
+        </fwb-table-cell>
+        <fwb-table-cell>
+          <p class="text-lg">
+            {{ msdcpg.attributes.ROUTE }}
+          </p>
+        </fwb-table-cell>
+        <fwb-table-cell>
+          <p class="text-lg">
+            {{ msdcpg.attributes.FREQ }}
+          </p>
+        </fwb-table-cell>
+        <fwb-table-cell>
+          <p class="text-lg">
+            {{ msdcpg.attributes.DURATION }}
+          </p>
+        </fwb-table-cell>
+        <!-- <fwb-table-cell>
             <fwb-a href="#">
               Edit
             </fwb-a>
           </fwb-table-cell> -->
 
-        </fwb-table-row>
-      </fwb-table-body>
-    </fwb-table>
-  </template>
+      </fwb-table-row>
+    </fwb-table-body>
+  </fwb-table>
+</template>
 
 <style scoped>
 .selected-row {

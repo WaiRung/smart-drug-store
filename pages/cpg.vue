@@ -25,9 +25,13 @@ function onClickBack() {
 
 <template>
     <LandingContainer>
-        <!-- <CpgSectionhead /> -->
+        <LandingSectionhead>
+            <template v-slot:title>Antibiotic Dose Calculators (for pediatrics)</template>
+            <template v-slot:desc>List of Recommended Antibiotics</template>
+        </LandingSectionhead>
+
         <!-- <LandingLoadingsquare /> -->
-        <div class="grid gap-10 mx-auto max-w-4xl mt-12">
+        <div class="grid gap-10 mx-auto max-w-5xl mt-12">
             <div>
                 <CpgTable />
             </div>
