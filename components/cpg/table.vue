@@ -49,6 +49,13 @@ function openModal(msdcpg) {
   isModalOpen.value = true
 }
 
+function navigate(msdcpg) {
+  msdcpgStore.fetchMsdcpgById(msdcpg.id)
+  const slideStore = useSlideStore()
+  slideStore.setDirection('slide-left')
+  navigateTo('/regimen')
+}
+
 function closeModal() {
   isModalOpen.value = false
   const slideStore = useSlideStore()
@@ -145,8 +152,10 @@ function onClickBack() {
           <span class="sr-only">Edit</span>
         </fwb-table-head-cell> -->
     </fwb-table-head>
+    @click="openModal(msdcpg)"
+    @click="navigate(msdcpg)"
     <fwb-table-body>
-      <fwb-table-row v-for="msdcpg in msdcpgData" :key="msdcpg.id" @click="openModal(msdcpg)"
+      <fwb-table-row v-for="msdcpg in msdcpgData" :key="msdcpg.id" @click="navigate(msdcpg)"
         :class="{ 'selected-row': isMsdcpgActive(msdcpgDetail.id, msdcpg.id) }" class="hover:cursor-pointer">
         <fwb-table-cell>
           <p class="text-lg">
