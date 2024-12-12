@@ -12,12 +12,26 @@ const msdcpgDetail = computed(() => {
   }
   return msdcpg
 })
+
+const filterData = computed(() => {
+    const filter = msdcpgStore.getFilter()
+    return filter
+})
 </script>
 
 <template>
-    <div>
-        
+  <div class="flex justify-between mx-auto max-w-3xl">
+
+    <div class="bg-green-900 px-20 py-2 mt-10 mb-10 max-w-fit rounded-lg flex flex-col items-center text-center">
+      <h5 class="text-white text-3xl md:text-2xl">Patient Group : <span class="text-lime-500">{{ filterData.selectedGroup.val }}</span> </h5>
+      
     </div>
+
+    <div class="bg-green-900 px-20 py-2 mt-10 mb-10 max-w-fit rounded-lg flex flex-col items-center text-center">
+      <h5 class="text-white text-3xl md:text-2xl">Age : <span class="text-lime-500">{{ filterData.selectedAge.val }}</span></h5>
+    </div>
+
+  </div>
   <div class="bg-green-900 px-20 py-2 mb-10 mx-auto max-w-3xl rounded-lg flex flex-col items-center text-center">
     <h5 class="text-white text-3xl md:text-2xl">Indication Summary</h5>
     <p class="text-lime-500 mt-4 text-lg md:text-xl">
@@ -31,14 +45,13 @@ const msdcpgDetail = computed(() => {
     </p>
   </div>
 
-  <h2
-    v-if="msdcpgDetail.attributes?.RM_RX || msdcpgDetail.attributes?.RM_DURATION"
-    class="mb-2 text-lg font-semibold">Remarks </h2>
+  <h2 v-if="msdcpgDetail.attributes?.RM_RX || msdcpgDetail.attributes?.RM_DURATION" class="mb-2 text-lg font-semibold">
+    Remarks </h2>
   <ul class="max-w-md space-y-1 list-disc list-inside">
     <li v-if="msdcpgDetail.attributes?.RM_RX">
       {{ msdcpgDetail.attributes?.RM_RX }}
     </li>
-    <li v-if=" msdcpgDetail.attributes?.RM_DURATION">
+    <li v-if="msdcpgDetail.attributes?.RM_DURATION">
       {{ msdcpgDetail.attributes?.RM_DURATION }}
     </li>
   </ul>

@@ -152,8 +152,6 @@ function onClickBack() {
           <span class="sr-only">Edit</span>
         </fwb-table-head-cell> -->
     </fwb-table-head>
-    @click="openModal(msdcpg)"
-    @click="navigate(msdcpg)"
     <fwb-table-body>
       <fwb-table-row v-for="msdcpg in msdcpgData" :key="msdcpg.id" @click="navigate(msdcpg)"
         :class="{ 'selected-row': isMsdcpgActive(msdcpgDetail.id, msdcpg.id) }" class="hover:cursor-pointer">

@@ -515,7 +515,7 @@ async function inputATB_INFO_AE(event) {
              <!-- <input type="file" @change="inputATB_INFO_DDI" multiple> -->
               <!-- <input type="file" @change="inputATB_INFO_AE" multiple> -->
             <LandingButton
-                :disabled="!filterData.selectedDiagnosis.val"
+                :disabled="!filterData.selectedAge.val"
                 @click="onClickNext" type="button" size="lg">
                 <p class="text-xl">Search</p>
             </LandingButton>
