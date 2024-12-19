@@ -32,6 +32,7 @@ const msdcpgDetail = computed(() => {
 
 <template>
     <LandingContainer>
+      <LandingSitehead />
         <LandingSectionhead>
             <template v-slot:title>Antibiotic Dose Calculators (for pediatrics)</template>
             <template v-slot:desc>Summary Selected Antibiotic Regimen</template>

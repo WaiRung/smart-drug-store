@@ -24,6 +24,7 @@ function onClickBack() {
 
 <template>
     <LandingContainer>
+        <LandingSitehead />
         <LandingSectionhead>
             <template v-slot:title>Dosage</template>
             <template v-slot:desc>Recommended Antibiotics Dosage</template>
