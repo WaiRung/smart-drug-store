@@ -17,6 +17,11 @@ export const useDosageStore = defineStore('useDosageStore', () => {
             isValid: true,
             val: '',
             required: true
+        },
+        selectedForm: {
+            isValid: true,
+            val: '',
+            required: true
         }
     })
 
@@ -172,6 +177,10 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         // filter.selectedFrequency.val = filterObj.attributes.Time
     }
 
+    function onChangeForm(drugForm: string) {
+        console.log('onChangeFrequency : ', drugForm);
+    }
+
     function clearValidity(fieldName: string) {
         filter[fieldName as keyof typeof filter].isValid = true
     }
@@ -180,6 +189,7 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         getFilter,
         onChangeWeight,
         onChangeFrequency,
+        onChangeForm,
         clearValidity,
         getTotalDailyDosage,
         amountPerDose,
