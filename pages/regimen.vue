@@ -39,5 +39,6 @@ const msdcpgDetail = computed(() => {
         </LandingSectionhead>
         <!-- <CpgDetails #body /> -->
          <RegimenDetails #body />
+         <RegimenButtons />
     </LandingContainer>
 </template>
