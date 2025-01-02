@@ -10,8 +10,10 @@ import {
 } from 'flowbite-vue'
 
 import { useMsdcpgStore } from '~/stores/msdcpg'
+import { useTabATP_CATALOGStore } from '~/stores/tab-atp-catalog'
 
 const msdcpgStore = useMsdcpgStore()
+const tabATP_CATALOGStore = useTabATP_CATALOGStore()
 
 const msdcpgData = computed(() => {
   const rawmsdcpgs = msdcpgStore.getMsdcpgs()
@@ -51,6 +53,12 @@ function openModal(msdcpg) {
 
 function navigate(msdcpg) {
   msdcpgStore.fetchMsdcpgById(msdcpg.id)
+
+  tabATP_CATALOGStore.fetchATPSByGenericClass(
+    msdcpgDetail.value.attributes.GENERIC
+  )
+  tabATP_CATALOGStore.getAtpByGeneric(msdcpgDetail.value.attributes.GENERIC)
+
   const slideStore = useSlideStore()
   slideStore.setDirection('slide-left')
   navigateTo('/regimen')

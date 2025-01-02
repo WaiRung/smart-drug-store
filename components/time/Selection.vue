@@ -32,14 +32,6 @@ const formData = computed(() => {
     return forms
 })
 
-async function fetchforms() {
-    tabATP_CATALOGStore.fetchATPSByGenericClass(
-        msdcpgDetail.value.attributes.GENERIC
-    )
-}
-
-await fetchforms()
-
 const frequencyData = computed(() => {
     const frequencies = ref_freqStore.getFrequencies()
     console.log(frequencies);
