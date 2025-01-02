@@ -25,10 +25,7 @@ function onClickBack() {
 <template>
     <LandingContainer>
         <LandingSitehead />
-        <LandingSectionhead>
-            <template v-slot:title>Dosage</template>
-            <template v-slot:desc>Recommended Antibiotics Dosage</template>
-        </LandingSectionhead>
+        <TimeDetails />
         <div class="grid gap-10 mx-auto max-w-4xl mt-16">
             <div>
                 <TimeSelection />
