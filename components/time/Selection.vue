@@ -56,23 +56,8 @@ async function onChangeForm(filterObj) {
     dosageStore.onChangeForm(filterObj)
 };
 
-function clearFrequency() {
-    filterData.value.selectedFrequency.val = ''
-}
-
 function clearValidity(fieldName) {
     dosageStore.clearValidity(fieldName)
-}
-
-function onClickNext() {
-    // isDrugmodalOpen.value = true
-    tabATP_CATALOGStore.fetchATPSByGenericClass(
-        msdcpgDetail.value.attributes.GENERIC
-    )
-    const slideStore = useSlideStore()
-    slideStore.setDirection('slide-right')
-    // console.log('onClickNext', slideStore.getDirection);
-    navigateTo('/dosage')
 }
 </script>
 
@@ -86,6 +71,7 @@ function onClickNext() {
             </div>
             <div class="md:w-1/3">
                 <input type="text" @input="onChangeWeight($event)"
+                    v-model="filterData.selectedWeight.val"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                 <div v-show="!filterData.selectedWeight.isValid" class="text-red-400 text-xl text-sm mt-1">
                     กรุณาเลือก Weight ให้ถูกต้อง
@@ -132,13 +118,6 @@ function onClickNext() {
                     กรุณาเลือก Frequency
                 </div>
             </div>
-        </div>
-
-        <div class="flex justify-center mt-12">
-            <LandingButton :disabled="!filterData.selectedFrequency.val && !filterData.selectedWeight.val"
-                @click="onClickNext" type="button" size="lg">
-                <p class="text-xl">Calculate</p>
-            </LandingButton>
         </div>
     </form>
 </template>

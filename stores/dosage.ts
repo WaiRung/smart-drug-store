@@ -31,6 +31,20 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         }
     })
 
+    function resetFilter() {
+        const nullKeys = [
+            'selectedWeight',
+            'selectedFrequency',
+            'selectedForm',
+        ]
+
+        for (let i = 0; i < nullKeys.length; i++) {
+            const key = nullKeys[i];
+            const prop = filter[key as keyof typeof filter]
+            prop.val = ''
+        }
+    }
+
     function getTotalDailyDosage() {
         // console.log('selectedWeight : ', filter.selectedWeight);
         // console.log('msdcpg : ', msdcpgStore.getFilter());
@@ -191,6 +205,7 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         onChangeWeight,
         onChangeFrequency,
         onChangeForm,
+        resetFilter,
         clearValidity,
         getTotalDailyDosage,
         amountPerDose,

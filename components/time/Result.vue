@@ -57,7 +57,7 @@ const getmlPerDose = computed(() => {
                 </span>
             </p>
             <p v-else class="text-white text-3xl md:text-2xl">
-                <span >
+                <span>
                     Amount per Dose :
                     <span class="text-lime-300">
                         {{ getAmountPerdose.DOSE_CHECK }}
@@ -66,7 +66,8 @@ const getmlPerDose = computed(() => {
             </p>
         </div>
 
-        <div v-if="msdcpgData.ROUTE === 'PO'" class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center">
+        <div v-if="msdcpgData.ROUTE === 'PO'"
+            class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center">
             <p v-if="getmlPerDose.lowerLimit" class="text-white text-3xl md:text-2xl">ml per dose :
                 <span class="text-lime-300">
                     {{ getmlPerDose.lowerLimit }} - {{ getmlPerDose.upperLimit }} mg, g or MU
@@ -81,7 +82,8 @@ const getmlPerDose = computed(() => {
                 </span>
             </p>
         </div>
-        <div v-else class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center">
+        <div v-else
+            class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center">
             <p class="text-white text-3xl md:text-2xl">
                 คำนวณเฉพาะยารับประทานชนิดน้ำเท่านั้น
             </p>

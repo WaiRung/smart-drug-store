@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from 'nuxt/app'
 import { useSlideStore } from '@/stores/slide'
+import { useDosageStore } from '~/stores/dosage'
+
+const dosageStore = useDosageStore()
 
 function onClickBack() {
     definePageMeta({
@@ -20,18 +23,23 @@ function onClickBack() {
     const router = useRouter()
     router.back()
 }
+
+function onClickReset() {
+    dosageStore.resetFilter()
+}
+
 </script>
 
 <template>
-    <LandingContainer>
-        <LandingSitehead />
-        <TimeRecommended />
-        <div class="grid gap-10 mx-auto max-w-4xl mt-16">
-            <div>
-                <TimeSelection />
-            </div>
-            <TimeResult />
-            <TimeButtons />
-        </div>
-    </LandingContainer>
+    <div class="flex flex-row justify-between mb-12">
+        <LandingButton styleName="outline" type="button" size="lg" @click="onClickBack">
+            <p class="text-xl">Back</p>
+        </LandingButton>
+        <LandingButton styleName="outline" type="button" size="lg">
+            <p class="text-xl">Antibiotic Info</p>
+        </LandingButton>
+        <LandingButton styleName="outline" type="button" size="lg" @click="onClickReset">
+            <p class="text-xl">Reset</p>
+        </LandingButton>
+    </div>
 </template>
