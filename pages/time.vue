@@ -25,15 +25,15 @@ function onClickBack() {
 <template>
     <LandingContainer>
         <LandingSitehead />
-        <TimeRecommended />
         <div class="grid gap-10 mx-auto max-w-4xl mt-16 snap-container">
+            <div class="snap-section">
+                <TimeRecommended />
+            </div>
             <div class="snap-section">
                 <TimeSelection />
             </div>
             <div class="snap-section">
                 <TimeResult />
-            </div>
-            <div class="snap-section">
                 <TimeButtons />
             </div>
             
@@ -42,7 +42,7 @@ function onClickBack() {
 </template>
 
 
-<!-- <style scoped>
+<style scoped>
     .snap-container {
         height: 100vh;
         overflow-y: scroll;
@@ -50,8 +50,8 @@ function onClickBack() {
         -webkit-overflow-scrolling: touch; /* For better mobile support */
     }
     .snap-section {
-        height: 30vh; /* Full viewport height for each section */
+        height: 100vh; /* Full viewport height for each section */
         scroll-snap-align: start;
         scroll-snap-stop: always; /* Forces snap points */
     }
-</style> -->
+</style>
