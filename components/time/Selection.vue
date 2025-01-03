@@ -78,14 +78,14 @@ function clearValidity(fieldName) {
                 </div>
             </div>
         </div>
-        <div class="flex md:items-center md:row-reverse justify-between md:justify-normal mb-6"
+        <div class="md:flex md:items-center mb-6"
             :class="{ 'is-invalid': !filterData.selectedFrequency.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
                     Frequency
                 </label>
             </div>
-            <div class="md:w-1/3">
+            <div class="md:w-1/3 sm:w-full">
                 <select v-model="filterData.selectedFrequency.val"
                     @change="onChangeFrequency(filterData.selectedFrequency.val)"
                     @blur="clearValidity('selectedFrequency')"
@@ -99,7 +99,7 @@ function clearValidity(fieldName) {
                 </div>
             </div>
         </div>
-        <div class="flex md:items-center md:row-reverse justify-between md:justify-normal mb-6"
+        <div class="md:flex md:items-center mb-6"
             :class="{ 'is-invalid': !filterData.selectedForm.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
