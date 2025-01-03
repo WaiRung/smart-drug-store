@@ -1,5 +1,4 @@
 <script setup>
-import { FwbButton } from 'flowbite-vue'
 import { useMsdcpgStore } from '~/stores/msdcpg'
 import { useDosageStore } from '~/stores/dosage'
 import { useREF_FREQStore } from '~/stores/ref_freq'

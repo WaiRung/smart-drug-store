@@ -1,5 +1,4 @@
 <script setup>
-import { FwbButton, FwbModal } from 'flowbite-vue'
 import Papa from 'papaparse';
 const { create } = useStrapi()
 import { useTabATP_CATALOGStore } from '@/stores/tab-atp-catalog'

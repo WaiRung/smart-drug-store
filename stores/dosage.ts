@@ -43,8 +43,6 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         const weightNum = Number(filter.selectedWeight.val)
         const timeNum = Number(filter.selectedFrequency.val)
 
-        console.log('getTotalDailyDosage : ' + `${DOSE_LBL}`);
-
         if (DOSE_LBL === '/kg/day') {
             const lowerLimit = msdcpg.attributes.DOSE_L * weightNum
             let upperLimit = msdcpg.attributes.DOSE_U * weightNum
@@ -64,7 +62,7 @@ export const useDosageStore = defineStore('useDosageStore', () => {
             if (maxdoseNum && upperLimit < maxdoseNum) {
                 upperLimit = maxdoseNum
             }
-            console.log(`${lowerLimit} - ${upperLimit}`);
+
             return {
                 lowerLimit,
                 upperLimit
@@ -96,6 +94,8 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         const maxdoseNum = DOSE_M ?  Number(DOSE_M) : null
         const weightNum = Number(filter.selectedWeight.val)
         const timeNum = Number(filter.selectedFrequency.val)
+        console.log('getTotalDailyDosage : ', getTotalDailyDosage());
+        
         if (DOSE_LBL === '/kg/day') {
             const lowerLimit = getTotalDailyDosage().lowerLimit/timeNum
             const upperLimit = getTotalDailyDosage().upperLimit/timeNum
@@ -137,7 +137,8 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         const weightNum = Number(filter.selectedWeight.val)
         const timeNum = Number(filter.selectedFrequency.val)
 
-        console.log('mlPerDose : ', tabATP);
+        console.log('mlPerDose : ', msdcpg);
+        
         if (STR_CONTENT === 'mL') {
             const amountPerDoseLowerLimit = amountPerDose().lowerLimit
             const amountPerDoseUpperLimit = amountPerDose().upperLimit
