@@ -20,14 +20,14 @@ const filterData = computed(() => {
 </script>
 
 <template>
-  <div class="flex justify-between mx-auto max-w-3xl">
+  <div class="md:flex justify-between mx-auto max-w-3xl">
 
-    <div class="bg-green-900 px-20 py-2 mt-10 mb-10 max-w-fit rounded-lg flex flex-col items-center text-center">
+    <div class="bg-green-900 px-20 py-2 mt-10 mb-10 mx-auto md:mx-0 max-w-fit rounded-lg flex flex-col items-center text-center">
       <h5 class="text-white text-3xl md:text-2xl">Patient Group : <span class="text-lime-500">{{ filterData.selectedGroup.val }}</span> </h5>
       
     </div>
 
-    <div class="bg-green-900 px-20 py-2 mt-10 mb-10 max-w-fit rounded-lg flex flex-col items-center text-center">
+    <div class="bg-green-900 px-20 py-2 mt-10 mb-10 mx-auto md:mx-0 max-w-fit rounded-lg flex flex-col items-center text-center">
       <h5 class="text-white text-3xl md:text-2xl">Age : <span class="text-lime-500">{{ filterData.selectedAge.val }}</span></h5>
     </div>
 

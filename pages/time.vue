@@ -36,22 +36,33 @@ function onClickBack() {
                 <TimeResult />
                 <TimeButtons />
             </div>
-            
+
         </div>
     </LandingContainer>
 </template>
 
 
 <style scoped>
+@media not all and (min-width: 768px) {
     .snap-container {
         height: 100vh;
         overflow-y: scroll;
         scroll-snap-type: y mandatory;
-        -webkit-overflow-scrolling: touch; /* For better mobile support */
+        -webkit-overflow-scrolling: touch;
+        /* For better mobile support */
     }
+
+    /* Optional: Hide scrollbar for cleaner look */
+    .snap-container::-webkit-scrollbar {
+        display: none;
+    }
+
     .snap-section {
-        height: 100vh; /* Full viewport height for each section */
+        height: 100vh;
+        /* Full viewport height for each section */
         scroll-snap-align: start;
-        scroll-snap-stop: always; /* Forces snap points */
+        scroll-snap-stop: always;
+        /* Forces snap points */
     }
+}
 </style>
