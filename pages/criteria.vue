@@ -22,10 +22,15 @@ defineProps({
 <template>
     <LandingContainer>
         <LandingSitehead />
-        <HomeSectionhead />
-        <div class="grid gap-10 mx-auto max-w-5xl mt-16">
-            <HomeButtons />
+        <LandingSectionhead>
+            <template v-slot:title>Antibiotic Dose Calculators (for pediatrics)</template>
+            <template v-slot:desc>Clinical Criteria</template>
+        </LandingSectionhead>
+
+        <div class="grid gap-10 mx-auto max-w-4xl mt-24">
+            <div>
+                <CriteriaSelection />
+            </div>
         </div>
-        
     </LandingContainer>
 </template>

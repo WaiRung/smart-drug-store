@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { useRouter } from 'nuxt/app'
 import { useSlideStore } from '@/stores/slide'
-import { useDosageStore } from '~/stores/dosage'
 
-const dosageStore = useDosageStore()
-
-function onClickBack() {
+function onClickPediatric() {
     definePageMeta({
         pageTransition: {
             name: 'slide-left',
@@ -20,27 +17,22 @@ function onClickBack() {
     })
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-right')
-    const router = useRouter()
-    router.back()
+    navigateTo('/criteria')
 }
 
-function onClickReset() {
-    // dosageStore.resetFilter()
-    reloadNuxtApp({path: '/'})
+function onclickRenal() {
+    
 }
 
 </script>
 
 <template>
     <div class="flex flex-row justify-between mb-12">
-        <LandingButton styleName="outline" type="button" size="lg" @click="onClickBack">
-            <p class="text-xl">Back</p>
+        <LandingButton type="button" size="lg" @click="onClickPediatric">
+            <p class="text-xl">Antibiotic Dose Calculator <br> <span>PEDIATRICS</span></p>
         </LandingButton>
-        <LandingButton styleName="outline" type="button" size="lg">
-            <p class="text-xl">Antibiotic Info</p>
-        </LandingButton>
-        <LandingButton styleName="outline" type="button" size="lg" @click="onClickReset">
-            <p class="text-xl">Reset</p>
+        <LandingButton type="button" size="lg" @click="onclickRenal">
+            <p class="text-xl">Antibiotic Dose Calculator <br> <span>RENAL IMPAIRMENT</span></p>
         </LandingButton>
     </div>
 </template>

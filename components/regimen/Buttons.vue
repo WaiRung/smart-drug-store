@@ -32,6 +32,10 @@ function onClickBack() {
     const router = useRouter()
     router.back()
 }
+
+function onClickReset() {
+    reloadNuxtApp({path: '/'})
+}
 </script>
 
 <template>
@@ -45,7 +49,7 @@ function onClickBack() {
         <LandingButton styleName="outline" className="ml-2" type="button" size="lg" @click="onClickCal">
             <p class="text-xl">Dose Calculator</p>
         </LandingButton>
-        <LandingButton styleName="outline" className="mx-4" type="button" size="lg">
+        <LandingButton styleName="outline" className="mx-4" type="button" size="lg" @click="onClickReset">
             <p class="text-xl">Reset</p>
         </LandingButton>
     </div>
