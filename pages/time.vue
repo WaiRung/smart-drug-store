@@ -42,7 +42,7 @@ function onClickBack() {
 </template>
 
 
-<style scoped>
+<!-- <style scoped>
 @media not all and (min-width: 768px) {
     .snap-container {
         height: 100vh;
@@ -65,4 +65,4 @@ function onClickBack() {
         /* Forces snap points */
     }
 }
-</style>
+</style> -->

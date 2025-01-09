@@ -115,102 +115,107 @@ function onClickBack() {
         <p class="text-xl">Antibiotic Info</p>
       </LandingButton>
     </div>
-
-
   </CpgModal>
-  <fwb-table hoverable>
-    <fwb-table-head>
-      <fwb-table-head-cell>
-        <p class="text-lg">
-          Rx
-        </p>
-      </fwb-table-head-cell>
-      <fwb-table-head-cell>
-        <p class="text-lg">
-          Generic
-        </p>
-      </fwb-table-head-cell>
-      <fwb-table-head-cell>
-        <p class="text-lg">
-          Dose
-        </p>
-      </fwb-table-head-cell>
-      <fwb-table-head-cell>
-        <p class="text-lg">
-          Dose Max
-        </p>
-      </fwb-table-head-cell>
-      <fwb-table-head-cell>
-        <p class="text-lg">
-          Route
-        </p>
-      </fwb-table-head-cell>
-      <fwb-table-head-cell>
-        <p class="text-lg">
-          Frequency
-        </p>
-      </fwb-table-head-cell>
-      <fwb-table-head-cell>
-        <p class="text-lg">
-          Duration
-        </p>
-      </fwb-table-head-cell>
+  <div class="overflow-x-scroll table-width">
+    <fwb-table hoverable>
+      <fwb-table-head>
+        <fwb-table-head-cell>
+          <p class="text-lg">
+            Rx
+          </p>
+        </fwb-table-head-cell>
+        <fwb-table-head-cell>
+          <p class="text-lg">
+            Generic
+          </p>
+        </fwb-table-head-cell>
+        <fwb-table-head-cell>
+          <p class="text-lg">
+            Dose
+          </p>
+        </fwb-table-head-cell>
+        <fwb-table-head-cell>
+          <p class="text-lg">
+            Dose Max
+          </p>
+        </fwb-table-head-cell>
+        <fwb-table-head-cell>
+          <p class="text-lg">
+            Route
+          </p>
+        </fwb-table-head-cell>
+        <fwb-table-head-cell>
+          <p class="text-lg">
+            Frequency
+          </p>
+        </fwb-table-head-cell>
+        <fwb-table-head-cell>
+          <p class="text-lg">
+            Duration
+          </p>
+        </fwb-table-head-cell>
 
-      <!-- <fwb-table-head-cell>
+        <!-- <fwb-table-head-cell>
           <span class="sr-only">Edit</span>
         </fwb-table-head-cell> -->
-    </fwb-table-head>
-    <fwb-table-body>
-      <fwb-table-row v-for="msdcpg in msdcpgData" :key="msdcpg.id" @click="navigate(msdcpg)"
-        :class="{ 'selected-row': isMsdcpgActive(msdcpgDetail.id, msdcpg.id) }" class="hover:cursor-pointer">
-        <fwb-table-cell>
-          <p class="text-lg">
-            {{ msdcpg.attributes.RX_OPTION }}
-          </p>
-        </fwb-table-cell>
-        <fwb-table-cell>
-          <p class="text-lg">
-            {{ msdcpg.attributes.GENERIC }}
-          </p>
-        </fwb-table-cell>
-        <fwb-table-cell>
-          <p class="text-lg">
-            {{ msdcpg.attributes.DOSE_CHECK }}
-          </p>
-        </fwb-table-cell>
-        <fwb-table-cell>
-          <p class="text-lg">
-            {{ msdcpg.attributes.DOSE_M_CHECK }}
-          </p>
-        </fwb-table-cell>
-        <fwb-table-cell>
-          <p class="text-lg">
-            {{ msdcpg.attributes.ROUTE }}
-          </p>
-        </fwb-table-cell>
-        <fwb-table-cell>
-          <p class="text-lg">
-            {{ msdcpg.attributes.FREQ }}
-          </p>
-        </fwb-table-cell>
-        <fwb-table-cell>
-          <p class="text-lg">
-            {{ msdcpg.attributes.DURATION }}
-          </p>
-        </fwb-table-cell>
-        <!-- <fwb-table-cell>
+      </fwb-table-head>
+      <fwb-table-body>
+        <fwb-table-row v-for="msdcpg in msdcpgData" :key="msdcpg.id" @click="navigate(msdcpg)"
+          :class="{ 'selected-row': isMsdcpgActive(msdcpgDetail.id, msdcpg.id) }" class="hover:cursor-pointer">
+          <fwb-table-cell>
+            <p class="text-lg">
+              {{ msdcpg.attributes.RX_OPTION }}
+            </p>
+          </fwb-table-cell>
+          <fwb-table-cell>
+            <p class="text-lg">
+              {{ msdcpg.attributes.GENERIC }}
+            </p>
+          </fwb-table-cell>
+          <fwb-table-cell>
+            <p class="text-lg">
+              {{ msdcpg.attributes.DOSE_CHECK }}
+            </p>
+          </fwb-table-cell>
+          <fwb-table-cell>
+            <p class="text-lg">
+              {{ msdcpg.attributes.DOSE_M_CHECK }}
+            </p>
+          </fwb-table-cell>
+          <fwb-table-cell>
+            <p class="text-lg">
+              {{ msdcpg.attributes.ROUTE }}
+            </p>
+          </fwb-table-cell>
+          <fwb-table-cell>
+            <p class="text-lg">
+              {{ msdcpg.attributes.FREQ }}
+            </p>
+          </fwb-table-cell>
+          <fwb-table-cell>
+            <p class="text-lg">
+              {{ msdcpg.attributes.DURATION }}
+            </p>
+          </fwb-table-cell>
+          <!-- <fwb-table-cell>
             <fwb-a href="#">
               Edit
             </fwb-a>
           </fwb-table-cell> -->
 
-      </fwb-table-row>
-    </fwb-table-body>
-  </fwb-table>
+        </fwb-table-row>
+      </fwb-table-body>
+    </fwb-table>
+  </div>
 </template>
 
 <style scoped>
 .selected-row {
   background-color: rgb(188, 240, 218);
+}
+.table-width {
+  width: 95vw;
+  max-width: 1024px;
+
 }
 </style>

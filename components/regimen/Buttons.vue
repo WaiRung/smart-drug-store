@@ -39,10 +39,10 @@ function onClickBack() {
         <LandingButton styleName="outline" className="mx-4" type="button" size="lg" @click="onClickBack">
             <p class="text-xl">Back</p>
         </LandingButton>
-        <LandingButton styleName="outline" type="button" size="lg">
+        <LandingButton styleName="outline" className="mr-2" type="button" size="lg">
             <p class="text-xl">Antibiotic Info</p>
         </LandingButton>
-        <LandingButton styleName="outline" type="button" size="lg" @click="onClickCal">
+        <LandingButton styleName="outline" className="ml-2" type="button" size="lg" @click="onClickCal">
             <p class="text-xl">Dose Calculator</p>
         </LandingButton>
         <LandingButton styleName="outline" className="mx-4" type="button" size="lg">
