@@ -23,11 +23,23 @@ function onclickLink(url) {
       </div>
       <div class="flex justify-between">
         <div class="flex items-start mt-8">
-            <LandingButton styleName="outline" className="mx-4" @click="onclickLink('https://amr.msdbangkok.go.th/')">คู่มือเวชปฏิบัติ</LandingButton>
-            <LandingButton styleName="outline" @click="onclickLink('http://www.msdbangkok.go.th/')">เกี่ยวกับเรา</LandingButton>
+            <LandingButton styleName="outline" className="mx-4" @click="onclickLink('https://amr.msdbangkok.go.th/')">
+              <span class="text-2xl">
+                คู่มือเวชปฏิบัติ
+              </span>
+            </LandingButton>
+            <LandingButton styleName="outline" @click="onclickLink('http://www.msdbangkok.go.th/')">
+              <span class="text-2xl">
+                เกี่ยวกับเรา
+              </span>
+            </LandingButton>
         </div>
         <div class="flex items-end">
-            <LandingButton styleName="outline">Exit</LandingButton>
+            <LandingButton styleName="outline">
+              <span class="text-2xl">
+                Exit
+              </span>
+            </LandingButton>
         </div>
       </div>
   </div>
