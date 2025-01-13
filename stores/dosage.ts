@@ -58,11 +58,13 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         const timeNum = Number(filter.selectedFrequency.val)
 
         if (DOSE_LBL === '/kg/day') {
-            const lowerLimit = msdcpg.attributes.DOSE_L * weightNum
-            let upperLimit = msdcpg.attributes.DOSE_U * weightNum
-            if (maxdoseNum && upperLimit < maxdoseNum) {
-                upperLimit = maxdoseNum
+            const lowerLimit_raw = msdcpg.attributes.DOSE_L * weightNum
+            let upperLimit_raw = msdcpg.attributes.DOSE_U * weightNum
+            if (maxdoseNum && upperLimit_raw < maxdoseNum) {
+                upperLimit_raw = maxdoseNum
             }
+            const lowerLimit = Math.round(lowerLimit_raw * 100) / 100
+            const upperLimit = Math.round(upperLimit_raw * 100) / 100
             // console.log('getTotalDailyDosage : ' + `${lowerLimit} - ${upperLimit}`);
             return {
                 lowerLimit,
@@ -71,12 +73,13 @@ export const useDosageStore = defineStore('useDosageStore', () => {
 
 
         } else if (DOSE_LBL === '/kg/dose') {
-            const lowerLimit = msdcpg.attributes.DOSE_L * weightNum * timeNum
-            let upperLimit = msdcpg.attributes.DOSE_U * weightNum * timeNum
-            if (maxdoseNum && upperLimit < maxdoseNum) {
-                upperLimit = maxdoseNum
+            const lowerLimit_raw = msdcpg.attributes.DOSE_L * weightNum * timeNum
+            let upperLimit_raw = msdcpg.attributes.DOSE_U * weightNum * timeNum
+            if (maxdoseNum && upperLimit_raw < maxdoseNum) {
+                upperLimit_raw = maxdoseNum
             }
-
+            const lowerLimit = Math.round(lowerLimit_raw * 100) / 100
+            const upperLimit = Math.round(upperLimit_raw * 100) / 100
             return {
                 lowerLimit,
                 upperLimit
@@ -111,19 +114,24 @@ export const useDosageStore = defineStore('useDosageStore', () => {
         console.log('getTotalDailyDosage : ', getTotalDailyDosage());
         
         if (DOSE_LBL === '/kg/day') {
-            const lowerLimit = getTotalDailyDosage().lowerLimit/timeNum
-            const upperLimit = getTotalDailyDosage().upperLimit/timeNum
+            const lowerLimit_raw = getTotalDailyDosage().lowerLimit/timeNum
+            const upperLimit_raw = getTotalDailyDosage().upperLimit/timeNum
 
+            const lowerLimit = Math.round(lowerLimit_raw * 100) / 100
+            const upperLimit = Math.round(upperLimit_raw * 100) / 100
             return {
                 lowerLimit,
                 upperLimit
             }
         } else if (DOSE_LBL === '/kg/dose') {
-            const lowerLimit = msdcpg.attributes.DOSE_L * weightNum
-            let upperLimit = msdcpg.attributes.DOSE_U * weightNum
-            if (maxdoseNum && upperLimit < maxdoseNum) {
-                upperLimit = maxdoseNum
+            const lowerLimit_raw = msdcpg.attributes.DOSE_L * weightNum
+            let upperLimit_raw = msdcpg.attributes.DOSE_U * weightNum
+            if (maxdoseNum && upperLimit_raw < maxdoseNum) {
+                upperLimit_raw = maxdoseNum
             }
+
+            const lowerLimit = Math.round(lowerLimit_raw * 100) / 100
+            const upperLimit = Math.round(upperLimit_raw * 100) / 100
             console.log(`${lowerLimit} - ${upperLimit}`);
             return {
                 lowerLimit,
@@ -159,8 +167,11 @@ export const useDosageStore = defineStore('useDosageStore', () => {
 
             const strTimestrV = Number(msdcpg.attributes.STR) * Number(msdcpg.attributes.STR_V)
 
-            const lowerLimit = amountPerDoseLowerLimit!/strTimestrV
-            const upperLimit = amountPerDoseUpperLimit!/strTimestrV
+            const lowerLimit_raw = amountPerDoseLowerLimit!/strTimestrV
+            const upperLimit_raw = amountPerDoseUpperLimit!/strTimestrV
+
+            const lowerLimit = Math.round(lowerLimit_raw * 100) / 100
+            const upperLimit = Math.round(upperLimit_raw * 100) / 100
             return {
                 lowerLimit,
                 upperLimit
