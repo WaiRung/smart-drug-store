@@ -27,12 +27,12 @@ function onclickRenal() {
 </script>
 
 <template>
-    <div class="flex flex-row justify-between mb-12">
+    <div class="flex flex-col md:flex-row justify-between mb-12">
         <LandingButton type="button" size="lg" @click="onClickPediatric">
-            <p class="text-xl">Antibiotic Dose Calculator <br> <span>PEDIATRICS</span></p>
+            <p class="text-2xl">Antibiotic Dose Calculator <br> <span>PEDIATRICS</span></p>
         </LandingButton>
-        <LandingButton type="button" size="lg" @click="onclickRenal">
-            <p class="text-xl">Antibiotic Dose Calculator <br> <span>RENAL IMPAIRMENT</span></p>
+        <LandingButton type="button" size="lg" className="mt-4 md:my-0" @click="onclickRenal">
+            <p class="text-2xl">Antibiotic Dose Calculator <br> <span>RENAL IMPAIRMENT</span></p>
         </LandingButton>
     </div>
 </template>
