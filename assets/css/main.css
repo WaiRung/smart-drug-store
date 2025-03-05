@@ -25,6 +25,10 @@ html {
     border-color: #dc3545;
 }
 
+button:hover {
+    cursor: pointer;
+}
+
 input:disabled ,
 textarea:disabled ,
 select:disabled  {
