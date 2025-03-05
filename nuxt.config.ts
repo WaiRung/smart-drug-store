@@ -9,7 +9,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     "@nuxt/image",
     "@nuxtjs/strapi",
-    "@nuxt/icon"
+    "@nuxt/icon",
+    // "@nuxtjs/tailwindcss"
   ],
 
   css: [
