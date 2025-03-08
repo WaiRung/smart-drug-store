@@ -11,7 +11,7 @@ import { useRiskorganismStore } from '~/stores/risk_organism'
 import { useHypersensitivityStore } from '~/stores/hypersenstivity'
 import { usePatienttypeStore } from '~/stores/patient_type'
 
-import { useGenericStore } from '#imports'
+import { useGenericStore } from '~/stores/generic';
 
 export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     const { find, findOne } = useStrapi()
