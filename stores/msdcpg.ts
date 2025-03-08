@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { useErrorStore } from './error'
 
-import { useTabATP_CATALOGStore } from '#imports'
+import { useTabATP_CATALOGStore } from '~/stores/tab-atp-catalog'
 import { useGroupStore } from '#imports'
 import { useAgeStore } from '#imports'
 import { useInfectsiteStore } from '#imports'

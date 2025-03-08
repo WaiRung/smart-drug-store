@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useMsdcpgStore } from '#imports';
-import { useTabATP_CATALOGStore } from '#imports'
+import { useTabATP_CATALOGStore } from '~/stores/tab-atp-catalog'
 import { useErrorStore } from './error'
 
 export const useDosageStore = defineStore('useDosageStore', () => {
