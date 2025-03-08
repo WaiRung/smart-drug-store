@@ -2,14 +2,14 @@ import { defineStore } from 'pinia'
 import { useErrorStore } from './error'
 
 import { useTabATP_CATALOGStore } from '~/stores/tab-atp-catalog'
-import { useGroupStore } from '#imports'
-import { useAgeStore } from '#imports'
-import { useInfectsiteStore } from '#imports'
-import { useDiagnosisStore } from '#imports'
-import { useServerityStore } from '#imports';
-import { useRiskorganismStore } from '#imports';
-import { useHypersensitivityStore } from '#imports'
-import { usePatienttypeStore } from '#imports'
+import { useGroupStore } from '~/stores/group'
+import { useAgeStore } from '~/stores/age'
+import { useInfectsiteStore } from '~/stores/infect_site'
+import { useDiagnosisStore } from '~/stores/diagnosis'
+import { useServerityStore } from '~/stores/serverity'
+import { useRiskorganismStore } from '~/stores/risk_organism'
+import { useHypersensitivityStore } from '~/stores/hypersenstivity'
+import { usePatienttypeStore } from '~/stores/patient_type'
 
 import { useGenericStore } from '#imports'
 

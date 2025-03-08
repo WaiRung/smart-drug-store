@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { useMsdcpgStore } from '#imports';
+import { useMsdcpgStore } from '~/stores/msdcpg'
 import { useTabATP_CATALOGStore } from '~/stores/tab-atp-catalog'
 import { useErrorStore } from './error'
 
