@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from 'nuxt/config'
-import tailwindcss from "@tailwindcss/vite";
+// import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -20,18 +20,19 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [
-      tailwindcss(),
+      // tailwindcss(),
     ],
     server: {
       allowedHosts: ['drug-app.demo.egat.work']
     }
   },
 
-  // postcss: {
-  //   plugins: {
-  //     "@tailwindcss/postcss": {},
-  //   },
-  // },
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
 
   strapi: {
     // Options

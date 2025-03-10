@@ -1,5 +1,11 @@
 /* main.css */
-@import "tailwindcss";
+/* @import "tailwindcss"; */
+@import "flowbite/src/themes/default";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 
 @font-face {
     font-family: 'DB Heavent';
