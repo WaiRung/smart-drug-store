@@ -5,12 +5,7 @@ definePageMeta({
         name: 'slide-left',
         mode: 'out-in'
     },
-    middleware(to, from) {
-        const slideStore = useSlideStore()
-        if (to.meta.pageTransition && typeof to.meta.pageTransition !== 'boolean') {
-            to.meta.pageTransition.name = slideStore.getDirection
-        }
-    }
+    middleware: ['slide-direction']
 })
 defineProps({
   align: {
