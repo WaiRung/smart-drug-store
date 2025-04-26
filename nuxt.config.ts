@@ -46,5 +46,14 @@ export default defineNuxtConfig({
     },
   },
 
+  nitro: {
+    preset: 'github-pages',
+    prerender: {
+      failOnError: false, // Continue build even if prerendering fails
+      crawlLinks: true,
+      routes: ['/'],
+    }
+  },
+
   compatibilityDate: '2025-02-10'
 })
