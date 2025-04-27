@@ -6,15 +6,15 @@ const menuitems = [
   },
   {
     title: "Pricing",
-    path: "/index",
+    path: "/",
   },
   {
     title: "About",
-    path: "/index",
+    path: "/",
   },
   {
     title: "Contact",
-    path: "/index",
+    path: "/",
   },
 ];
 
