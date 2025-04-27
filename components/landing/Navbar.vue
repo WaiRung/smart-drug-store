@@ -6,15 +6,15 @@ const menuitems = [
   },
   {
     title: "Pricing",
-    path: "/",
+    path: "/time",
   },
   {
     title: "About",
-    path: "/",
+    path: "/time",
   },
   {
     title: "Contact",
-    path: "/",
+    path: "/time",
   },
 ];
 
