@@ -8,14 +8,14 @@ const menuitems = [
   //   title: "Pricing",
   //   path: "/old-index",
   // },
-  {
-    title: "About",
-    path: "/about",
-  },
-  {
-    title: "Contact",
-    path: "/contact",
-  },
+  // {
+  //   title: "About",
+  //   path: "/about",
+  // },
+  // {
+  //   title: "Contact",
+  //   path: "/contact",
+  // },
 ];
 
 const open = ref(false);
