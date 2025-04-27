@@ -4,18 +4,18 @@ const menuitems = [
     title: "Features",
     path: "#",
   },
-  // {
-  //   title: "Pricing",
-  //   path: "/old-index",
-  // },
-  // {
-  //   title: "About",
-  //   path: "/about",
-  // },
-  // {
-  //   title: "Contact",
-  //   path: "/contact",
-  // },
+  {
+    title: "Pricing",
+    path: "/index",
+  },
+  {
+    title: "About",
+    path: "/index",
+  },
+  {
+    title: "Contact",
+    path: "/index",
+  },
 ];
 
 const open = ref(false);
