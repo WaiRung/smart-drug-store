@@ -50,7 +50,7 @@ export default defineNuxtConfig({
     preset: 'github-pages',
     prerender: {
       failOnError: false, // Continue build even if prerendering fails
-      crawlLinks: true,
+      crawlLinks: false,
       routes: ['/'],
     }
   },
