@@ -52,6 +52,7 @@ export default defineNuxtConfig({
       failOnError: false, // Continue build even if prerendering fails
       crawlLinks: false,
       routes: ['/'],
+      ignore: ['/criteria', '/regimen', '/time', '/cpg', '/about', '/contact']
     }
   },
 
