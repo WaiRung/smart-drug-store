@@ -55,14 +55,5 @@ export default defineNuxtConfig({
     }
   },
 
-  hooks: {
-    'nitro:prerender:route': (route, { error }) => {
-      console.log(`Prerendering ${route}`)
-      if (error) {
-        console.error(`Error prerendering ${route}:`, error)
-      }
-    }
-  },
-
   compatibilityDate: '2025-02-10'
 })
