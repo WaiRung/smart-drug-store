@@ -36,7 +36,7 @@ export default defineNuxtConfig({
 
   strapi: {
     // Options
-    url: 'https://drug-strapi-api.demo.egat.work'
+    url: 'http://localhost:1337'
   },
 
   app: {
