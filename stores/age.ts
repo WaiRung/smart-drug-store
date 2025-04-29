@@ -63,7 +63,7 @@ export const useAgeStore = defineStore('useAgeStore', () => {
     function mapAges() {
         if (ages.value) {
             try {
-                const stringAges = ages.value.map((age: { attributes: { AGE: string; }; }) => age.attributes.AGE);
+                const stringAges = ages.value.map((age: { AGE: string;  }) => age.AGE);
                 const uniq = [...new Set(stringAges)]
 
                 ages.value = uniq

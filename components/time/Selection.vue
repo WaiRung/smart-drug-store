@@ -18,8 +18,8 @@ const msdcpgDetail = computed(() => {
     const rawmsdcpg = msdcpgStore.getMsdcpg()
     const msdcpg = {
         ...rawmsdcpg,
-        // DOSE_CHECK: `${msdcpg.attributes.DOSE_L}${msdcpg.attributes.DOSE_U ? '-' + msdcpg.attributes.DOSE_U : ''} ${msdcpg.attributes.DOSE_UNIT}${msdcpg.attributes.DOSE_LBL} ${msdcpg.attributes.DRUG_RM}`,
-        // DOSE_M_CHECK: `${msdcpg.attributes.DOSE_M} ${msdcpg.attributes.DOSE_M_UNIT}${msdcpg.attributes.DOSE_M_LBL}`
+        // DOSE_CHECK: `${msdcpg.DOSE_L}${msdcpg.DOSE_U ? '-' + msdcpg.DOSE_U : ''} ${msdcpg.DOSE_UNIT}${msdcpg.DOSE_LBL} ${msdcpg.DRUG_RM}`,
+        // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
     }
     return msdcpg
 })
@@ -42,7 +42,7 @@ async function fetchfrequencies(msdcpgFREQ) {
     await ref_freqStore.fetchfrequencies(msdcpgFREQ)
 }
 
-await fetchfrequencies(msdcpgDetail.value.attributes.FREQ)
+await fetchfrequencies(msdcpgDetail.value.FREQ)
 
 function onChangeWeight(evt) {
     dosageStore.onChangeWeight(evt)
@@ -90,8 +90,8 @@ function clearValidity(fieldName) {
                     @change="onChangeFrequency(filterData.selectedFrequency.val)"
                     @blur="clearValidity('selectedFrequency')"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="frequency in frequencyData" :value="frequency.attributes.Time">
-                        {{ frequency.attributes.FREQ_LBL }}
+                    <option v-for="frequency in frequencyData" :value="frequency.Time">
+                        {{ frequency.FREQ_LBL }}
                     </option>
                 </select>
                 <div v-show="!filterData.selectedFrequency.isValid" class="text-red-400 text-xl text-sm mt-1">
@@ -110,8 +110,8 @@ function clearValidity(fieldName) {
                 <select v-model="filterData.selectedForm.val" @change="onChangeForm(filterData.selectedForm.val)"
                     @blur="clearValidity('selectedForm')"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="form in formData" :value="form.attributes.FORM">
-                        {{ form.attributes.TRADE_NAME }} {{ form.attributes.FORM }}
+                    <option v-for="form in formData" :value="form.FORM">
+                        {{ form.TRADE_NAME }} {{ form.FORM }}
                     </option>
                 </select>
                 <div v-show="!filterData.selectedForm.isValid" class="text-red-400 text-xl text-sm mt-1">

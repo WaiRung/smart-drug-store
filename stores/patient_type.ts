@@ -65,7 +65,7 @@ export const usePatienttypeStore = defineStore('usePatienttypeStore', () => {
     function mapPatienttypes() {
         if (patientTypes.value) {
             try {
-                const stringPatientTypes = patientTypes.value.map((age: { attributes: { PATIENT_TYPE: string; }; }) => age.attributes.PATIENT_TYPE);
+                const stringPatientTypes = patientTypes.value.map((age: { PATIENT_TYPE: string; }) => age.PATIENT_TYPE);
                 const uniq = [...new Set(stringPatientTypes)]
                 
                 patientTypes.value = uniq

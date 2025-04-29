@@ -27,7 +27,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
             let foundTabATP = null
             
             if (ATPs.value instanceof  Array) {
-                foundTabATP = ATPs.value.find((atp: { attributes: { GENERIC: string; }; }) => atp.attributes.GENERIC === generic.toUpperCase())
+                foundTabATP = ATPs.value.find((atp:  { GENERIC: string; }) => atp.GENERIC === generic.toUpperCase())
                 ATP.value = foundTabATP
             } else if (
                 typeof ATPs.value === 'object' &&
@@ -112,7 +112,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
                     response6.data
                 ];
                 const mergedFlatData = mergedData.flat();
-                const rawClasses = mergedFlatData.map(item => item.attributes.CLASS);
+                const rawClasses = mergedFlatData.map(item => item.CLASS);
                 const uniq = [...new Set(rawClasses)]
                 classes.value = uniq
                 filteredClasses.value = uniq

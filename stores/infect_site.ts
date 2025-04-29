@@ -49,7 +49,7 @@ export const useInfectsiteStore = defineStore('useInfectsiteStore', () => {
     function mapInfectsites() {
         if (infectSites.value) {
             try {
-                const stringInfectsites = infectSites.value.map((age: { attributes: { INFECT_SITE: string; }; }) => age.attributes.INFECT_SITE);
+                const stringInfectsites = infectSites.value.map((age: { INFECT_SITE: string; }) => age.INFECT_SITE);
                 const uniq = [...new Set(stringInfectsites)]
                 
                 infectSites.value = uniq

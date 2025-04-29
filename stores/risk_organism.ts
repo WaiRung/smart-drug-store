@@ -79,7 +79,7 @@ export const useRiskorganismStore = defineStore('useRiskorganismStore', () => {
     function mapRiskorganisms() {
         if (riskOrganisms.value) {
             try {
-                const stringRiskorganisms = riskOrganisms.value.map((age: { attributes: { RISK_ORGANISM: string; }; }) => age.attributes.RISK_ORGANISM);
+                const stringRiskorganisms = riskOrganisms.value.map((age: { RISK_ORGANISM: string; }) => age.RISK_ORGANISM);
                 const uniq = [...new Set(stringRiskorganisms)]
 
                 riskOrganisms.value = uniq

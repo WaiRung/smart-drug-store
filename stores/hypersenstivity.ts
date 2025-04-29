@@ -88,7 +88,7 @@ export const useHypersensitivityStore = defineStore('useHypersensitivityStore', 
     function mapHypersensitivities() {
         if (hypersensitivities.value) {
             try {
-                const stringHypersensitivities = hypersensitivities.value.map((sense: { attributes: { HYPERSENSITIVITY: string; }; }) => sense.attributes.HYPERSENSITIVITY);
+                const stringHypersensitivities = hypersensitivities.value.map((sense: { HYPERSENSITIVITY: string; }) => sense.HYPERSENSITIVITY);
                 const uniq = [...new Set(stringHypersensitivities)]
                 hypersensitivities.value = uniq
             } catch (error) {

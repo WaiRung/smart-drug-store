@@ -48,7 +48,7 @@ export const useDrugStore = defineStore('useDrugStore', () => {
           return {
             // Return the mapped object
             id: drug.id,
-            ...drug.attributes,
+            ...drug,
             selected: false,
             isValid: true,
           }

@@ -57,7 +57,7 @@ export const useGroupStore = defineStore('useGroupStore', () => {
         
         if (groups.value) {
           try {
-            const stringGroups = groups.value.map((group: { attributes: { GROUP: string; }; }) => group.attributes.GROUP);
+            const stringGroups = groups.value.map((group: { GROUP: string; }) => group.GROUP);
             const uniq = [...new Set(stringGroups)]
             
             groups.value = uniq

@@ -133,7 +133,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
 
     const getMsdCpgTableFilter = computed(() => {
         return (property: string) => {
-            const uniqueProperty = [...new Set(msdcpgs.value.map((item: { attributes: { [x: string]: any } }) => item.attributes[property]))];
+            const uniqueProperty = [...new Set(msdcpgs.value.map((item: { [x: string]: any }) => item[property]))];
             return uniqueProperty
         }
     })
@@ -536,11 +536,11 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
 
                 const calculatedMmsdcpgs = response.data.map(msdcpg => ({
                     id: msdcpg.id,
-                    attributes: {
-                        ...msdcpg.attributes,
-                        DOSE_CHECK: `${msdcpg.attributes.DOSE_L}${msdcpg.attributes.DOSE_U ? '-' + msdcpg.attributes.DOSE_U : ''} ${msdcpg.attributes.DOSE_UNIT}${msdcpg.attributes.DOSE_LBL} ${msdcpg.attributes.DRUG_RM}`,
-                        DOSE_M_CHECK: `${msdcpg.attributes.DOSE_M} ${msdcpg.attributes.DOSE_M_UNIT}${msdcpg.attributes.DOSE_M_LBL}`
-                    },
+                    
+                    ...msdcpg,
+                    DOSE_CHECK: `${msdcpg.DOSE_L}${msdcpg.DOSE_U ? '-' + msdcpg.DOSE_U : ''} ${msdcpg.DOSE_UNIT}${msdcpg.DOSE_LBL} ${msdcpg.DRUG_RM}`,
+                    DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
+                    ,
 
                 }))
                 msdcpgs.value = calculatedMmsdcpgs
@@ -565,10 +565,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     }
     function clearFoundmsdcpg() {
         try {
-            Object.assign(msdcpg, {
-                attributes: null,
-                id: null
-            })
+            Object.assign(msdcpg, null)
             
         } catch (error) {
             const errorStore = useErrorStore()

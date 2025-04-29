@@ -19,8 +19,8 @@ const msdcpgData = computed(() => {
   const rawmsdcpgs = msdcpgStore.getMsdcpgs()
   const msdcpgs = rawmsdcpgs.map(msdcpg => ({
     ...msdcpg,
-    // DOSE_CHECK: `${msdcpg.attributes.DOSE_L}${msdcpg.attributes.DOSE_U ? '-' + msdcpg.attributes.DOSE_U : ''} ${msdcpg.attributes.DOSE_UNIT}${msdcpg.attributes.DOSE_LBL} ${msdcpg.attributes.DRUG_RM}`,
-    // DOSE_M_CHECK: `${msdcpg.attributes.DOSE_M} ${msdcpg.attributes.DOSE_M_UNIT}${msdcpg.attributes.DOSE_M_LBL}`
+    // DOSE_CHECK: `${msdcpg.DOSE_L}${msdcpg.DOSE_U ? '-' + msdcpg.DOSE_U : ''} ${msdcpg.DOSE_UNIT}${msdcpg.DOSE_LBL} ${msdcpg.DRUG_RM}`,
+    // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
   }))
   console.log(msdcpgs);
 
@@ -31,8 +31,8 @@ const msdcpgDetail = computed(() => {
   const rawmsdcpg = msdcpgStore.getMsdcpg()
   const msdcpg = {
     ...rawmsdcpg,
-    // DOSE_CHECK: `${msdcpg.attributes.DOSE_L}${msdcpg.attributes.DOSE_U ? '-' + msdcpg.attributes.DOSE_U : ''} ${msdcpg.attributes.DOSE_UNIT}${msdcpg.attributes.DOSE_LBL} ${msdcpg.attributes.DRUG_RM}`,
-    // DOSE_M_CHECK: `${msdcpg.attributes.DOSE_M} ${msdcpg.attributes.DOSE_M_UNIT}${msdcpg.attributes.DOSE_M_LBL}`
+    // DOSE_CHECK: `${msdcpg.DOSE_L}${msdcpg.DOSE_U ? '-' + msdcpg.DOSE_U : ''} ${msdcpg.DOSE_UNIT}${msdcpg.DOSE_LBL} ${msdcpg.DRUG_RM}`,
+    // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
   }
   return msdcpg
 })
@@ -55,9 +55,9 @@ function navigate(msdcpg) {
   msdcpgStore.fetchMsdcpgById(msdcpg.id)
 
   tabATP_CATALOGStore.fetchATPSByGenericClass(
-    msdcpgDetail.value.attributes.GENERIC
+    msdcpgDetail.value.GENERIC
   )
-  tabATP_CATALOGStore.getAtpByGeneric(msdcpgDetail.value.attributes.GENERIC)
+  tabATP_CATALOGStore.getAtpByGeneric(msdcpgDetail.value.GENERIC)
 
   const slideStore = useSlideStore()
   slideStore.setDirection('slide-left')
@@ -159,37 +159,37 @@ function onClickBack() {
           :class="{ 'selected-row': isMsdcpgActive(msdcpgDetail.id, msdcpg.id) }" class="hover:cursor-pointer">
           <fwb-table-cell>
             <p class="text-lg">
-              {{ msdcpg.attributes.RX_OPTION }}
+              {{ msdcpg.RX_OPTION }}
             </p>
           </fwb-table-cell>
           <fwb-table-cell>
             <p class="text-lg">
-              {{ msdcpg.attributes.GENERIC }}
+              {{ msdcpg.GENERIC }}
             </p>
           </fwb-table-cell>
           <fwb-table-cell>
             <p class="text-lg">
-              {{ msdcpg.attributes.DOSE_CHECK }}
+              {{ msdcpg.DOSE_CHECK }}
             </p>
           </fwb-table-cell>
           <fwb-table-cell>
             <p class="text-lg">
-              {{ msdcpg.attributes.DOSE_M_CHECK }}
+              {{ msdcpg.DOSE_M_CHECK }}
             </p>
           </fwb-table-cell>
           <fwb-table-cell>
             <p class="text-lg">
-              {{ msdcpg.attributes.ROUTE }}
+              {{ msdcpg.ROUTE }}
             </p>
           </fwb-table-cell>
           <fwb-table-cell>
             <p class="text-lg">
-              {{ msdcpg.attributes.FREQ }}
+              {{ msdcpg.FREQ }}
             </p>
           </fwb-table-cell>
           <fwb-table-cell>
             <p class="text-lg">
-              {{ msdcpg.attributes.DURATION }}
+              {{ msdcpg.DURATION }}
             </p>
           </fwb-table-cell>
           <!-- <fwb-table-cell>

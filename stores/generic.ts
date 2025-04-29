@@ -112,7 +112,7 @@ export const useGenericStore = defineStore('useGenericStore', () => {
                     response6.data
                 ];
                 const mergedFlatData = mergedData.flat();
-                const rawGenerics = mergedFlatData.map(item => item.attributes.GENERIC);
+                const rawGenerics = mergedFlatData.map(item => item.GENERIC);
                 const uniq = [...new Set(rawGenerics)]
                 
                 

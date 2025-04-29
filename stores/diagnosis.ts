@@ -48,7 +48,7 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
     function mapDiagnoses() {
         if (diagnoses.value) {
             try {
-                const stringDiagnoses = diagnoses.value.map((age: { attributes: { DIAGNOSIS: string; }; }) => age.attributes.DIAGNOSIS);
+                const stringDiagnoses = diagnoses.value.map((age: { DIAGNOSIS: string; }) => age.DIAGNOSIS);
                 const uniq = [...new Set(stringDiagnoses)]
 
                 diagnoses.value = uniq

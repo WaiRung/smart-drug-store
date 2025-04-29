@@ -58,7 +58,7 @@ export const useREF_FREQStore = defineStore('useREF_FREQStore', () => {
     function filterFrequencies(searchText: string) {
         if (searchText) {
             const filtered = frequencies.value.filter((frequencyObj: any) => {
-                return frequencyObj.attributes.FREQ.includes(searchText)
+                return frequencyObj.FREQ.includes(searchText)
             })
             
             const unique = mergeObjects(filtered)
@@ -69,8 +69,8 @@ export const useREF_FREQStore = defineStore('useREF_FREQStore', () => {
     }
 
     function mergeObjects(arr: any[]) {
-        const groupedObjects = arr.reduce((acc: { [x: string]: any; }, obj: { attributes: { FREQ_LBL: any; }; }) => {
-          const key = obj.attributes.FREQ_LBL;
+        const groupedObjects = arr.reduce((acc: { [x: string]: any; }, obj: { FREQ_LBL: any; }) => {
+          const key = obj.FREQ_LBL;
           if (!acc[key]) {
             acc[key] = obj;
           }

@@ -71,7 +71,7 @@ export const useServerityStore = defineStore('useServerityStore', () => {
     function mapServerities() {
         if (serverities.value) {
             try {
-                const stringServerities = serverities.value.map((age: { attributes: { SEVERITY: string; }; }) => age.attributes.SEVERITY);
+                const stringServerities = serverities.value.map((age:  { SEVERITY: string; }) => age.SEVERITY);
                 const uniq = [...new Set(stringServerities)]
 
                 serverities.value = uniq
