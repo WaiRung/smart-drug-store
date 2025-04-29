@@ -17,7 +17,7 @@ export const useGenericStore = defineStore('useGenericStore', () => {
     //     try {
     //         const filterObj = drugId ? {
     //             drug: {
-    //                 id: {
+    //                 documentId: {
     //                     $eq: drugId
     //                 }
     //             }

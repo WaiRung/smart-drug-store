@@ -13,8 +13,8 @@ export const useDrugStore = defineStore('useDrugStore', () => {
       }
       try {
         // const drugIdString = drugId.toString()
-        return drugs.value.find((drug: { id: Number; }) => {
-          const isMatch = drug.id === drugId
+        return drugs.value.find((drug: { documentId: Number; }) => {
+          const isMatch = drug.documentId === drugId
           return isMatch
         })
       } catch (error) {
@@ -47,7 +47,7 @@ export const useDrugStore = defineStore('useDrugStore', () => {
           // Perform mapping or transformation on each item
           return {
             // Return the mapped object
-            id: drug.id,
+            documentId: drug.documentId,
             ...drug,
             selected: false,
             isValid: true,

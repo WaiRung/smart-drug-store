@@ -535,7 +535,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             if (response) {
 
                 const calculatedMmsdcpgs = response.data.map(msdcpg => ({
-                    id: msdcpg.id,
+                    documentId: msdcpg.documentId,
                     
                     ...msdcpg,
                     DOSE_CHECK: `${msdcpg.DOSE_L}${msdcpg.DOSE_U ? '-' + msdcpg.DOSE_U : ''} ${msdcpg.DOSE_UNIT}${msdcpg.DOSE_LBL} ${msdcpg.DRUG_RM}`,
@@ -553,7 +553,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     }
     async function fetchMsdcpgById(ID: string) {
         try {
-            const foundMsdcpg = msdcpgs.value.find((msdcpg: { id: string }) => msdcpg.id === ID);
+            const foundMsdcpg = msdcpgs.value.find((msdcpg: { documentId: string }) => msdcpg.documentId === ID);
             if (foundMsdcpg) {
                 Object.assign(msdcpg, foundMsdcpg)
             }

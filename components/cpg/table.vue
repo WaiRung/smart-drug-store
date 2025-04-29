@@ -47,12 +47,12 @@ function isMsdcpgActive(inputId, rowId) {
 }
 
 function openModal(msdcpg) {
-  msdcpgStore.fetchMsdcpgById(msdcpg.id)
+  msdcpgStore.fetchMsdcpgById(msdcpg.documentId)
   isModalOpen.value = true
 }
 
 function navigate(msdcpg) {
-  msdcpgStore.fetchMsdcpgById(msdcpg.id)
+  msdcpgStore.fetchMsdcpgById(msdcpg.documentId)
 
   tabATP_CATALOGStore.fetchATPSByGenericClass(
     msdcpgDetail.value.GENERIC
@@ -155,8 +155,8 @@ function onClickBack() {
         </fwb-table-head-cell> -->
       </fwb-table-head>
       <fwb-table-body>
-        <fwb-table-row v-for="msdcpg in msdcpgData" :key="msdcpg.id" @click="navigate(msdcpg)"
-          :class="{ 'selected-row': isMsdcpgActive(msdcpgDetail.id, msdcpg.id) }" class="hover:cursor-pointer">
+        <fwb-table-row v-for="msdcpg in msdcpgData" :key="msdcpg.documentId" @click="navigate(msdcpg)"
+          :class="{ 'selected-row': isMsdcpgActive(msdcpgDetail.documentId, msdcpg.documentId) }" class="hover:cursor-pointer">
           <fwb-table-cell>
             <p class="text-lg">
               {{ msdcpg.RX_OPTION }}
