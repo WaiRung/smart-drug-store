@@ -507,7 +507,7 @@ async function inputATB_INFO_AE(event) {
         </div> -->
 
         <div class="flex justify-center mt-12">
-            <input type="file" @change="inputTAB" multiple>
+            <!-- <input type="file" @change="inputTAB" multiple> -->
             <input type="file" @change="inputMSD" multiple>
             <!-- <input type="file" @change="inputATB_INFO_ADJUST" multiple> -->
              <!-- <input type="file" @change="inputATB_INFO_ALERT" multiple> -->

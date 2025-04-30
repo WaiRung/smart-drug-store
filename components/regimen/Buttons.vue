@@ -13,7 +13,11 @@ function onClickCal() {
     navigateTo('/time')
 }
 
-
+function onClickInfo() {
+    const slideStore = useSlideStore()
+    slideStore.setDirection('slide-left')
+    
+}
 
 function onClickBack() {
     definePageMeta({
@@ -43,9 +47,6 @@ function onClickReset() {
             <p class="text-2xl">Dose Calculator</p>
         </fwb-button>
         
-        <!-- <LandingButton styleName="outline" className="ml-2" type="button" size="lg" @click="onClickCal">
-            <p class="text-2xl">Dose Calculator</p>
-        </LandingButton> -->
     </div>
     <div class="flex flex-row justify-between mb-12">
         <LandingButton styleName="outline" className="mx-4" type="button" size="lg" @click="onClickBack">

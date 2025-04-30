@@ -7,7 +7,7 @@ const msdcpgDetail = computed(() => {
   const rawmsdcpg = msdcpgStore.getMsdcpg()
   const msdcpg = {
     ...rawmsdcpg,
-    // DOSE_CHECK: `${msdcpg.DOSE_L}${msdcpg.DOSE_U ? '-' + msdcpg.DOSE_U : ''} ${msdcpg.DOSE_UNIT}${msdcpg.DOSE_LBL} ${msdcpg.DRUG_RM}`,
+    DOSE_CHECK: `${msdcpg.DOSE_L}${msdcpg.DOSE_U ? '-' + msdcpg.DOSE_U : ''} ${msdcpg.DOSE_UNIT}${msdcpg.DOSE_LBL} ${msdcpg.DRUG_RM}`,
     // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
   }
   return msdcpg
