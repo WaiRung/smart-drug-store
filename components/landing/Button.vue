@@ -19,9 +19,11 @@ const sizes = {
 };
 
 const styles = {
-  outline: "border-2 border-green-950 hover:bg-green-900 text-green-950 hover:text-white",
+  outline: "border border-green-800 hover:bg-green-800 text-green-800 hover:text-white",
   primary:
-    "bg-green-900 hover:bg-green-900 disabled:bg-gray-500 text-white  border-2 border-transparent",
+    "bg-green-800 hover:bg-green-900 disabled:bg-gray-500 text-white  border-2 border-transparent",
+  inverted:
+    "bg-white hover:bg-green-800 text-green-800 hover:text-white border-2 border-green-800",
 };
 
 // a computed ref

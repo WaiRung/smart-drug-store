@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'nuxt/app'
+import { FwbButton } from 'flowbite-vue'
 import { useSlideStore } from '@/stores/slide'
 import { useMsdcpgStore } from '~/stores/msdcpg'
 
@@ -34,15 +35,21 @@ function onClickReset() {
 </script>
 
 <template>
+    <div class="flex flex-row justify-evenly mb-12">
+        <fwb-button color="green" outline pill>
+            <p class="text-2xl">Antibiotic Info</p>
+        </fwb-button>
+        <fwb-button color="green" outline pill @click="onClickCal">
+            <p class="text-2xl">Dose Calculator</p>
+        </fwb-button>
+        
+        <!-- <LandingButton styleName="outline" className="ml-2" type="button" size="lg" @click="onClickCal">
+            <p class="text-2xl">Dose Calculator</p>
+        </LandingButton> -->
+    </div>
     <div class="flex flex-row justify-between mb-12">
         <LandingButton styleName="outline" className="mx-4" type="button" size="lg" @click="onClickBack">
             <p class="text-xl">Back</p>
-        </LandingButton>
-        <LandingButton styleName="outline" className="mr-2" type="button" size="lg">
-            <p class="text-xl">Antibiotic Info</p>
-        </LandingButton>
-        <LandingButton styleName="outline" className="ml-2" type="button" size="lg" @click="onClickCal">
-            <p class="text-xl">Dose Calculator</p>
         </LandingButton>
         <LandingButton styleName="outline" className="mx-4" type="button" size="lg" @click="onClickReset">
             <p class="text-xl">Reset</p>

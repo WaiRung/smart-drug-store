@@ -17,14 +17,15 @@
 
 html {
     font-family: 'DB Heavent', 'sans-serif';
-    color: rgb(5, 46, 22);
+    color: rgb(18, 80, 42);
     font-size: 100%;
 }
 
 .is-invalid label,
 .is-invalid span {
-  color: #dc3545;
+    color: #dc3545;
 }
+
 .is-invalid input,
 .is-invalid textarea,
 .is-invalid select {
@@ -35,9 +36,9 @@ button:hover {
     cursor: pointer;
 }
 
-input:disabled ,
-textarea:disabled ,
-select:disabled  {
+input:disabled,
+textarea:disabled,
+select:disabled {
     border-color: #919492;
-    color:  #919492;
+    color: #919492;
 }
