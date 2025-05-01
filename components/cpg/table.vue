@@ -22,7 +22,6 @@ const msdcpgData = computed(() => {
     // DOSE_CHECK: `${msdcpg.DOSE_L}${msdcpg.DOSE_U ? '-' + msdcpg.DOSE_U : ''} ${msdcpg.DOSE_UNIT}${msdcpg.DOSE_LBL} ${msdcpg.DRUG_RM}`,
     // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
   }))
-  console.log(msdcpgs);
 
   return msdcpgs
 })
@@ -52,8 +51,6 @@ function openModal(msdcpg) {
 }
 
 function navigate(msdcpg) {
-console.log(msdcpg);
-
   msdcpgStore.fetchMsdcpgById(msdcpg.documentId)
 
   tabATP_CATALOGStore.fetchATPSByGenericClass(
