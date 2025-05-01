@@ -12,6 +12,8 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
 
     const getATPs = computed(() => {
         return () => {
+            console.log('ATPs.value', ATPs.value);
+            
             return ATPs.value
         }
     })
