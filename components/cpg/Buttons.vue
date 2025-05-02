@@ -37,7 +37,7 @@ function onClickNext() {
     <div class="grid order-1 md:grid-cols-2 md:order-0">
         <div class="grid justify-items-center mt-10 order-last md:justify-items-start md:order-first">
             <LandingButton
-                type="button" @click="onClickBack" size="lg">
+                type="button" styleName="outline" @click="onClickBack" size="lg">
                 <p class="text-xl">Back</p>
             </LandingButton>
         </div>

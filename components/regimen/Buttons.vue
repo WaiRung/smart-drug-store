@@ -41,10 +41,16 @@ function onClickReset() {
 <template>
     <div class="flex flex-row justify-evenly mb-12">
         <fwb-button color="green" outline pill>
-            <p class="text-2xl">Antibiotic Info</p>
+            <p class="text-2xl">
+                <Icon name="flowbite:info-circle-outline" class="-mb-1.5" />
+                Antibiotic Info
+            </p>
         </fwb-button>
         <fwb-button color="green" outline pill @click="onClickCal">
-            <p class="text-2xl">Dose Calculator</p>
+            <p class="text-2xl">
+                <Icon name="ic:outline-calculate" class="-mb-1.5" />
+                Dose Calculator
+            </p>
         </fwb-button>
         
     </div>
