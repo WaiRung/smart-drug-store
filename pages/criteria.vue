@@ -18,7 +18,7 @@ defineProps({
     <LandingContainer>
         <HomeNavbar />
         <LandingSectionhead>
-            <template v-slot:title>Antibiotic Dose Calculators (for pediatrics)</template>
+            <template v-slot:title>Antibiotic Dose Calculators for Pediatrics</template>
             <template v-slot:desc>Clinical Criteria</template>
         </LandingSectionhead>
 

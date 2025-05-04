@@ -20,31 +20,31 @@ const filterData = computed(() => {
 </script>
 
 <template>
-  <div class="md:flex justify-between mx-auto max-w-3xl">
+  <div class="md:flex justify-end mx-auto max-w-3xl">
 
     <div
-      class="bg-green-900 px-20 py-2 mt-10 mb-10 mx-auto md:mx-0 max-w-fit rounded-lg flex flex-col items-center text-center">
-      <h5 class="text-white text-3xl md:text-2xl">Patient Group : <span class="text-lime-500">{{
+      class="pl-10 py-2 mt-10 mb-5 mx-auto md:mx-0 md:mb-10 max-w-fit rounded-lg flex flex-col text-right items-end">
+      <h5 class="text-3xl md:text-2xl">Patient Group : <span class="text-lime-600">{{
         filterData.selectedGroup.val }}</span> </h5>
 
     </div>
 
     <div
-      class="bg-green-900 px-20 py-2 mt-10 mb-10 mx-auto md:mx-0 max-w-fit rounded-lg flex flex-col items-center text-center">
-      <h5 class="text-white text-3xl md:text-2xl">Age : <span class="text-lime-500">{{ filterData.selectedAge.val
+      class="pl-10 py-2 mt-0 mb-10 mx-auto md:mx-0 md:mt-10 max-w-fit rounded-lg flex flex-col items-center text-center">
+      <h5 class="text-3xl md:text-2xl">Age : <span class="text-lime-600">{{ filterData.selectedAge.val
           }}</span></h5>
     </div>
 
   </div>
   <div class="bg-green-900 px-20 py-2 mb-10 mx-auto max-w-3xl rounded-lg flex flex-col items-center text-center">
     <h5 class="text-white text-3xl md:text-2xl">Indication Summary</h5>
-    <p class="text-lime-500 mt-4 text-lg md:text-xl">
+    <p class="text-lime-400 mt-4 text-lg md:text-xl">
       {{ msdcpgDetail?.INDICATION_LABEL }}
     </p>
   </div>
   <div class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-3xl rounded-lg flex flex-col items-center text-center">
     <h5 class="text-white text-3xl md:text-2xl">Recommended Antibiotics</h5>
-    <p class="text-lime-500 mt-4 text-lg md:text-xl">
+    <p class="text-lime-400 mt-4 text-lg md:text-xl">
       {{ msdcpgDetail?.ANTIBIOTIC_LABEL }}
     </p>
   </div>
