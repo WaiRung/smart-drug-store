@@ -10,21 +10,6 @@ const msdcpgData = computed(() => {
     return msdcpg
 })
 
-function onClickBack() {
-
-    definePageMeta({
-        pageTransition: {
-            name: 'slide-left',
-            mode: 'out-in'
-        },
-        middleware: ['slide-direction']
-    })
-    const slideStore = useSlideStore()
-    slideStore.setDirection('slide-right')
-    const router = useRouter()
-    router.back()
-}
-
 function onClickNext() {
     msdcpgStore.fetchMsdcpgsByFilter()
     const slideStore = useSlideStore()
@@ -36,10 +21,6 @@ function onClickNext() {
 <template>
     <div class="grid order-1 md:grid-cols-2 md:order-0">
         <div class="grid justify-items-center mt-10 order-last md:justify-items-start md:order-first">
-            <LandingButton
-                type="button" styleName="outline" @click="onClickBack" size="lg">
-                <p class="text-xl">Back</p>
-            </LandingButton>
         </div>
         <div class="grid justify-items-center md:mt-10 order-first md:justify-items-end md:order-last">
             <!-- <LandingButton

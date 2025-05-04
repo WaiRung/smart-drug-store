@@ -1,4 +1,5 @@
 <script setup>
+
 defineProps({
   align: {
     default: "center",
@@ -11,8 +12,7 @@ function onclickLink(url) {
 </script>
 
 <template>
-  <div >
-
+  <div>
       <div>
         <img
           class=""
@@ -22,13 +22,13 @@ function onclickLink(url) {
         />
       </div>
       <div class="flex justify-between">
-        <div class="flex items-start mt-8">
-            <LandingButton styleName="outline" className="mx-4" @click="onclickLink('https://amr.msdbangkok.go.th/')">
+        <div class="flex-col items-start xs:flex-col mt-8">
+            <LandingButton styleName="outline" className="mx-2" @click="onclickLink('https://amr.msdbangkok.go.th/')">
               <span class="text-2xl">
                 คู่มือเวชปฏิบัติ
               </span>
             </LandingButton>
-            <LandingButton styleName="outline" @click="onclickLink('http://www.msdbangkok.go.th/')">
+            <LandingButton styleName="outline" className="mx-2 mt-2 sm:mt-0" @click="onclickLink('http://www.msdbangkok.go.th/')">
               <span class="text-2xl">
                 เกี่ยวกับเรา
               </span>
@@ -43,4 +43,8 @@ function onclickLink(url) {
         </div>
       </div>
   </div>
+
 </template>
+
+<style scoped>
+</style>

@@ -20,7 +20,7 @@ function onClickBack() {
 
 <template>
     <LandingContainer>
-        <LandingSitehead />
+        <HomeNavbar />
         <LandingSectionhead>
             <template v-slot:title>Antibiotic Dose Calculators (for pediatrics)</template>
             <template v-slot:desc>List of Recommended Antibiotics</template>

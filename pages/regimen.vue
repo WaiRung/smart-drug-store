@@ -31,14 +31,14 @@ const msdcpgDetail = computed(() => {
 </script>
 
 <template>
-    <LandingContainer>
-      <LandingSitehead />
-        <LandingSectionhead>
-            <template v-slot:title>Antibiotic Dose Calculators (for pediatrics)</template>
-            <template v-slot:desc>Summary Selected Antibiotic Regimen</template>
-        </LandingSectionhead>
-        <!-- <CpgDetails #body /> -->
-         <RegimenDetails #body />
-         <RegimenButtons />
-    </LandingContainer>
+  <LandingContainer>
+    <HomeNavbar />
+    <LandingSectionhead>
+      <template v-slot:title>Antibiotic Dose Calculators (for pediatrics)</template>
+      <template v-slot:desc>Summary Selected Antibiotic Regimen</template>
+    </LandingSectionhead>
+    <!-- <CpgDetails #body /> -->
+    <RegimenDetails #body />
+    <RegimenButtons />
+  </LandingContainer>
 </template>
