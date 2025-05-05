@@ -16,7 +16,7 @@ defineProps({
 
 <template>
     <LandingContainer>
-        <LandingSitehead />
+        <HomeSitehead />
         <HomeSectionhead />
         <div class="grid gap-10 mx-auto max-w-5xl mt-16">
             <HomeButtons />

@@ -25,7 +25,8 @@ const msdcpgDetail = computed(() => {
 })
 
 const formData = computed(() => {
-    const forms = tabATP_CATALOGStore.getATPs()
+    // const forms = tabATP_CATALOGStore.getATPs()
+    const forms = tabATP_CATALOGStore.getATPswithbyFORM_LABEL()
     console.log(forms);
 
     return forms
@@ -111,7 +112,7 @@ function clearValidity(fieldName) {
                     @blur="clearValidity('selectedForm')"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="form in formData" :value="form.FORM">
-                        {{ form.TRADE_NAME }} {{ form.FORM }}
+                        {{ form.TRADE_NAME }} {{ form.SHORT_STRENGTH }}
                     </option>
                 </select>
                 <div v-show="!filterData.selectedForm.isValid" class="text-red-400 text-xl text-sm mt-1">

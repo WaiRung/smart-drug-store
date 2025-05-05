@@ -12,11 +12,28 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
 
     const getATPs = computed(() => {
         return () => {
-            console.log('ATPs.value', ATPs.value);
-            
             return ATPs.value
         }
     })
+
+    const getATPswithbyFORM_LABEL = computed(() => {
+        return () => {
+            // Remove duplicates based on the 'FORM_LABEL' property
+            const uniqueMap: { [key: string]: any } = {};
+            ATPs.value.forEach((atp: any) => {
+                if (atp.FORM_LABEL) {
+                    uniqueMap[atp.FORM_LABEL] = atp;
+                }
+            });
+            
+            // Convert back to array
+            const uniqueATPs = Object.values(uniqueMap);
+            
+            return uniqueATPs
+        }
+    }
+    )
+
 
     const getClassess = computed(() => {
         return () => {
@@ -175,6 +192,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
     return {
         getClassess,
         getATPs,
+        getATPswithbyFORM_LABEL,
         getAtpByGeneric,
         fetchClassesByGeneric,
         fetchATPSByGenericClass,
