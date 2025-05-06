@@ -49,11 +49,11 @@ const handleHome = async () => {
 
 <template>
   <div class="layout-wrapper">
-    <nav class="fixed top-0 left-0 w-full bg-transparent z-[9999]" style="transform: translateZ(0);">
+    <nav class="fixed top-0 left-0 w-full z-[9999] pointer-events-none" style="transform: translateZ(0);">
       <div class="max-w-screen-xl mx-auto px-4">
         <div class="flex items-center justify-between h-16 py-2">
           <!-- Back Button -->
-          <fwb-button color="green" class="mx-2" outline pill @click="handleBack">
+          <fwb-button color="green" class="mx-2 pointer-events-auto" outline pill @click="handleBack">
 
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
@@ -62,7 +62,7 @@ const handleHome = async () => {
           </fwb-button>
 
           <!-- Home Button -->
-          <fwb-button color="green" class="mx-2" outline pill @click="handleHome">
+          <fwb-button color="green" class="mx-2 pointer-events-auto" outline pill @click="handleHome">
 
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
@@ -72,7 +72,7 @@ const handleHome = async () => {
           </fwb-button>
 
           <!-- Refresh Button -->
-          <fwb-button color="green" class="mx-2" outline pill @click="handleRefresh">
+          <fwb-button color="green" class="mx-2 pointer-events-auto" outline pill @click="handleRefresh">
 
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
@@ -90,15 +90,6 @@ const handleHome = async () => {
 .layout-wrapper {
   position: relative;
   min-height: 25px;
-}
-
-.navbar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: transparent;
-  z-index: 50;
 }
 
 .content {
