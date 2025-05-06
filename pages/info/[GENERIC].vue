@@ -1,0 +1,9 @@
+<script setup lang="ts">
+</script>
+<template>
+    <LandingContainer>
+        <HomeNavbar />
+        <InfoAlert />
+    </LandingContainer>
+
+</template>

@@ -1,21 +1,4 @@
 <script setup lang="ts">
-import { useRouter } from 'nuxt/app'
-import { useSlideStore } from '@/stores/slide'
-
-function onClickBack() {
-
-    definePageMeta({
-        pageTransition: {
-            name: 'slide-left',
-            mode: 'out-in'
-        },
-        middleware: ['slide-direction']
-    })
-    const slideStore = useSlideStore()
-    slideStore.setDirection('slide-right')
-    const router = useRouter()
-    router.back()
-}
 </script>
 
 <template>

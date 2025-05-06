@@ -3,6 +3,18 @@ import { FwbButton } from 'flowbite-vue'
 import { useSlideStore } from '@/stores/slide'
 import { useMsdcpgStore } from '~/stores/msdcpg'
 
+const msdcpgStore = useMsdcpgStore()
+
+const msdcpgDetail = computed(() => {
+  const rawmsdcpg = msdcpgStore.getMsdcpg()
+  const msdcpg = {
+    ...rawmsdcpg,
+    DOSE_CHECK: `${rawmsdcpg.DOSE_L}${rawmsdcpg.DOSE_U ? '-' + rawmsdcpg.DOSE_U : ''} ${rawmsdcpg.DOSE_UNIT}${rawmsdcpg.DOSE_LBL} ${rawmsdcpg.DRUG_RM}`,
+    // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
+  }
+  return msdcpg
+})
+
 function onClickCal() {
     // isDrugmodalOpen.value = true
     // msdcpgStore.fetchMsdcpgsByFilter()
@@ -15,14 +27,15 @@ function onClickCal() {
 function onClickInfo() {
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
-    
+    const encodedGeneric = encodeURIComponent(msdcpgDetail.value.GENERIC);
+    navigateTo('/info/' + encodedGeneric)
 }
 
 </script>
 
 <template>
     <div class="flex flex-row justify-evenly mb-12">
-        <fwb-button color="green" class="mx-2" outline pill>
+        <fwb-button color="green" class="mx-2" outline pill @click="onClickInfo">
             <p class="text-2xl">
                 <Icon name="flowbite:info-circle-outline" class="-mb-1.5" />
                 Antibiotic Info

@@ -65,7 +65,8 @@ function navigate(msdcpg) {
 
   const slideStore = useSlideStore()
   slideStore.setDirection('slide-left')
-  navigateTo('/regimen')
+  const encodedGeneric = encodeURIComponent(msdcpg.GENERIC);
+  navigateTo('/regimen/' + encodedGeneric)
 }
 
 function closeModal() {
