@@ -71,7 +71,7 @@ export const useGroupStore = defineStore('useGroupStore', () => {
       }
 
       function reorderGroup() {
-        const defaultOrder = ['NEWBORN', 'CHILD', 'ADULT'];
+        const defaultOrder = ['NB', 'INFANT', 'KID'];
         const reorderedArray: string[] = [];
       
         // Iterate through the default order and add elements from the input array if they exist

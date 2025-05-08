@@ -3,7 +3,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 // import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: { enabled: false },
 
   modules: [
     '@pinia/nuxt',

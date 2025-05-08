@@ -123,16 +123,10 @@ console.log(alert);
                         </fwb-accordion-header>
                         <fwb-accordion-content>
                             <fwb-alert border type="warning" class="mt-2">
-                                <!-- <p class="text-2xl">
-                                    Use only to treat infections that are proven or strongly suspected to be caused by
-                                    susceptible bacteria to reduce the development of drug-resistant bacteria and
-                                    maintain
-                                    the effectiveness of azithromycin.
-                                </p> -->
-                                <p v-if="alert.RESIST_AWARE" class="2xl">
+                                <span v-if="alert.RESIST_AWARE" class="text-warning">
                                     {{ alert.RESIST_AWARE }}
-                                </p>
-                                <p v-else class="2xl">-</p>
+                                </span>
+                                <span v-else class="text-warning">-</span>
                             </fwb-alert>
                         </fwb-accordion-content>
                     </fwb-accordion-panel>
@@ -146,3 +140,10 @@ console.log(alert);
         </fwb-card>
     </div>
 </template>
+
+<style scoped >
+.text-warning {
+    color: #ff9800;
+    font-size: 24px;
+}
+</style>

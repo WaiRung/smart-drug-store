@@ -30,7 +30,7 @@ const handleBack = () => {
 };
 
 const handleRefresh = () => {
-  reloadNuxtApp({ path: '/' })
+  reloadNuxtApp({ path: '/criteria' })
 };
 
 const handleHome = async () => {

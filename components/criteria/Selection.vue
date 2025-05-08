@@ -27,6 +27,7 @@ const msdcpgStore = useMsdcpgStore()
 
 const groupData = computed(() => {
     const groups = groupStore.getGroups()
+    
     return groups
 })
 
@@ -172,11 +173,11 @@ async function inputMSD(event) {
         
         for (let i = 0; i < jsonObj.length; i++) {
             const element = jsonObj[i];
-            console.log(element);
-            // const response = await create('msd-cpgs', element)
-            //     if (response && response.error) {
-            //         console.log(response.error);
-            //     }
+            console.log(i, element);
+            const response = await create('msd-cpgs', element)
+                if (response && response.error) {
+                    console.log(response.error);
+                }
         }
     }
     reader.readAsText(event.target.files[0]);
@@ -508,7 +509,7 @@ async function inputATB_INFO_AE(event) {
 
         <div class="flex justify-center mt-12">
             <!-- <input type="file" @change="inputTAB" multiple> -->
-            <input type="file" @change="inputMSD" multiple>
+            <!-- <input type="file" @change="inputMSD" multiple> -->
             <!-- <input type="file" @change="inputATB_INFO_ADJUST" multiple> -->
              <!-- <input type="file" @change="inputATB_INFO_ALERT" multiple> -->
              <!-- <input type="file" @change="inputATB_INFO_DDI" multiple> -->
