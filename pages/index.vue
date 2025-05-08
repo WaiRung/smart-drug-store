@@ -21,6 +21,6 @@ defineProps({
         <div class="grid gap-10 mx-auto max-w-5xl mt-16">
             <HomeButtons />
         </div>
-        
+        <button @click="navigateTo('/import')">sss</button>
     </LandingContainer>
 </template>

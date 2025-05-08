@@ -29,7 +29,6 @@ function onClickBack() {
             </div>
             <div class="snap-section">
                 <TimeResult />
-                <TimeButtons />
             </div>
 
         </div>
