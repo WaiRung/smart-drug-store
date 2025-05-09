@@ -2,7 +2,9 @@
 import {
   FwbButton,
   FwbModal,
-  FwbCheckbox
+  FwbCheckbox,
+  FwbAlert,
+  FwbProgress
 } from 'flowbite-vue'
 
 interface WorksheetData {
@@ -27,27 +29,13 @@ const props = defineProps({
     type: Object as () => ExcelData,
     default: () => ({})
   },
-
 });
 
 const emit = defineEmits({
   close: () => true,
-  selecedTable(payload:  TableMap[]) {
+  selecedTable(payload: TableMap[]) {
     // return `true` or `false` to indicate
     // validation pass / fail
-  }
-});
-
-watch(() => props.excelSheets, (first, second) => {
-
-  if (first) {
-    for (const key in first) {
-      if (Object.prototype.hasOwnProperty.call(first, key)) {
-        const element = first[key];
-        inputSheetList.value.push(key);
-      }
-    }
-    compareTableLists(tableList.value, inputSheetList.value);
   }
 });
 
@@ -57,6 +45,18 @@ watch(() => props.isShowModal, (first, second) => {
     first,
     second
   );
+});
+
+watch(() => props.excelSheets, (first, second) => {
+  if (first) {
+    inputSheetList.value = [];
+    for (const key in first) {
+      if (Object.prototype.hasOwnProperty.call(first, key)) {
+        inputSheetList.value.push(key);
+      }
+    }
+    updateProgressesAndErrors();
+  }
 });
 
 const tableList = ref<TableMap[]>([
@@ -70,11 +70,12 @@ const tableList = ref<TableMap[]>([
 ]);
 
 const inputSheetList = ref<string[]>([]);
-
 const selectedSheetList = ref<string[]>([]);
+const buttonsDisabled = ref<{ [key: string]: boolean }>({});
+const errorMessages = ref<{ [key: string]: string | null }>({});
+const progresses = ref<{ [key: string]: number }>({});
 
 const compareTableLists = (tableList: TableMap[], inputSheetList: string[]): { common: string[], difference: string[] } => {
-  // Create normalized arrays with trimmed and lowercased values
   const normalizedTableList = tableList.map(item => item.sheet.trim().toLowerCase());
   const normalizedInputList = inputSheetList.map(item => item.trim().toLowerCase());
 
@@ -84,33 +85,70 @@ const compareTableLists = (tableList: TableMap[], inputSheetList: string[]): { c
   const common: string[] = [];
 
   for (const item of normalizedInputList) {
-    
     if (existingSet.has(item)) {
       common.push(item);
     } else {
       difference.push(item);
     }
   }
-  
+
   return { common, difference };
 }
+
+const updateProgressesAndErrors = () => {
+  if (!tableList.value.length || !inputSheetList.value.length) {
+    errorMessages.value = {};
+    progresses.value = {};
+    return;
+  }
+  
+  const { common } = compareTableLists(tableList.value, inputSheetList.value);
+  
+  // Update error messages
+  errorMessages.value = common.reduce((acc, sheet) => {
+    acc[sheet] = null; // Initialize with null (no errors)
+    return acc;
+  }, {} as { [key: string]: string | null });
+  
+  // Update progress values
+  progresses.value = common.reduce((acc, sheet) => {
+    acc[sheet] = Math.floor(Math.random() * 100);
+    return acc;
+  }, {} as { [key: string]: number });
+}
+
+watch(() => inputSheetList.value, updateProgressesAndErrors, { immediate: true });
+
+const getOriginalSheetName = (normalizedSheetName: string): string => {
+  const sheet = inputSheetList.value.find(
+    sheet => sheet.trim().toLowerCase() === normalizedSheetName.toLowerCase()
+  );
+  return sheet || normalizedSheetName;
+};
+
+const getTableName = (sheetName: string): string => {
+  const item = tableList.value.find(
+    item => item.sheet.trim().toLowerCase() === sheetName.trim().toLowerCase()
+  );
+  return item ? item.table : '';
+};
 
 const closeModal = (mode: string = 'declined') => {
   if (mode === 'accept') {
     const emitSelectedTable: TableMap[] = selectedSheetList.value.map((sheet) => {
       const lowercasedSheet = sheet.trim().toLowerCase();
-      
-      const found: TableMap | undefined = tableList.value.find((item) => item.sheet.trim().toLowerCase() === lowercasedSheet);
-      
+      const found: TableMap | undefined = tableList.value.find(
+        (item) => item.sheet.trim().toLowerCase() === lowercasedSheet
+      );
       return found ? found : null;
     }).filter((item): item is TableMap => item !== null);
+    
     emit('selecedTable', emitSelectedTable);
   } else {
     emit('selecedTable', []);
   }
   emit('close');
 };
-
 </script>
 
 <template>
@@ -121,21 +159,49 @@ const closeModal = (mode: string = 'declined') => {
       </div>
     </template>
     <template #body>
-      <div class="space-y-2">
-        <fwb-checkbox
-          v-for="(sheet, i) in compareTableLists(tableList,inputSheetList ).common" :key="i"
-          v-model="selectedSheetList"
-          :label="sheet" :value="sheet"
-          name="sheets" />
-
-          <div v-if="compareTableLists(tableList,inputSheetList ).difference">
-            <p class="text-red-500">The following sheets are not in the table list:</p>
-            <ul class="list-disc pl-5">
-              <li v-for="(sheet, i) in compareTableLists(tableList,inputSheetList ).difference" :key="i">
-                {{ sheet }}
-              </li>
-            </ul>
+      <div v-for="sheet in compareTableLists(tableList, inputSheetList).common" :key="sheet" class="mb-4">
+        <div class="grid grid-cols-12 gap-4 items-center">
+          <!-- Checkbox and table name -->
+          <div class="col-span-4 flex items-center">
+            <fwb-checkbox v-model="selectedSheetList" :label="getOriginalSheetName(sheet)" :value="sheet" name="sheets" />
           </div>
+          
+          <!-- Table mapping info -->
+          <div class="col-span-3 text-sm text-gray-500">
+            ({{ getTableName(sheet) }})
+          </div>
+          
+          <!-- Action button -->
+          <div class="col-span-2">
+            <fwb-button color="green" size="sm">Import</fwb-button>
+          </div>
+          
+          <!-- Progress bar -->
+          <div class="col-span-3">
+            <fwb-progress 
+              :progress="progresses[sheet] || 0" 
+              size="sm" 
+              :label="`${progresses[sheet] || 0}%`" 
+            />
+          </div>
+          
+          <!-- Alert message (full width) -->
+          <div v-if="errorMessages[sheet]" class="col-span-12 mt-2">
+            <fwb-alert class="border-t-4 rounded-none" icon type="danger">
+              {{ errorMessages[sheet] }}
+            </fwb-alert>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Show sheets not in table list -->
+      <div v-if="compareTableLists(tableList, inputSheetList).difference.length > 0" class="mt-4">
+        <p class="text-red-500">The following sheets are not in the table list:</p>
+        <ul class="list-disc pl-5">
+          <li v-for="sheet in compareTableLists(tableList, inputSheetList).difference" :key="sheet">
+            {{ getOriginalSheetName(sheet) }}
+          </li>
+        </ul>
       </div>
     </template>
     <template #footer>

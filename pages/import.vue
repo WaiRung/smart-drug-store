@@ -17,6 +17,11 @@ interface ExcelData {
   [sheetName: string]: WorksheetData;
 }
 
+interface TableMap {
+  sheet: string;
+  table: string;
+}
+
 const excelData = ref<ExcelData | undefined>(undefined);
 
 const isSelectTableModalOpen = ref(false);
