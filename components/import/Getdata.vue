@@ -1,12 +1,4 @@
 <script setup lang="ts">
-import { useSlideStore } from '@/stores/slide'
-definePageMeta({
-    pageTransition: {
-        name: 'slide-left',
-        mode: 'out-in'
-    },
-    middleware: ['slide-direction']
-})
 
 import * as XLSX from 'xlsx';
 
