@@ -24,11 +24,8 @@ interface TableMap {
 
 const excelData = ref<ExcelData | undefined>(undefined);
 
-const isSelectTableModalOpen = ref(false);
-
 const handleDataExtracted = (data: ExcelData) => {
   excelData.value = data;
-  isSelectTableModalOpen.value = true;
   // Example: Process the data further as needed
   // This could include data transformation, validation, saving to store, etc.
   console.log('Processing extracted data');
@@ -47,12 +44,6 @@ const handleDataExtracted = (data: ExcelData) => {
     <p>Upload an Excel file (.xlsx) to extract and process its data.</p>
     
     <ImportGetdata @data-extracted="handleDataExtracted" />
-    <ImportSelecttable
-      :isShowModal="isSelectTableModalOpen"
-      :excelSheets="excelData"
-
-      @close="isSelectTableModalOpen = false"
-      />
     
     <div v-if="excelData" class="data-analysis">
       <h2>Data Analysis</h2>
