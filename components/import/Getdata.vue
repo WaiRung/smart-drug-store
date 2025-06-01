@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const { find, create, delete: _delete } = useStrapi()
-
 import * as XLSX from 'xlsx';
 import {
   FwbButton,
@@ -10,17 +9,14 @@ import {
   FwbProgress
 } from 'flowbite-vue'
 
+import { type TableMap, tableList, sanitizeMsdCpg } from './getdata_helper'
+
 interface WorksheetData {
   [key: string]: any[];
 }
 
 interface ExcelData {
   [sheetName: string]: WorksheetData;
-}
-
-interface TableMap {
-  sheet: string;
-  table: string;
 }
 
 const fileInput = ref<HTMLInputElement | null>(null);
@@ -30,16 +26,6 @@ const errorMessage = ref<string>('');
 const progresses = ref<{ [key: string]: number }>({});
 const buttonsDisabled = ref<{ [key: string]: boolean }>({});
 const uploadErrorMessages = ref<{ [key: string]: string | null }>({});
-
-const tableList = ref<TableMap[]>([
-  { sheet: 'ADJUSTS', table: 'atb-info-adjusts' },
-  { sheet: 'AE', table: 'atb-info-aes' },
-  { sheet: 'ALERT', table: 'atb-info-alerts' },
-  { sheet: 'DD', table: 'atb-info-ddis' },
-  { sheet: 'MSDCPG', table: 'msd-cpgs' },
-  { sheet: 'Ref_FREQ', table: 'ref-freqs' },
-  { sheet: '5_TabATB_CATALOG Final', table: 'tab-atp-catalogs' },
-]);
 
 const emits = defineEmits<{
   (e: 'dataExtracted', data: ExcelData): void;
@@ -140,32 +126,31 @@ const uploadClicked = async (sheetName: string) => {
   );
 
   if (item) {
-    buttonsDisabled.value[item.sheet] = false;
+    buttonsDisabled.value[item.sheet] = true;
     progresses.value[item.sheet] = 0;
-   
+
     uploadErrorMessages.value[item.sheet] = null;
 
-    const tableToUpload = item.table;
     const sheetDataToUpload = extractedData.value?.[sheetName]?.sheetData;
     const totalRows = sheetDataToUpload?.length || 0;
 
     if (sheetDataToUpload && totalRows > 0) {
-      // await clearTable(tableToUpload);
+      await clearTable(item);
 
       let processedRows = 0;
       for (let i = 0; i < sheetDataToUpload?.length; i++) {
         const element = sheetDataToUpload[i];
+        const elementToUpload = sanitizeMsdCpg(element);
         try {
-          // const response = await create(tableToUpload, element);
+          const response = await create(item.api_plural, elementToUpload);
           processedRows += 1;
         } catch (error) {
           console.log('Error creating record:', error);
         }
         const percentage = Math.floor((processedRows / totalRows) * 100);
         progresses.value[item.sheet] = percentage;
-        console.log(element);
       }
-      buttonsDisabled.value[item.sheet] = true;
+      buttonsDisabled.value[item.sheet] = false;
     } else {
       uploadErrorMessages.value[item.sheet] = "No data to upload in this sheet";
       buttonsDisabled.value[item.sheet] = true;
@@ -173,22 +158,38 @@ const uploadClicked = async (sheetName: string) => {
   }
 }
 
-const clearTable = async (tableName: string) => {
+const clearTable = async (tableObj: TableMap) => {
+  uploadErrorMessages.value[tableObj.sheet] = "Clearing old data ...";
   try {
-    const { data } = await find(tableName, {
-      pagination: {
-        page: 1,
-        pageSize: 100
+    let hasMoreData = true;
+    while (hasMoreData) {
+      const { data } = await find(tableObj.api_plural, {
+        pagination: {
+          page: 1,
+          pageSize: 100
+        }
+      });
+
+      if (data.length === 0) {
+        hasMoreData = false;
+        break;
       }
-    })
-    const deletePromises = data.map((record) =>
-      _delete(tableName, (record as { id: string }).id)
-    )
-    const results = await Promise.all(deletePromises)
+
+      for (const record of data) {
+        try {
+          if (record && typeof record === 'object' && 'documentId' in record) {
+            const result = await _delete(tableObj.api_plural, (record as { documentId: string }).documentId);
+          } else {
+            console.error('Record does not have an documentId:', record);
+          }
+        } catch (error) {
+          console.error('Delete failed:', error);
+        }
+      }
+    }
+    uploadErrorMessages.value[tableObj.sheet] = null
     return {
       success: true,
-      deletedCount: results.length,
-      message: `Successfully deleted ${results.length} records`
     }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error)
@@ -247,9 +248,7 @@ const reset = (tableName: string) => {
           <div class="col-span-2">
             <fwb-button
               :disabled="!tableList.some(item => item.sheet.trim().toLowerCase() === String(sheetName).trim().toLowerCase())"
-              @click="reset(String(sheetName))"
-              color="green"
-              size="sm">
+              @click="reset(String(sheetName))" color="green" size="sm">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
