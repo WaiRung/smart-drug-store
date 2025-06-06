@@ -6,7 +6,6 @@
 	"recommendations": [
 		"dbaeumer.vscode-eslint",
 		"christian-kohler.path-intellisense",
-		"csstools.postcss",
 		"vue.volar",
 		
 	],

@@ -14,15 +14,14 @@
     "@nuxt/icon": "^1.13.0",
     "@nuxt/image": "^2.0.0-alpha.1",
     "@nuxtjs/strapi": "^2.0.0",
-    "autoprefixer": "^10.4.21",
     "nuxt": "^3.17.5",
-    "postcss": "^8.5.4",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4.1.8",
     "vue": "^3.5.16",
     "vue-router": "^4.5.1"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.11.1",
+    "@tailwindcss/vite": "^4.1.8",
     "flowbite": "^3.1.2",
     "flowbite-vue": "^0.2.1",
     "papaparse": "^5.5.2",

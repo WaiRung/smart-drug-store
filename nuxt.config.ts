@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from 'nuxt/config'
-// import tailwindcss from "@tailwindcss/vite";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -10,7 +10,6 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxtjs/strapi",
     "@nuxt/icon",
-    // "@nuxtjs/tailwindcss"
   ],
 
   css: [
@@ -20,17 +19,10 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [
-      // tailwindcss(),
+      tailwindcss(),
     ],
     server: {
       allowedHosts: ['drug-app.demo.egat.work']
-    },
-  },
-
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
     },
   },
 
@@ -56,5 +48,5 @@ export default defineNuxtConfig({
     }
   },
 
-  compatibilityDate: '2025-02-10'
+  compatibilityDate: '2025-06-07'
 })
