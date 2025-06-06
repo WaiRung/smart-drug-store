@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     ],
     server: {
       allowedHosts: ['drug-app.demo.egat.work']
-    }
+    },
   },
 
   postcss: {
