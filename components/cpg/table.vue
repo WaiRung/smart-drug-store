@@ -50,8 +50,6 @@ function isMsdcpgActive(inputId, rowId) {
 
 function navigate(msdcpg) {
   msdcpgStore.fetchMsdcpgById(msdcpg.documentId)
-  console.log('msdcpgDetail', msdcpgDetail.value);
-  
   tabATP_CATALOGStore.fetchATPSByGenericRoute(
     msdcpgDetail.value.GENERIC
   )
@@ -90,80 +88,80 @@ function onClickBack() {
   <div class="overflow-x-scroll table-width">
     <fwb-table hoverable>
       <fwb-table-head>
-        <fwb-table-head-cell>
+        <fwb-table-head-cell class="text-left pl-4">
           <p class="text-lg">
             Rx
           </p>
         </fwb-table-head-cell>
-        <fwb-table-head-cell>
+        <fwb-table-head-cell class="text-left pl-4">
           <p class="text-lg">
             Generic
           </p>
         </fwb-table-head-cell>
-        <fwb-table-head-cell>
+        <fwb-table-head-cell class="text-left pl-4">
           <p class="text-lg">
             Dose
           </p>
         </fwb-table-head-cell>
-        <fwb-table-head-cell>
+        <fwb-table-head-cell class="text-left pl-4">
           <p class="text-lg">
             Dose Max
           </p>
         </fwb-table-head-cell>
-        <fwb-table-head-cell>
+        <fwb-table-head-cell class="text-left pl-4">
           <p class="text-lg">
             Route
           </p>
         </fwb-table-head-cell>
-        <fwb-table-head-cell>
+        <fwb-table-head-cell class="text-left pl-4">
           <p class="text-lg">
             Frequency
           </p>
         </fwb-table-head-cell>
-        <fwb-table-head-cell>
+        <fwb-table-head-cell class="text-left pl-4">
           <p class="text-lg">
             Duration
           </p>
         </fwb-table-head-cell>
 
-        <!-- <fwb-table-head-cell>
+        <!-- <fwb-table-head-cell class="text-left pl-4">
           <span class="sr-only">Edit</span>
         </fwb-table-head-cell> -->
       </fwb-table-head>
       <fwb-table-body>
         <fwb-table-row v-for="msdcpg in msdcpgData" :key="msdcpg.documentId" @click="navigate(msdcpg)"
           :class="{ 'selected-row': isMsdcpgActive(msdcpgDetail.documentId, msdcpg.documentId) }" class="hover:cursor-pointer">
-          <fwb-table-cell>
+          <fwb-table-cell class="pl-4">
             <p class="text-lg">
               {{ msdcpg.RX_OPTION }}
             </p>
           </fwb-table-cell>
-          <fwb-table-cell>
+          <fwb-table-cell class="pl-4">
             <p class="text-lg">
               {{ msdcpg.GENERIC }}
             </p>
           </fwb-table-cell>
-          <fwb-table-cell>
+          <fwb-table-cell class="pl-4">
             <p class="text-lg">
               {{ msdcpg.DOSE_CHECK }}
             </p>
           </fwb-table-cell>
-          <fwb-table-cell>
+          <fwb-table-cell class="pl-4">
             <p class="text-lg">
               {{ msdcpg.DOSE_M_CHECK }}
             </p>
           </fwb-table-cell>
-          <fwb-table-cell>
+          <fwb-table-cell class="pl-4">
             <p class="text-lg">
               {{ msdcpg.ROUTE }}
             </p>
           </fwb-table-cell>
-          <fwb-table-cell>
+          <fwb-table-cell class="pl-4">
             <p class="text-lg">
               {{ msdcpg.FREQ }}
             </p>
           </fwb-table-cell>
-          <fwb-table-cell>
+          <fwb-table-cell class="pl-4">
             <p class="text-lg">
               {{ msdcpg.DURATION }}
             </p>
