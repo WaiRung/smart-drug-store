@@ -23,7 +23,7 @@ const msdcpgData = computed(() => {
       
       return {
         ...msdcpg,
-        DOSE_CHECK: `${DOSE_L_nodigit}${DOSE_U_nodigit ? '-' + DOSE_U_nodigit : ''} ${msdcpg.DOSE_UNIT}${msdcpg.DOSE_LBL} ${msdcpg.DRUG_RM}`,
+        DOSE_CHECK: `${DOSE_L_nodigit}${DOSE_U_nodigit ? '-' + DOSE_U_nodigit : ''} ${msdcpg.DOSE_UNIT || ''}${msdcpg.DOSE_LBL || ''} ${msdcpg.DRUG_RM || ''}`,
         // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
       }
     })
@@ -35,7 +35,7 @@ const msdcpgDetail = computed(() => {
   const rawmsdcpg = msdcpgStore.getMsdcpg()
   const msdcpg = {
     ...rawmsdcpg,
-    DOSE_CHECK: `${rawmsdcpg.DOSE_L}${rawmsdcpg.DOSE_U ? '-' + rawmsdcpg.DOSE_U : ''} ${rawmsdcpg.DOSE_UNIT}${rawmsdcpg.DOSE_LBL} ${rawmsdcpg.DRUG_RM}`,
+    DOSE_CHECK: `${rawmsdcpg.DOSE_L || ''}${rawmsdcpg.DOSE_U ? '-' + rawmsdcpg.DOSE_U : ''} ${rawmsdcpg.DOSE_UNIT || ''}${rawmsdcpg.DOSE_LBL || ''} ${rawmsdcpg.DRUG_RM || ''}`,
     // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
   }
   return msdcpg
