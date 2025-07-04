@@ -146,22 +146,28 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
         }
     }
 
-    async function fetchATPSByGenericClass(generic: string = '', className: string = '') {
+    async function fetchATPSByGenericRoute(generic: string = '', route: string = '') {
         try {
             const filterGeneric: any = generic ? {
                 'GENERIC': {
                     $eqi: generic ? generic : ''
                 }
             } : {}
-            const filterClassName: any = className ? {
-                'CLASS': {
-                    $eqi: className
+            let ATPRoute = ''
+            if (route === 'PO') {
+                ATPRoute = 'oral'
+            } else if (route === 'IV') {
+                ATPRoute = 'parenteral '
+            }
+            const filterRoute: any = ATPRoute ? {
+                'ROUTE': {
+                    $eqi: ATPRoute
                 }
             } : {}
             const filterObj = {
                 $or: [
                     filterGeneric,
-                    filterClassName
+                    filterRoute
                 ]
             }
             const response = await find<any>('tab-atp-catalogs', {
@@ -173,6 +179,8 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
                 filters: filterObj,
             });
             if (response) {
+                console.log('ATPs fetched:', response.data);
+                
                 ATPs.value = response.data;
                 // mapDosages()
 
@@ -199,7 +207,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
         getATPswithbyFORM_LABEL,
         getAtpByGeneric,
         fetchClassesByGeneric,
-        fetchATPSByGenericClass,
+        fetchATPSByGenericRoute,
         getFilteredClasses
     }
 })

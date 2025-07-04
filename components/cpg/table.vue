@@ -41,8 +41,6 @@ const msdcpgDetail = computed(() => {
   return msdcpg
 })
 
-const isModalOpen = ref(false)
-
 function isMsdcpgActive(inputId, rowId) {
   if (inputId === rowId) {
     return true
@@ -50,15 +48,11 @@ function isMsdcpgActive(inputId, rowId) {
   return false
 }
 
-function openModal(msdcpg) {
-  msdcpgStore.fetchMsdcpgById(msdcpg.documentId)
-  isModalOpen.value = true
-}
-
 function navigate(msdcpg) {
   msdcpgStore.fetchMsdcpgById(msdcpg.documentId)
-
-  tabATP_CATALOGStore.fetchATPSByGenericClass(
+  console.log('msdcpgDetail', msdcpgDetail.value);
+  
+  tabATP_CATALOGStore.fetchATPSByGenericRoute(
     msdcpgDetail.value.GENERIC
   )
   tabATP_CATALOGStore.getAtpByGeneric(msdcpgDetail.value.GENERIC)
@@ -67,14 +61,6 @@ function navigate(msdcpg) {
   slideStore.setDirection('slide-left')
   const encodedGeneric = encodeURIComponent(msdcpg.GENERIC);
   navigateTo('/regimen/' + encodedGeneric)
-}
-
-function closeModal() {
-  isModalOpen.value = false
-  const slideStore = useSlideStore()
-  slideStore.setDirection('slide-left')
-  msdcpgStore.clearFoundmsdcpg()
-  // navigateTo('/time')
 }
 
 function onClickNext() {
@@ -101,21 +87,6 @@ function onClickBack() {
 </script>
 
 <template>
-  <!-- <CpgModal btn-text="Search" :class-data="{}" v-if="true" /> -->
-  <CpgModal :fixed="true" :show="isModalOpen" title="Antibiotic Result" @close="isModalOpen = false"
-    @close-cancel="closeModal">
-
-    <CpgDetails #body />
-
-    <div class="flex justify-evenly">
-      <LandingButton type="button" @click="onClickNext" size="lg">
-        <p class="text-xl">Dose Calculate</p>
-      </LandingButton>
-      <LandingButton type="button" @click="onClickBack" size="lg">
-        <p class="text-xl">Antibiotic Info</p>
-      </LandingButton>
-    </div>
-  </CpgModal>
   <div class="overflow-x-scroll table-width">
     <fwb-table hoverable>
       <fwb-table-head>

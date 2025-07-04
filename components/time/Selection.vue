@@ -27,9 +27,6 @@ const msdcpgDetail = computed(() => {
 const formData = computed(() => {
     // const forms = tabATP_CATALOGStore.getATPs()
     const forms = tabATP_CATALOGStore.getATPswithbyFORM_LABEL()
-    console.log(forms);
-
-
 
     return forms
 })
