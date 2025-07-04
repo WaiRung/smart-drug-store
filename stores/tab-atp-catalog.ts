@@ -23,6 +23,10 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
             ATPs.value.forEach((atp: any) => {
                 if (atp.FORM_LABEL) {
                     uniqueMap[atp.FORM_LABEL] = atp;
+                } else {
+                    const FORM_LABEL = `${atp.GENERIC}, ${atp.STR} ${atp.STR_U} per ${atp.DOSAGE_FORM}`;
+                    atp.FORM_LABEL = FORM_LABEL;
+                    uniqueMap[FORM_LABEL] = atp;
                 }
             });
             
