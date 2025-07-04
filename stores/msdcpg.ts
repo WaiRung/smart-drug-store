@@ -363,7 +363,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
 
     async function updateDosagecheck(evt: any) {
         const DOSE_L = evt.target.value.split(" ")[0]
-        
+
         tableFilter.selectedDosagecheck.val = evt.target.value
         tableFilter.selectedDosagecheck.serverVal = DOSE_L
 
@@ -373,7 +373,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     async function updateDosagemax(evt: any) {
         const DOSE_M = evt.target.value.split(" ")[0]
         console.log(evt.target.value);
-        
+
         tableFilter.selectedDosagemax.val = evt.target.value
         tableFilter.selectedDosagemax.serverVal = DOSE_M
 
@@ -410,53 +410,54 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     async function fetchMsdcpgsByFilter() {
         try {
 
-            const filterGroup: any = {
+            const filterGroup: any = filter.selectedGroup.val ? {
                 'GROUP': {
-                    $containsi: filter.selectedGroup.val ? filter.selectedGroup.val : ''
+                    $containsi: filter.selectedGroup.val
                 }
-            }
+            } : {}
 
-            const filterAge: any = {
+            const filterAge: any = filter.selectedAge.val ? {
                 'AGE': {
-                    $containsi: filter.selectedAge.val ? filter.selectedAge.val : ''
+                    $containsi: filter.selectedAge.val
                 }
-            }
+            } : {}
 
-            const filterInfectsite: any = {
+            const filterInfectsite: any = filter.selectedInfectSite.val ? {
                 'INFECT_SITE': {
-                    $containsi: filter.selectedInfectSite.val ? filter.selectedInfectSite.val : ''
+                    $containsi: filter.selectedInfectSite.val
                 }
-            }
+            } : {}
 
-            const filterDiagnosis: any = {
+            const filterDiagnosis: any = filter.selectedDiagnosis.val ? {
                 'DIAGNOSIS': {
-                    $containsi: filter.selectedDiagnosis.val ? filter.selectedDiagnosis.val : ''
+                    $containsi: filter.selectedDiagnosis.val
                 }
-            }
+            } : {}
 
-            const filterServerity: any = {
+            const filterServerity: any = filter.selectedServerity.val ? {
                 'SEVERITY': {
-                    $containsi: filter.selectedServerity.val ? filter.selectedServerity.val : ''
+                    $containsi: filter.selectedServerity.val
                 }
-            }
+            } : {}
 
-            const filterriskOrgnaism: any = {
+            const filterriskOrgnaism: any = filter.selectedRiskorganism.val ? {
                 'RISK_ORGANISM': {
-                    $containsi: filter.selectedRiskorganism.val ? filter.selectedRiskorganism.val : ''
+                    $containsi: filter.selectedRiskorganism.val
                 }
-            }
+            } : {}
 
-            const filterHypersensitivity: any = {
+            const filterHypersensitivity: any = filter.selectedHypersensitivity.val ? {
                 'HYPERSENSITIVITY': {
-                    $containsi: filter.selectedHypersensitivity.val ? filter.selectedHypersensitivity.val : ''
+                    $containsi: filter.selectedHypersensitivity.val
                 }
-            }
+            } : {}
 
             const filtertableGeneric: any = tableFilter.selectedGeneric.val ? {
                 'GENERIC': {
                     $eqi: tableFilter.selectedGeneric.val
                 }
             } : {}
+
             const filtertableRxoperation: any = tableFilter.selectedRxoption.val ? {
                 'RX_OPTION': {
                     $containsi: tableFilter.selectedRxoption.val
@@ -536,7 +537,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
 
                 const calculatedMmsdcpgs = response.data.map(msdcpg => ({
                     documentId: msdcpg.documentId,
-                    
+
                     ...msdcpg,
                     DOSE_CHECK: `${msdcpg.DOSE_L}${msdcpg.DOSE_U ? '-' + msdcpg.DOSE_U : ''} ${msdcpg.DOSE_UNIT}${msdcpg.DOSE_LBL} ${msdcpg.DRUG_RM}`,
                     DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
@@ -566,13 +567,13 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     function clearFoundmsdcpg() {
         try {
             Object.assign(msdcpg, null)
-            
+
         } catch (error) {
             const errorStore = useErrorStore()
             errorStore.setError(error)
         }
     }
-    
+
 
     return {
         getFilter,
