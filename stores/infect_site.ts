@@ -14,7 +14,7 @@ export const useInfectsiteStore = defineStore('useInfectsiteStore', () => {
 
     async function fetchInfectsite() {
         try {
-            const response1 = await find<any>('msd-cpgs', {
+            const response = await find<any>('msd-cpgs', {
                 fields: ['INFECT_SITE'],
                 pagination: {
                     page: 1,
@@ -22,23 +22,27 @@ export const useInfectsiteStore = defineStore('useInfectsiteStore', () => {
                 },
                 
             });
+            if (response) {
+                const pagination = response.meta.pagination;
+                const pageSize = 'pageSize' in pagination ? pagination.pageSize : 100;
+                const pageCount = 'pageCount' in pagination ? pagination.pageCount : 1;
+                const allResponses = [response];
+                for (let i = 2; i <= pageCount; i++) {
+                    const response = await find<any>('msd-cpgs', {
+                        fields: ['INFECT_SITE'],
+                        pagination: {
+                            page: i,
+                            pageSize: pageSize,
+                        },
+                    });
+                    allResponses.push(response);
+                }
 
-            const response2 = await find<any>('msd-cpgs', {
-                fields: ['INFECT_SITE'],
-                pagination: {
-                    page: 2,
-                    pageSize: 100,
-                },
-                
-            });
-            if (response1 && response2) {
-                const mergedData = [
-                    response1.data,
-                    response2.data,
-                ];
+                const mergedData = allResponses.map(response => response.data);
                 const mergedFlatData = mergedData.flat();
                 infectSites.value = mergedFlatData;
-                mapInfectsites()
+                mapInfectsites();
+                
             }
         } catch (error) {
             const errorStore = useErrorStore()

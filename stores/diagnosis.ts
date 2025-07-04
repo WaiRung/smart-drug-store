@@ -36,8 +36,25 @@ export const useDiagnosisStore = defineStore('useDiagnosisStore', () => {
                 filters: filterObj,
             });
             if (response) {
-                diagnoses.value = response.data
-                mapDiagnoses()
+                const pagination = response.meta.pagination;
+                const pageSize = 'pageSize' in pagination ? pagination.pageSize : 100;
+                const pageCount = 'pageCount' in pagination ? pagination.pageCount : 1;
+                const allResponses = [response];
+                for (let i = 2; i <= pageCount; i++) {
+                    const response = await find<any>('msd-cpgs', {
+                        fields: ['DIAGNOSIS'],
+                        pagination: {
+                            page: i,
+                            pageSize: pageSize,
+                        },
+                        filters: filterObj,
+                    });
+                    allResponses.push(response);
+                }
+                const mergedData = allResponses.map(response => response.data);
+                const mergedFlatData = mergedData.flat();
+                diagnoses.value = mergedFlatData;
+                mapDiagnoses();
             }
         } catch (error) {
             const errorStore = useErrorStore()

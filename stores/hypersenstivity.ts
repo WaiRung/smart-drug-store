@@ -76,9 +76,27 @@ export const useHypersensitivityStore = defineStore('useHypersensitivityStore', 
                 filters: filterObj,
             });
             if (response) {
-                hypersensitivities.value = response.data
+                console.log('Hypersensitivity Response:', response);
+                const pagination = response.meta.pagination;
+                const pageSize = 'pageSize' in pagination ? pagination.pageSize : 100;
+                const pageCount = 'pageCount' in pagination ? pagination.pageCount : 1;
+                const allResponses = [response];
+                for (let i = 2; i <= pageCount; i++) {
+                    const response = await find<any>('msd-cpgs', {
+                        fields: ['HYPERSENSITIVITY'],
+                        pagination: {
+                            page: i,
+                            pageSize: pageSize,
+                        },
+                        filters: filterObj,
+                    });
+                    allResponses.push(response);
+                }
+                const mergedData = allResponses.map(response => response.data);
+                const mergedFlatData = mergedData.flat();
+                hypersensitivities.value = mergedFlatData
+                mapHypersensitivities()
             }
-            mapHypersensitivities()
         } catch (error) {
             const errorStore = useErrorStore()
             errorStore.setError(error)

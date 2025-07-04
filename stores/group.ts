@@ -42,9 +42,26 @@ export const useGroupStore = defineStore('useGroupStore', () => {
                 filters: filterObj,
             });
             if (response) {
-                groups.value = response.data;
-                mapGroups()
-                reorderGroup()
+                const pagination = response.meta.pagination;
+                const pageSize = 'pageSize' in pagination ? pagination.pageSize : 100;
+                const pageCount = 'pageCount' in pagination ? pagination.pageCount : 1;
+                const allResponses = [response];
+                for (let i = 2; i <= pageCount; i++) {
+                    const response = await find<any>('msd-cpgs', {
+                        fields: ['GROUP'],
+                        pagination: {
+                            page: i,
+                            pageSize: pageSize,
+                        },
+                        filters: filterObj,
+                    });
+                    allResponses.push(response);
+                }
+                const mergedData = allResponses.map(response => response.data);
+                const mergedFlatData = mergedData.flat();
+                groups.value = mergedFlatData;
+                mapGroups();
+                reorderGroup();
             }
         } catch (error) {
             const errorStore = useErrorStore()
@@ -71,7 +88,14 @@ export const useGroupStore = defineStore('useGroupStore', () => {
       }
 
       function reorderGroup() {
-        const defaultOrder = ['NB', 'INFANT', 'KID'];
+        const defaultOrder = [
+            'NB',
+            'NB: Preterm <30 wk',
+            'NB: Preterm 30-34 wk',
+            'NB: Near-term >34 wk',
+            'INFANT',
+            'KID'
+        ];
         const reorderedArray: string[] = [];
       
         // Iterate through the default order and add elements from the input array if they exist

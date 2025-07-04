@@ -50,8 +50,25 @@ export const useAgeStore = defineStore('useAgeStore', () => {
                 filters: filterObj,
             });
             if (response) {
-                ages.value = response.data;
-                mapAges()
+                const pagination = response.meta.pagination;
+                const pageSize = 'pageSize' in pagination ? pagination.pageSize : 100;
+                const pageCount = 'pageCount' in pagination ? pagination.pageCount : 1;
+                const allResponses = [response];
+                for (let i = 2; i <= pageCount; i++) {
+                    const response = await find<any>('msd-cpgs', {
+                        fields: ['AGE'],
+                        pagination: {
+                            page: i,
+                            pageSize: pageSize,
+                        },
+                        filters: filterObj,
+                    });
+                    allResponses.push(response);
+                }
+                const mergedData = allResponses.map(response => response.data);
+                const mergedFlatData = mergedData.flat();
+                ages.value = mergedFlatData;
+                mapAges();
                 
             }
         } catch (error) {
