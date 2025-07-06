@@ -15,7 +15,11 @@ export default defineNuxtConfig({
   css: [
     '@/assets/css/main.css',
     '@/assets/css/slide.css',
+    'flowbite/dist/flowbite.min.css'
   ],
+  build: {
+    transpile: ['flowbite-vue']
+  },
 
   vite: {
     plugins: [
