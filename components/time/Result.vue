@@ -12,6 +12,8 @@ const filterData = computed(() => {
 
 const msdcpgData = computed(() => {
     const rawmsdcpg = msdcpgStore.getMsdcpg()
+    console.log('msdcpgData : ', rawmsdcpg);
+    
     return rawmsdcpg
 })
 
