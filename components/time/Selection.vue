@@ -63,47 +63,59 @@ function clearValidity(fieldName) {
 
 <template>
     <form id="form" class="px-7 md:px-0" novalidate>
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedWeight.isValid }">
-            <div class="md:w-1/3 mb-2 md:mb-0">
-                <label class="block text-green-500 text-xl font-bold md:text-center pr-4">
-                    Weight (Kg.)
-                </label>
+        <!-- Weight & Frequency Row -->
+        <div class="md:flex md:gap-6 mb-6">
+            <!-- Weight Field -->
+            <div class="md:w-1/2 mb-6 md:mb-0" :class="{ 'is-invalid': !filterData.selectedWeight.isValid }">
+                <div class="md:flex md:items-center">
+                    <div class="md:w-30 mb-2 md:mb-0">
+                        <label class="block text-green-500 text-xl font-bold md:text-center pr-4">
+                            Weight (Kg.)
+                        </label>
+                    </div>
+                    <div class="md:w-5/7">
+                        <input type="text" @input="onChangeWeight($event)" v-model="filterData.selectedWeight.val"
+                            class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
+                        <div v-show="!filterData.selectedWeight.isValid" class="text-red-400 text-sm mt-1">
+                            กรุณาเลือก Weight ให้ถูกต้อง
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="md:w-1/2">
-                <input type="text" @input="onChangeWeight($event)" v-model="filterData.selectedWeight.val"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                <div v-show="!filterData.selectedWeight.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือก Weight ให้ถูกต้อง
+
+            <!-- Frequency Field -->
+            <div class="md:w-1/2" :class="{ 'is-invalid': !filterData.selectedFrequency.isValid }">
+                <div class="md:flex md:items-center">
+                    <div class="md:w-30 mb-2 md:mb-0">
+                        <label class="block text-green-500 text-xl font-bold md:text-center pr-4">
+                            Frequency
+                        </label>
+                    </div>
+                    <div class="md:w-5/7">
+                        <select v-model="filterData.selectedFrequency.val"
+                            @change="onChangeFrequency(filterData.selectedFrequency.val)"
+                            @blur="clearValidity('selectedFrequency')"
+                            class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
+                            <option v-for="frequency in frequencyData" :value="frequency.Time">
+                                {{ frequency.FREQ_LBL }}
+                            </option>
+                        </select>
+                        <div v-show="!filterData.selectedFrequency.isValid" class="text-red-400 text-sm mt-1">
+                            กรุณาเลือก Frequency
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedFrequency.isValid }">
-            <div class="md:w-1/3 mb-2 md:mb-0">
-                <label class="block text-green-500 text-xl font-bold md:text-center mb-1 md:mb-0 pr-4">
-                    Frequency
-                </label>
-            </div>
-            <div class="md:w-1/2 sm:w-full">
-                <select v-model="filterData.selectedFrequency.val"
-                    @change="onChangeFrequency(filterData.selectedFrequency.val)"
-                    @blur="clearValidity('selectedFrequency')"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="frequency in frequencyData" :value="frequency.Time">
-                        {{ frequency.FREQ_LBL }}
-                    </option>
-                </select>
-                <div v-show="!filterData.selectedFrequency.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือก Frequency
-                </div>
-            </div>
-        </div>
+
+        <!-- Drug Form Field -->
         <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedForm.isValid }">
-            <div class="md:w-1/3 mb-2 md:mb-0">
+            <div class="md:w-30 mb-2 md:mb-0">
                 <label class="block text-green-500 text-xl font-bold md:text-center mb-1 md:mb-0 pr-4">
                     Drug Form
                 </label>
             </div>
-            <div class="md:w-1/2">
+            <div class="md:w-6/7">
                 <select v-model="filterData.selectedForm.val" @change="onChangeForm(filterData.selectedForm.val)"
                     @blur="clearValidity('selectedForm')"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
@@ -111,7 +123,7 @@ function clearValidity(fieldName) {
                         {{ form.FORM_LABEL }}
                     </option>
                 </select>
-                <div v-show="!filterData.selectedForm.isValid" class="text-red-400 text-xl text-sm mt-1">
+                <div v-show="!filterData.selectedForm.isValid" class="text-red-400 text-sm mt-1">
                     กรุณาเลือก Frequency
                 </div>
             </div>
