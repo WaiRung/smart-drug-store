@@ -51,7 +51,8 @@ function isMsdcpgActive(inputId, rowId) {
 function navigate(msdcpg) {
   msdcpgStore.fetchMsdcpgById(msdcpg.documentId)
   tabATP_CATALOGStore.fetchATPSByGenericRoute(
-    msdcpgDetail.value.GENERIC
+    msdcpgDetail.value.GENERIC,
+    msdcpgDetail.value.ROUTE
   )
   tabATP_CATALOGStore.getAtpByGeneric(msdcpgDetail.value.GENERIC)
 

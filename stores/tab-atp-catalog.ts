@@ -165,7 +165,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
                 }
             } : {}
             const filterObj = {
-                $or: [
+                $and: [
                     filterGeneric,
                     filterRoute
                 ]

@@ -30,7 +30,7 @@ const filterData = computed(() => {
     </div>
 
     <div
-      class="pl-10 py-2 mt-0 mb-10 mx-auto md:mx-0 md:mt-10 max-w-fit rounded-lg flex flex-col items-center text-center">
+      class="pl-10 py-2 mt-10 mb-10 mx-auto md:mx-0 md:mt-10 max-w-fit rounded-lg flex flex-col items-center text-center">
       <h5 class="text-3xl md:text-2xl">Age : <span class="text-lime-600">{{ filterData.selectedAge.val
           }}</span></h5>
     </div>
