@@ -33,7 +33,6 @@ const formData = computed(() => {
 
 const frequencyData = computed(() => {
     const frequencies = ref_freqStore.getFrequencies()
-    console.log(frequencies);
 
     return frequencies
 })

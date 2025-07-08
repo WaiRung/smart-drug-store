@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useDosageStore } from '~/stores/dosage';
 import { useMsdcpgStore } from '~/stores/msdcpg'
+import { useTabATP_CATALOGStore } from '~/stores/tab-atp-catalog'
 
 const dosageStore = useDosageStore()
 const msdcpgStore = useMsdcpgStore()
@@ -13,7 +14,7 @@ const filterData = computed(() => {
 const msdcpgData = computed(() => {
     const rawmsdcpg = msdcpgStore.getMsdcpg()
     console.log('msdcpgData : ', rawmsdcpg);
-    
+
     return rawmsdcpg
 })
 
@@ -45,7 +46,8 @@ const getmlPerDose = computed(() => {
                 </span>
                 <span v-else class="text-lime-300">
                     <!-- {{ getTotalDailyDosage.lowerLimit }} - {{ getTotalDailyDosage.upperLimit }} mg, g or MU -->
-                    {{ getTotalDailyDosage.lowerLimit }} - {{ getTotalDailyDosage.upperLimit }} {{ getTotalDailyDosage.unit }}
+                    {{ getTotalDailyDosage.lowerLimit }} - {{ getTotalDailyDosage.upperLimit }} {{
+                    getTotalDailyDosage.unit }}
                 </span>
             </p>
             <p v-else class="text-white text-3xl md:text-2xl">Total Daily Dosage : -</p>
@@ -72,7 +74,7 @@ const getmlPerDose = computed(() => {
             </p>
         </div>
 
-        <div v-if="msdcpgData.ROUTE === 'PO'"
+        <div v-if="msdcpgData.ROUTE === 'PO' && getmlPerDose.tabATP && getmlPerDose.tabATP.STR_CONTENT === 'mL'"
             class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center">
             <p v-if="getmlPerDose.lowerLimit" class="text-white text-3xl md:text-2xl">ml per dose :
                 <span class="text-lime-300">

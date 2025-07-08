@@ -48,9 +48,14 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
     const getAtpByGeneric = computed(() => {
         return (generic: string = '') => {
             let foundTabATP = null
+            console.log('ATPs.value : ', ATPs.value);
             
             if (ATPs.value instanceof  Array) {
-                foundTabATP = ATPs.value.find((atp:  { GENERIC: string; }) => atp.GENERIC === generic.toUpperCase())
+                foundTabATP = ATPs.value.find(
+                    (atp: { GENERIC: string, STR_CONTENT: string }) =>
+                        atp.GENERIC === generic.toUpperCase() &&
+                        atp.STR_CONTENT === 'mL' // mock getting liquid atp
+                )
                 ATP.value = foundTabATP
             } else if (
                 typeof ATPs.value === 'object' &&
@@ -179,7 +184,6 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
                 filters: filterObj,
             });
             if (response) {
-                console.log('ATPs fetched:', response.data);
                 
                 ATPs.value = response.data;
                 // mapDosages()
