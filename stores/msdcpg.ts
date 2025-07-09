@@ -534,7 +534,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
                 filters: filterObj,
             });
             if (response) {
-
                 const calculatedMmsdcpgs = response.data.map(msdcpg => ({
                     documentId: msdcpg.documentId,
 
