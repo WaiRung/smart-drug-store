@@ -186,10 +186,10 @@ export const useDosageStore = defineStore('useDosageStore', () => {
             const amountPerDoseLowerLimit = amountPerDose().lowerLimit
             const amountPerDoseUpperLimit = amountPerDose().upperLimit
 
-            const strTimestrV = Number(tabATP.STR) * Number(tabATP.STR_V)
+            const strTimestrV = Number(tabATP.STR) / Number(tabATP.STR_V)
 
-            const lowerLimit_raw = amountPerDoseLowerLimit!/strTimestrV
-            const upperLimit_raw = amountPerDoseUpperLimit!/strTimestrV
+            const lowerLimit_raw = amountPerDoseLowerLimit! * strTimestrV
+            const upperLimit_raw = amountPerDoseUpperLimit! * strTimestrV
 
             const lowerLimit = Math.round(lowerLimit_raw * 10) / 10
             const upperLimit = Math.round(upperLimit_raw * 10) / 10
@@ -228,6 +228,7 @@ export const useDosageStore = defineStore('useDosageStore', () => {
     }
 
     function onChangeForm(drugForm: string) {
+        // filter getAtpByGeneric by selected drugForm too, then calculate the dosage based on the form
         console.log('onChangeFrequency : ', drugForm);
     }
 

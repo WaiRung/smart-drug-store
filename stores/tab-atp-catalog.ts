@@ -53,8 +53,8 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
             if (ATPs.value instanceof  Array) {
                 foundTabATP = ATPs.value.find(
                     (atp: { GENERIC: string, STR_CONTENT: string }) =>
-                        atp.GENERIC === generic.toUpperCase() &&
-                        atp.STR_CONTENT === 'mL' // mock getting liquid atp
+                        atp.GENERIC === generic.toUpperCase()
+                    && atp.STR_CONTENT === 'mL' // mock getting liquid atp
                 )
                 ATP.value = foundTabATP
             } else if (
