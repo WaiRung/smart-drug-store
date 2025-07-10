@@ -27,7 +27,7 @@ const msdcpgStore = useMsdcpgStore()
 
 const groupData = computed(() => {
     const groups = groupStore.getGroups()
-    if (msdcpgStore.getFilter().selectedDiagnosis.val === 'Viral Pneumonia') {
+    if (filterData.value.selectedDiagnosis.val === 'Viral Pneumonia') {
         return groups
             .filter(
                 group => !['NB', 'NB: Preterm <30 wk', 'NB: Preterm 30-34 wk', 'NB: Near-term >34 wk']
@@ -78,6 +78,55 @@ const filterData = computed(() => {
     return filter
 })
 
+const ageDisabled = computed(() => {
+    const isViralPneumonia = (
+        filterData.value.selectedDiagnosis.val === 'Viral Pneumonia'
+    )
+    const isGroupisEmpty = filterData.value.selectedGroup.val === ''
+    const isAgeDataEmpty = ageData.value.length === 0
+    if (isViralPneumonia) {
+        return true
+    } else {
+        return isGroupisEmpty || isAgeDataEmpty
+    }
+})
+
+const serverityDisabled = computed(() => {
+    const isViralPneumonia = (
+        filterData.value.selectedDiagnosis.val === 'Viral Pneumonia'
+    )
+    const isGroupisEmpty = filterData.value.selectedGroup.val === ''
+    const isServerityDataEmpty = serverityData.value.length === 0
+
+    const isAgeisEmpty = ageData.value.length === 0
+    
+    if (isViralPneumonia) {
+        return isGroupisEmpty || isServerityDataEmpty
+    } else {
+        return isAgeisEmpty || isServerityDataEmpty
+    }
+})
+
+const hypersenstivitiesDisabled = computed(() => {
+    const isViralPneumonia = (
+        filterData.value.selectedDiagnosis.val === 'Viral Pneumonia'
+    )
+
+    const isHypersensitivityDataEmpty = hypersenstivityData.value.length === 0
+    const isHypersensitivityDataisBlank = (
+        hypersenstivityData.value.length === 1 &&
+        hypersenstivityData.value[0] === ''
+    )
+
+    if (isViralPneumonia) {
+        return true
+        
+    } else {
+        return isHypersensitivityDataEmpty || isHypersensitivityDataisBlank
+    }
+
+})
+
 async function fetchInfectsite() {
     await infectSiteStore.fetchInfectsite()
 }
@@ -86,6 +135,12 @@ fetchInfectsite()
 
 async function updateGroup(evt) {
     msdcpgStore.updateGroup(evt)
+    const isViralPneumonia = (
+        filterData.value.selectedDiagnosis.val === 'Viral Pneumonia'
+    )
+    if (isViralPneumonia) {
+        msdcpgStore.updateAge('')
+    }
 }
 
 async function updateAge(evt) {
@@ -101,6 +156,7 @@ async function updateInfectsite(evt) {
 }
 
 async function updateDiagnosis(evt) {
+    serverityStore.clearServerity()
     msdcpgStore.updateDiagnosis(evt)
 }
 
@@ -317,7 +373,7 @@ async function inputATB_INFO_AE(event) {
             <div class="md:w-1/3">
                 <select v-model="filterData.selectedAge.val" @change="updateAge(filterData.selectedAge.val)"
                     @blur="clearValidity('selectedAge')"
-                    :disabled="!filterData.selectedGroup.val || ageData.length === 0"
+                    :disabled="ageDisabled"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="age in ageData" :value="age">
                         {{ age }}
@@ -339,7 +395,7 @@ async function inputATB_INFO_AE(event) {
                 <select v-model="filterData.selectedServerity.val"
                     @change="updateServerity(filterData.selectedServerity.val)"
                     @blur="clearValidity('selectedServerity')"
-                    :disabled="!filterData.selectedAge.val || serverityData.length === 0"
+                    :disabled="serverityDisabled"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="serverity in serverityData" :value="serverity">
                         {{ serverity }}
@@ -384,13 +440,7 @@ async function inputATB_INFO_AE(event) {
                 <p></p>
                 <select v-model="filterData.selectedHypersensitivity.val"
                     @change="updateHypersensitivity(filterData.selectedHypersensitivity.val)"
-                    @blur="clearValidity('selectedHypersensitivity')" :disabled="(
-                        hypersenstivityData.length === 0 ||
-                        (
-                            hypersenstivityData.length === 1 &&
-                            hypersenstivityData[0] === ''
-                        )
-                    )"
+                    @blur="clearValidity('selectedHypersensitivity')" :disabled="hypersenstivitiesDisabled"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="hypersenstivity in hypersenstivityData" :value="hypersenstivity">
                         {{ hypersenstivity }}
@@ -430,7 +480,7 @@ async function inputATB_INFO_AE(event) {
             <!-- <input type="file" @change="inputATB_INFO_ALERT" multiple> -->
             <!-- <input type="file" @change="inputATB_INFO_DDI" multiple> -->
             <!-- <input type="file" @change="inputATB_INFO_AE" multiple> -->
-            <LandingButton :disabled="!filterData.selectedAge.val" @click="onClickNext" type="button" size="lg">
+            <LandingButton :disabled="!filterData.selectedGroup.val" @click="onClickNext" type="button" size="lg">
                 <p class="text-xl">Search</p>
             </LandingButton>
         </div>

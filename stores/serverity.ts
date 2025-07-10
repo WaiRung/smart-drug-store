@@ -101,8 +101,13 @@ export const useServerityStore = defineStore('useServerityStore', () => {
         }
     }
 
+    function clearServerity() {
+        serverities.value = []
+    }
+
     return {
         getServerities,
-        fetchServerityByInfectedsiteDiagNosisGroupAge
+        fetchServerityByInfectedsiteDiagNosisGroupAge,
+        clearServerity
     }
 })
