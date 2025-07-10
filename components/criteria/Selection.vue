@@ -122,7 +122,8 @@ function onClickNext() {
     msdcpgStore.fetchMsdcpgsByFilter()
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
-    navigateTo('/cpg')
+    // navigateTo('/cpg')
+    navigateTo('/recommended')
 }
 
 async function inputTAB(event) {

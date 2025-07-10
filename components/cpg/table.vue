@@ -61,28 +61,6 @@ function navigate(msdcpg) {
   const encodedGeneric = encodeURIComponent(msdcpg.GENERIC);
   navigateTo('/regimen/' + encodedGeneric)
 }
-
-function onClickNext() {
-  msdcpgStore.fetchMsdcpgsByFilter()
-  const slideStore = useSlideStore()
-  slideStore.setDirection('slide-left')
-  navigateTo('/time')
-}
-
-function onClickBack() {
-
-  definePageMeta({
-    pageTransition: {
-      name: 'slide-left',
-      mode: 'out-in'
-    },
-    middleware: ['slide-direction']
-  })
-  const slideStore = useSlideStore()
-  slideStore.setDirection('slide-right')
-  const router = useRouter()
-  router.back()
-}
 </script>
 
 <template>
@@ -125,9 +103,6 @@ function onClickBack() {
           </p>
         </fwb-table-head-cell>
 
-        <!-- <fwb-table-head-cell class="text-left pl-4">
-          <span class="sr-only">Edit</span>
-        </fwb-table-head-cell> -->
       </fwb-table-head>
       <fwb-table-body>
         <fwb-table-row v-for="msdcpg in msdcpgData" :key="msdcpg.documentId" @click="navigate(msdcpg)"
@@ -167,11 +142,6 @@ function onClickBack() {
               {{ msdcpg.DURATION }}
             </p>
           </fwb-table-cell>
-          <!-- <fwb-table-cell>
-            <fwb-a href="#">
-              Edit
-            </fwb-a>
-          </fwb-table-cell> -->
 
         </fwb-table-row>
       </fwb-table-body>
