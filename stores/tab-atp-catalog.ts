@@ -45,16 +45,19 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
         }
     })
 
-    const getAtpByGeneric = computed(() => {
-        return (generic: string = '') => {
+    const getAtpByGenericForm = computed(() => {
+        return (
+            generic: string = '',
+            form: string = ''
+        ) => {
             let foundTabATP = null
             console.log('ATPs.value : ', ATPs.value);
             
             if (ATPs.value instanceof  Array) {
                 foundTabATP = ATPs.value.find(
-                    (atp: { GENERIC: string, STR_CONTENT: string }) =>
+                    (atp: { GENERIC: string, FORM_LABEL: string }) =>
                         atp.GENERIC === generic.toUpperCase()
-                    && atp.STR_CONTENT === 'mL' // mock getting liquid atp
+                    && (form ? atp.FORM_LABEL === form : true) // only filter FORM_LABEL when form is not empty
                 )
                 ATP.value = foundTabATP
             } else if (
@@ -209,7 +212,7 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
         getClassess,
         getATPs,
         getATPswithbyFORM_LABEL,
-        getAtpByGeneric,
+        getAtpByGenericForm,
         fetchClassesByGeneric,
         fetchATPSByGenericRoute,
         getFilteredClasses

@@ -25,7 +25,6 @@ const msdcpgDetail = computed(() => {
 })
 
 const formData = computed(() => {
-    // const forms = tabATP_CATALOGStore.getATPs()
     const forms = tabATP_CATALOGStore.getATPswithbyFORM_LABEL()
 
     return forms
@@ -118,12 +117,12 @@ function clearValidity(fieldName) {
                 <select v-model="filterData.selectedForm.val" @change="onChangeForm(filterData.selectedForm.val)"
                     @blur="clearValidity('selectedForm')"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="form in formData" :value="form.FORM">
+                    <option v-for="form in formData" :value="form.FORM_LABEL">
                         {{ form.FORM_LABEL }}
                     </option>
                 </select>
                 <div v-show="!filterData.selectedForm.isValid" class="text-red-400 text-sm mt-1">
-                    กรุณาเลือก Frequency
+                    กรุณาเลือก Form
                 </div>
             </div>
         </div>

@@ -166,11 +166,12 @@ export const useDosageStore = defineStore('useDosageStore', () => {
     function mlPerDose() {
         const msdcpg = msdcpgStore.getMsdcpg()
         let tabATP = null
+        console.log('form : ', filter.selectedForm.val);
         
         if (Array.isArray(tabATP)) {
-            tabATP = tabATP_CATALOGStore.getAtpByGeneric(msdcpg.GENERIC)[0]
+            tabATP = tabATP_CATALOGStore.getAtpByGenericForm(msdcpg.GENERIC, filter.selectedForm.val)[0]
         } else {
-            tabATP = tabATP_CATALOGStore.getAtpByGeneric(msdcpg.GENERIC)
+            tabATP = tabATP_CATALOGStore.getAtpByGenericForm(msdcpg.GENERIC, filter.selectedForm.val)
         }
 
         const DOSE_LBL = msdcpg.DOSE_LBL
@@ -186,7 +187,7 @@ export const useDosageStore = defineStore('useDosageStore', () => {
             const amountPerDoseLowerLimit = amountPerDose().lowerLimit
             const amountPerDoseUpperLimit = amountPerDose().upperLimit
 
-            const strTimestrV = Number(tabATP.STR) / Number(tabATP.STR_V)
+            const strTimestrV = Number(tabATP.STR_V) / Number(tabATP.STR)
 
             const lowerLimit_raw = amountPerDoseLowerLimit! * strTimestrV
             const upperLimit_raw = amountPerDoseUpperLimit! * strTimestrV
@@ -228,8 +229,9 @@ export const useDosageStore = defineStore('useDosageStore', () => {
     }
 
     function onChangeForm(drugForm: string) {
-        // filter getAtpByGeneric by selected drugForm too, then calculate the dosage based on the form
-        console.log('onChangeFrequency : ', drugForm);
+        // filter getAtpByGenericForm by selected drugForm too, then calculate the dosage based on the form
+        console.log('onChangeForm : ', drugForm);
+        filter.selectedForm.val = drugForm
     }
 
     function clearValidity(fieldName: string) {

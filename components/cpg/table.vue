@@ -54,7 +54,7 @@ function navigate(msdcpg) {
     msdcpgDetail.value.GENERIC,
     msdcpgDetail.value.ROUTE
   )
-  tabATP_CATALOGStore.getAtpByGeneric(msdcpgDetail.value.GENERIC)
+  tabATP_CATALOGStore.getAtpByGenericForm(msdcpgDetail.value.GENERIC)
 
   const slideStore = useSlideStore()
   slideStore.setDirection('slide-left')
