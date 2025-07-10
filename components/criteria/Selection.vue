@@ -77,10 +77,6 @@ async function fetchInfectsite() {
 fetchInfectsite()
 
 
-async function updateGeneric(evt) {
-    msdcpgStore.updateGeneric(evt)
-}
-
 async function updateGroup(evt) {
     msdcpgStore.updateGroup(evt)
 }
@@ -393,43 +389,6 @@ async function inputATB_INFO_AE(event) {
                 </div>
             </div>
         </div>
-
-        <!-- <div class="flex md:items-center md:row-reverse justify-between md:justify-normal mb-6"
-            :class="{ 'is-invalid': !filterData.selectedGeneric.isValid }">
-            <div class="w-10/12 md:w-6/12 flex items-center  ">
-                <div class="md:w-4/12"></div>
-                <div class="w-10/12 md:w-4/12 md:items-center">
-                    <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                        Generic
-                    </label>
-                </div>
-                <div class="w-4/12 md:items-center">
-                    <div class="flex">
-                        <label class="block text-green-500 text-xl md:text-left mb-1 md:mb-0 pr-4">
-                            {{ filterData.selectedGeneric.val || '-' }}
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="w-6/12 md:w-2/12 flex flex-row-reverse">
-                <div>
-                    <fwb-button
-                        v-if="filterData.selectedGeneric.val" 
-                        @click.prevent="clearGeneric"
-                        size="xs" color="light" pill
-                        class="text-red-500 hover:text-white border-red-500 hover:bg-red-500 focus:outline-none mr-1">
-                        <div class="flex">
-                          <Icon class="" name="f7:clear" />
-                        </div>
-                    </fwb-button>
-                    <GenericSearchDropdown buttonText="Search" :isValid="filterData.selectedGeneric.isValid"
-                        @selected-value="updateGeneric" @btn-clicked="clearValidity('selectedGeneric')" />
-                    <div v-show="!filterData.selectedGeneric.isValid" class="text-red-400 text-sm mt-1">
-                        กรุณาเลือก Generic
-                    </div>
-                </div>
-            </div>
-        </div> -->
 
         <!-- <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedPatienttype.isValid }">
             <div class="md:w-1/3">

@@ -80,48 +80,12 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         }
     })
 
-    const tableFilter = reactive({
-        selectedGeneric: {
-            isValid: true,
-            val: '',
-            required: true
-        },
-        selectedRxoption: {
-            isValid: true,
-            val: '',
-            required: true
-        },
-        selectedDosagetype: {
-            isValid: true,
-            val: '',
-            required: true
-        },
-        selectedDosagecheck: {
-            isValid: true,
-            val: '',
-            serverVal: '',
-            required: true
-        },
-        selectedDosagemax: {
-            isValid: true,
-            val: '',
-            serverVal: '',
-            required: true
-        },
-    })
-
     const msdcpgs: any = ref([])
     const msdcpg: any = reactive({})
 
     const getFilter = computed(() => {
         return () => {
             return filter
-        }
-    })
-
-    const getTablefilter = computed(() => {
-        return () => {
-            return tableFilter
         }
     })
 
@@ -305,57 +269,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         // )
     }
 
-    async function updateGeneric(evt: any) {
-        tableFilter.selectedGeneric.val = evt.target.value
-        // const nullKeys = [
-        //     'selectedGroup',
-        //     'selectedAge',
-        //     'selectedPatienttype',
-        //     'selectedInfectSite',
-        //     'selectedDiagnosis',
-        //     'selectedHypersensitivity'
-        // ]
-
-        // for (let i = 0; i < nullKeys.length; i++) {
-        //     const key = nullKeys[i];
-        //     const prop = filter[key as keyof typeof filter]
-        //     prop.val = ''
-        // }
-
-        await fetchMsdcpgsByFilter()
-    }
-
-    async function updateRX(evt: any) {
-        tableFilter.selectedRxoption.val = evt.target.value
-
-        await fetchMsdcpgsByFilter()
-    }
-
-    async function updateDosetype(evt: any) {
-        tableFilter.selectedDosagetype.val = evt.target.value
-
-        await fetchMsdcpgsByFilter()
-    }
-
-    async function updateDosagecheck(evt: any) {
-        const DOSE_L = evt.target.value.split(" ")[0]
-
-        tableFilter.selectedDosagecheck.val = evt.target.value
-        tableFilter.selectedDosagecheck.serverVal = DOSE_L
-
-        await fetchMsdcpgsByFilter()
-    }
-
-    async function updateDosagemax(evt: any) {
-        const DOSE_M = evt.target.value.split(" ")[0]
-        console.log(evt.target.value);
-
-        tableFilter.selectedDosagemax.val = evt.target.value
-        tableFilter.selectedDosagemax.serverVal = DOSE_M
-
-        await fetchMsdcpgsByFilter()
-    }
-
     async function updateHypersensitivity(evt: any) {
         filter.selectedHypersensitivity.val = evt
 
@@ -428,36 +341,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
                 }
             } : {}
 
-            const filtertableGeneric: any = tableFilter.selectedGeneric.val ? {
-                'GENERIC': {
-                    $eqi: tableFilter.selectedGeneric.val
-                }
-            } : {}
-
-            const filtertableRxoperation: any = tableFilter.selectedRxoption.val ? {
-                'RX_OPTION': {
-                    $containsi: tableFilter.selectedRxoption.val
-                }
-            } : {}
-
-            const filtertableDosagetype: any = tableFilter.selectedDosagetype.val ? {
-                'DOSE_TYPE': {
-                    $containsi: tableFilter.selectedDosagetype.val
-                }
-            } : {}
-
-            const filtertableDosagecheck: any = tableFilter.selectedDosagecheck.serverVal ? {
-                'DOSE_L': {
-                    $containsi: tableFilter.selectedDosagecheck.serverVal
-                }
-            } : {}
-
-            const filtertableDosagemax: any = tableFilter.selectedDosagemax.serverVal ? {
-                'DOSE_M': {
-                    $containsi: tableFilter.selectedDosagemax.serverVal
-                }
-            } : {}
-
             const filterObj = {
                 // ...filterGeneric,
                 ...filterGroup,
@@ -467,12 +350,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
                 ...filterServerity,
                 ...filterriskOrgnaism,
                 ...filterHypersensitivity,
-
-                ...filtertableGeneric,
-                ...filtertableRxoperation,
-                ...filtertableDosagetype,
-                ...filtertableDosagecheck,
-                ...filtertableDosagemax
             }
             const response = await find<any>('msd-cpgs', {
                 fields: [
@@ -551,15 +428,9 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
 
     return {
         getFilter,
-        getTablefilter,
         getMsdcpgs,
         getMsdCpgTableFilter,
         getMsdcpg,
-        updateGeneric,
-        updateRX,
-        updateDosetype,
-        updateDosagecheck,
-        updateDosagemax,
         updateGroup,
         updateAge,
         updatePatienttype,
