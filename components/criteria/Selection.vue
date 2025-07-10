@@ -27,7 +27,14 @@ const msdcpgStore = useMsdcpgStore()
 
 const groupData = computed(() => {
     const groups = groupStore.getGroups()
-    
+    if (msdcpgStore.getFilter().selectedDiagnosis.val === 'Viral Pneumonia') {
+        return groups
+            .filter(
+                group => !['NB', 'NB: Preterm <30 wk', 'NB: Preterm 30-34 wk', 'NB: Near-term >34 wk']
+                    .includes(group)
+            )
+            .concat('ADULT');
+    }
     return groups
 })
 
@@ -51,7 +58,7 @@ const diagnosisData = computed(() => {
     return diagnoses
 })
 
-const serverityData  = computed(() => {
+const serverityData = computed(() => {
     const serverities = serverityStore.getServerities()
     return serverities
 })
@@ -150,14 +157,14 @@ async function inputMSD(event) {
     var reader = new FileReader();
     reader.onload = async function (event) {
         var jsonObj = JSON.parse(event.target.result);
-        
+
         for (let i = 0; i < jsonObj.length; i++) {
             const element = jsonObj[i];
             console.log(i, element);
             const response = await create('msd-cpgs', element)
-                if (response && response.error) {
-                    console.log(response.error);
-                }
+            if (response && response.error) {
+                console.log(response.error);
+            }
         }
     }
     reader.readAsText(event.target.files[0]);
@@ -167,7 +174,7 @@ async function inputATB_INFO_ADJUST(event) {
     var reader = new FileReader();
     reader.onload = async function (event) {
         var jsonObj = JSON.parse(event.target.result);
-        
+
         for (let i = 0; i < jsonObj.length; i++) {
             const element = jsonObj[i];
             console.log(element);
@@ -184,7 +191,7 @@ async function inputATB_INFO_ALERT(event) {
     var reader = new FileReader();
     reader.onload = async function (event) {
         var jsonObj = JSON.parse(event.target.result);
-        
+
         for (let i = 0; i < jsonObj.length; i++) {
             const element = jsonObj[i];
             console.log(element);
@@ -201,7 +208,7 @@ async function inputATB_INFO_DDI(event) {
     var reader = new FileReader();
     reader.onload = async function (event) {
         var jsonObj = JSON.parse(event.target.result);
-        
+
         for (let i = 0; i < jsonObj.length; i++) {
             const element = jsonObj[i];
             console.log(element);
@@ -218,14 +225,14 @@ async function inputATB_INFO_AE(event) {
     var reader = new FileReader();
     reader.onload = async function (event) {
         var jsonObj = JSON.parse(event.target.result);
-        
+
         for (let i = 0; i < jsonObj.length; i++) {
             const element = jsonObj[i];
             console.log(element);
             const response = await create('atb-info-aes', element)
-                if (response && response.error) {
-                    console.log(response.error);
-                }
+            if (response && response.error) {
+                console.log(response.error);
+            }
         }
     }
     reader.readAsText(event.target.files[0]);
@@ -244,7 +251,8 @@ async function inputATB_INFO_AE(event) {
                 </label>
             </div>
             <div class="md:w-1/3">
-                <select v-model="filterData.selectedInfectSite.val" @change="updateInfectsite(filterData.selectedInfectSite.val)"
+                <select v-model="filterData.selectedInfectSite.val"
+                    @change="updateInfectsite(filterData.selectedInfectSite.val)"
                     @blur="clearValidity('selectedInfectSite')"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="infectsite in infectsiteData" :value="infectsite">
@@ -264,7 +272,8 @@ async function inputATB_INFO_AE(event) {
                 </label>
             </div>
             <div class="md:w-1/3">
-                <select v-model="filterData.selectedDiagnosis.val" @change="updateDiagnosis(filterData.selectedDiagnosis.val)"
+                <select v-model="filterData.selectedDiagnosis.val"
+                    @change="updateDiagnosis(filterData.selectedDiagnosis.val)"
                     @blur="clearValidity('selectedDiagnosis')"
                     :disabled="!filterData.selectedInfectSite.val || diagnosisData.length === 0"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
@@ -327,7 +336,8 @@ async function inputATB_INFO_AE(event) {
                 </label>
             </div>
             <div class="md:w-1/3">
-                <select v-model="filterData.selectedServerity.val" @change="updateServerity(filterData.selectedServerity.val)"
+                <select v-model="filterData.selectedServerity.val"
+                    @change="updateServerity(filterData.selectedServerity.val)"
                     @blur="clearValidity('selectedServerity')"
                     :disabled="!filterData.selectedAge.val || serverityData.length === 0"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
@@ -348,7 +358,8 @@ async function inputATB_INFO_AE(event) {
                 </label>
             </div>
             <div class="md:w-1/3">
-                <select v-model="filterData.selectedRiskorganism.val" @change="updateRiskorganism(filterData.selectedRiskorganism.val)"
+                <select v-model="filterData.selectedRiskorganism.val"
+                    @change="updateRiskorganism(filterData.selectedRiskorganism.val)"
                     @blur="clearValidity('selectedRiskorganism')"
                     :disabled="!filterData.selectedServerity.val || riskOrgnaismData.length === 0"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
@@ -362,7 +373,8 @@ async function inputATB_INFO_AE(event) {
             </div>
         </div>
 
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedHypersensitivity.isValid }">
+        <div class="md:flex md:items-center mb-6"
+            :class="{ 'is-invalid': !filterData.selectedHypersensitivity.isValid }">
             <div class="md:w-1/3">
                 <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
                     Hypersensitivity
@@ -370,9 +382,9 @@ async function inputATB_INFO_AE(event) {
             </div>
             <div class="md:w-1/3">
                 <p></p>
-                <select v-model="filterData.selectedHypersensitivity.val" @change="updateHypersensitivity(filterData.selectedHypersensitivity.val)"
-                    @blur="clearValidity('selectedHypersensitivity')"
-                    :disabled="(
+                <select v-model="filterData.selectedHypersensitivity.val"
+                    @change="updateHypersensitivity(filterData.selectedHypersensitivity.val)"
+                    @blur="clearValidity('selectedHypersensitivity')" :disabled="(
                         hypersenstivityData.length === 0 ||
                         (
                             hypersenstivityData.length === 1 &&
@@ -415,12 +427,10 @@ async function inputATB_INFO_AE(event) {
             <!-- <input type="file" @change="inputTAB" multiple> -->
             <!-- <input type="file" @change="inputMSD" multiple> -->
             <!-- <input type="file" @change="inputATB_INFO_ADJUST" multiple> -->
-             <!-- <input type="file" @change="inputATB_INFO_ALERT" multiple> -->
-             <!-- <input type="file" @change="inputATB_INFO_DDI" multiple> -->
-              <!-- <input type="file" @change="inputATB_INFO_AE" multiple> -->
-            <LandingButton
-                :disabled="!filterData.selectedAge.val"
-                @click="onClickNext" type="button" size="lg">
+            <!-- <input type="file" @change="inputATB_INFO_ALERT" multiple> -->
+            <!-- <input type="file" @change="inputATB_INFO_DDI" multiple> -->
+            <!-- <input type="file" @change="inputATB_INFO_AE" multiple> -->
+            <LandingButton :disabled="!filterData.selectedAge.val" @click="onClickNext" type="button" size="lg">
                 <p class="text-xl">Search</p>
             </LandingButton>
         </div>
