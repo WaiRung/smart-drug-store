@@ -12,6 +12,8 @@ const msdcpgDetail = computed(() => {
     DOSE_CHECK: `${rawmsdcpg.DOSE_L}${rawmsdcpg.DOSE_U ? '-' + rawmsdcpg.DOSE_U : ''} ${rawmsdcpg.DOSE_UNIT}${rawmsdcpg.DOSE_LBL} ${rawmsdcpg.DRUG_RM}`,
     // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
   }
+  console.log('misdcpgDetail', msdcpg.ROUTE);
+  
   return msdcpg
 })
 
@@ -34,7 +36,8 @@ function onClickInfo() {
 </script>
 
 <template>
-    <div class="flex flex-row justify-evenly mb-12">
+    <div v-if="msdcpgDetail.ROUTE && msdcpgDetail.ROUTE.includes('PO')"
+        class="flex flex-row justify-evenly mb-12">
         <fwb-button color="green" class="mx-2" outline pill @click="onClickInfo">
             <p class="text-2xl">
                 <Icon name="flowbite:info-circle-outline" class="-mb-1.5" />
@@ -49,7 +52,15 @@ function onClickInfo() {
         </fwb-button>
         
     </div>
-    <div class="flex flex-row justify-between mb-12">
+    
+    <div v-else
+        class="flex flex-row justify-center mb-12">
+        <fwb-button color="green" class="mx-2" outline pill @click="onClickInfo">
+            <p class="text-2xl">
+                <Icon name="flowbite:info-circle-outline" class="-mb-1.5" />
+                Antibiotic Info
+            </p>
+        </fwb-button>
     </div>
 
 </template>
