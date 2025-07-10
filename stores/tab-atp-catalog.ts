@@ -38,21 +38,12 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
     }
     )
 
-
-    const getClassess = computed(() => {
-        return () => {
-            return filteredClasses.value
-        }
-    })
-
     const getAtpByGenericForm = computed(() => {
         return (
             generic: string = '',
             form: string = ''
         ) => {
             let foundTabATP = null
-            console.log('ATPs.value : ', ATPs.value);
-            
             if (ATPs.value instanceof  Array) {
                 foundTabATP = ATPs.value.find(
                     (atp: { GENERIC: string, FORM_LABEL: string }) =>
@@ -198,23 +189,11 @@ export const useTabATP_CATALOGStore = defineStore('useTabATP_CATALOGStore', () =
         }
     }
 
-    function getFilteredClasses(searchText:string) {
-        if (searchText) {
-            
-            const filtered = classes.value.filter((classLabel: string) => classLabel.startsWith(searchText));
-            filteredClasses.value = filtered
-        } else {
-            filteredClasses.value = classes.value
-        }
-    }
-
     return {
-        getClassess,
         getATPs,
         getATPswithbyFORM_LABEL,
         getAtpByGenericForm,
         fetchClassesByGeneric,
         fetchATPSByGenericRoute,
-        getFilteredClasses
     }
 })

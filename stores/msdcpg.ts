@@ -305,28 +305,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         // )
     }
 
-    async function updateClass(evt: any) {
-        filter.selectedClass.val = evt
-
-        const nullKeys = [
-            'selectedGroup',
-            'selectedGeneric',
-            'selectedAge',
-            'selectedPatienttype',
-            'selectedInfectSite',
-            'selectedDiagnosis',
-            'selectedHypersensitivity'
-        ]
-
-        for (let i = 0; i < nullKeys.length; i++) {
-            const key = nullKeys[i];
-            const prop = filter[key as keyof typeof filter]
-            prop.val = ''
-        }
-
-        await genericStore.fetchGenericsByClass(filter.selectedClass.val)
-    }
-
     async function updateGeneric(evt: any) {
         tableFilter.selectedGeneric.val = evt.target.value
         // const nullKeys = [
@@ -343,8 +321,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         //     const prop = filter[key as keyof typeof filter]
         //     prop.val = ''
         // }
-
-        // await tabATP_CATALOGStore.fetchClassesByGeneric(filter.selectedGeneric.val)
 
         await fetchMsdcpgsByFilter()
     }
@@ -579,7 +555,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         getMsdcpgs,
         getMsdCpgTableFilter,
         getMsdcpg,
-        updateClass,
         updateGeneric,
         updateRX,
         updateDosetype,
