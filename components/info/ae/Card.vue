@@ -4,14 +4,13 @@ const { find } = useStrapi()
 
 import {
     FwbCard,
-    FwbAlert,
     FwbAccordion,
     FwbAccordionPanel,
     FwbAccordionHeader,
     FwbAccordionContent,
 } from 'flowbite-vue';
 
-const alert: any = reactive({
+const adverse: any = reactive({
     GENERIC: route.params.GENERIC,
     CONTRAIND: null,
     LIMITATION: null,
@@ -26,56 +25,33 @@ const filterGeneric: any = {
     }
 }
 const { data, pending, refresh, error } = await useAsyncData(
-    'atb-info-alerts',
-    () => find<any>('atb-info-alerts', {
+    'atb-info-aes',
+    () => find<any>('atb-info-aes', {
         fields: [
             'GENERIC',
-            'CONTRAIND',
-            'LIMITATION',
-            'RESIST_AWARE',
+            'AE_DESCRIPTION',
         ],
         filters: filterGeneric,
     })
 )
 if (data.value && data.value.data && data.value.data.length > 0) {
-    // Assign data to reactive alert object
-    Object.assign(alert, data.value.data[0])
+    // Assign data to reactive adverse object
+    Object.assign(adverse, data.value.data[0])
 }
-console.log(alert);
+console.log(adverse);
 </script>
 
 <template>
     <div class="max-w-xl mx-auto mt-10">
-        <h1 class="text-5xl font-bold text-center my-8">{{ alert.GENERIC }}</h1>
+        <h1 class="text-5xl font-bold text-center my-8">{{ adverse.GENERIC }}</h1>
          <fwb-card class="mx-auto bg-white shadow-lg rounded-lg mb-5 !max-w-full">
             <div class="bg-green-700 mb-3 p-4 rounded-t-lg">
-                <h1 class="text-2xl font-bold text-white">Contraindications</h1>
+                <h1 class="text-2xl font-bold text-white">Adverse Events</h1>
             </div>
             <div class="flex items-start p-8">
-                <div v-if="alert.CONTRAIND" class="text-2xl whitespace-pre-line">{{ alert.CONTRAIND }}</div>
+                <div v-if="adverse.AE_DESCRIPTION" class="text-2xl whitespace-pre-line">{{ adverse.AE_DESCRIPTION }}</div>
                 <span v-else class="text-2xl">-</span>
             </div>
-        </fwb-card>
-
-        <fwb-card class="mx-auto bg-white shadow-lg rounded-lg mb-5 !max-w-full">
-            <div class="bg-green-700 mb-3 p-4 rounded-t-lg">
-                <h1 class="text-2xl font-bold text-white">Limitations</h1>
-            </div>
-            <div class="flex items-start p-8">
-                <div v-if="alert.LIMITATION" class="text-2xl whitespace-pre-line">{{ alert.LIMITATION }}</div>
-                <span v-else class="text-2xl">-</span>
-            </div>
-        </fwb-card>
-        <!-- Header -->
-        <fwb-card class="mx-auto bg-white shadow-lg rounded-lg mb-5 !max-w-full">
-            <div class="bg-green-700 mb-3 p-4 rounded-t-lg">
-                <h1 class="text-2xl font-bold text-white">Resistance Awareness</h1>
-            </div>
-            <div class="flex items-start p-8">
-                <div v-if="alert.RESIST_AWARE" class="text-2xl whitespace-pre-line">{{ alert.RESIST_AWARE }}</div>
-                <span v-else class="text-2xl">-</span>
-            </div>
-
         </fwb-card>
     </div>
 </template>
