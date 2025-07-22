@@ -14,7 +14,6 @@
             <div>
                 <CpgTable />
             </div>
-            <CpgButtons />
         </div>
     </LandingContainer>
 </template>

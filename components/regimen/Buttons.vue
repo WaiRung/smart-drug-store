@@ -30,6 +30,7 @@ function onClickInfo() {
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
     const encodedGeneric = encodeURIComponent(msdcpgDetail.value.GENERIC);
+    // navigateTo('/info/alert/' + encodedGeneric)
     navigateTo('/info/' + encodedGeneric)
 }
 

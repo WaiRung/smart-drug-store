@@ -27,7 +27,7 @@ function onclickRenal() {
         <fwb-button color="green" class="mx-2" @click="onClickPediatric">
             <p class="text-2xl">Antibiotic Dose Calculator <br> <span>PEDIATRICS</span></p>
         </fwb-button>
-        <fwb-button color="green" class="mx-2" @click="navigateTo('/import')">
+        <fwb-button color="green" class="mx-2 mt-4 md:my-0" @click="navigateTo('/import')">
             <p class="text-2xl">Import Data</p>
         </fwb-button>
         <fwb-button color="green" class="mx-2 mt-4 md:my-0" @click="onclickRenal">
