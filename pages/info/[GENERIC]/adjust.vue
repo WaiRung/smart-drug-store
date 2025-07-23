@@ -1,7 +1,7 @@
 <template>
     <LandingContainer>
         <HomeNavbar />
-        <InfoAeCard />
+        <InfoAdjustCard />
     </LandingContainer>
 
 </template>

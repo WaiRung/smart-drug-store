@@ -22,7 +22,7 @@ function onclickDrugInteractions() {
 function onclickAdverseEvents() {
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
-    navigateTo('/info/alert/' + encodedGenericParam + '/ae')
+    navigateTo('/info/' + encodedGenericParam + '/ae')
 
 }
 
