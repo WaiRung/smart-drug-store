@@ -1,41 +1,29 @@
 <script setup lang="ts">
-import { useRouter } from 'nuxt/app'
+const route = useRoute()
 import { FwbButton } from 'flowbite-vue'
 import { useSlideStore } from '@/stores/slide'
 
-const msdcpgStore = useMsdcpgStore()
-
-const msdcpgDetail = computed(() => {
-    const rawmsdcpg = msdcpgStore.getMsdcpg()
-    const msdcpg = {
-        ...rawmsdcpg,
-        DOSE_CHECK: `${rawmsdcpg.DOSE_L}${rawmsdcpg.DOSE_U ? '-' + rawmsdcpg.DOSE_U : ''} ${rawmsdcpg.DOSE_UNIT}${rawmsdcpg.DOSE_LBL} ${rawmsdcpg.DRUG_RM}`,
-        // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
-    }
-    console.log('misdcpgDetail', msdcpg.ROUTE);
-
-    return msdcpg
-})
+const encodedGenericParam: string = encodeURIComponent(
+    Array.isArray(route.params.GENERIC) ? route.params.GENERIC[0] : route.params.GENERIC
+)
 
 function onclickAdjust() {
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
-    const encodedGeneric = encodeURIComponent(msdcpgDetail.value.GENERIC);
-    navigateTo('/info/' + encodedGeneric + '/adjust')
+    navigateTo('/info/' + encodedGenericParam + '/adjust')
 }
 
 function onclickDrugInteractions() {
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
-    const encodedGeneric = encodeURIComponent(msdcpgDetail.value.GENERIC);
-    navigateTo('/info/' + encodedGeneric + '/dd')
+    navigateTo('/info/' + encodedGenericParam + '/dd')
 }
 
 function onclickAdverseEvents() {
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
-    const encodedGeneric = encodeURIComponent(msdcpgDetail.value.GENERIC);
-    navigateTo('/info/alert/' + encodedGeneric + '/ae')
+    navigateTo('/info/alert/' + encodedGenericParam + '/ae')
+
 }
 
 

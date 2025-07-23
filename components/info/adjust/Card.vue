@@ -4,11 +4,6 @@ const { find } = useStrapi()
 
 import {
     FwbCard,
-    FwbAlert,
-    FwbAccordion,
-    FwbAccordionPanel,
-    FwbAccordionHeader,
-    FwbAccordionContent,
 } from 'flowbite-vue';
 
 const alert: any = reactive({
@@ -17,8 +12,6 @@ const alert: any = reactive({
     LIMITATION: null,
     RESIST_AWARE: null,
 })
-
-// const 
 
 const filterGeneric: any = {
     'GENERIC': {
