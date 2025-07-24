@@ -26,12 +26,12 @@ const filterData = computed(() => {
       {{ msdcpgDetail?.ANTIBIOTIC_LABEL }}
     </p>
   </div>
-  <div class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-3xl rounded-lg flex flex-col items-center text-center">
+  <!-- <div class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-3xl rounded-lg flex flex-col items-center text-center">
     <h5 class="text-white text-3xl md:text-2xl">Remarks</h5>
     <p class="text-lime-400 mt-4 text-lg md:text-xl">
       {{ msdcpgDetail?.DOSAGE_REMARK }}
     </p>
-  </div>
+  </div> -->
   <div v-if="msdcpgDetail?.RM_RX || msdcpgDetail?.RM_DURATION"
     class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-3xl rounded-lg flex flex-col items-center text-center">
     <h5 class="text-white text-3xl md:text-2xl">Remarks</h5>
