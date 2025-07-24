@@ -41,7 +41,7 @@ console.log(interaction);
         <h1 class="text-5xl font-bold text-center my-8">{{ interaction.GENERIC }}</h1>
         <fwb-card class="mx-auto bg-white shadow-lg rounded-lg mb-5 !max-w-full">
             <div class="bg-green-700 mb-3 p-4 rounded-t-lg">
-                <h1 class="text-2xl font-bold text-white">DDI Contraindication</h1>
+                <h1 class="text-2xl font-bold text-white">Drug-to-Drug Contraindication</h1>
             </div>
             <div class="flex items-start p-8">
                 <div v-if="interaction.DDI_CONTRAIND" class="text-2xl whitespace-pre-line">{{ interaction.DDI_CONTRAIND }}</div>
@@ -51,7 +51,7 @@ console.log(interaction);
 
         <fwb-card class="mx-auto bg-white shadow-lg rounded-lg mb-5 !max-w-full">
             <div class="bg-green-700 mb-3 p-4 rounded-t-lg">
-                <h1 class="text-2xl font-bold text-white">DDI Serious-caution</h1>
+                <h1 class="text-2xl font-bold text-white">Drug-to-Drug Serious Caution</h1>
             </div>
             <div class="flex items-start p-8">
                 <div v-if="interaction.DDI_CAUSION" class="text-2xl whitespace-pre-line">{{ interaction.DDI_CAUSION }}</div>

@@ -41,8 +41,7 @@ const getmlPerDose = computed(() => {
         <div class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center">
             <p v-if="getTotalDailyDosage.lowerLimit" class="text-white text-3xl md:text-2xl">Total Daily Dosage :
                 <span v-if="!getTotalDailyDosage.upperLimit" class="text-lime-300">
-                    <!-- more than {{ getTotalDailyDosage.lowerLimit }} mg, g or MU -->
-                    more than {{ getTotalDailyDosage.lowerLimit }} {{ getTotalDailyDosage.unit }}
+                    {{ getTotalDailyDosage.lowerLimit }} {{ getTotalDailyDosage.unit }}
                 </span>
                 <span v-else class="text-lime-300">
                     <!-- {{ getTotalDailyDosage.lowerLimit }} - {{ getTotalDailyDosage.upperLimit }} mg, g or MU -->
@@ -56,8 +55,7 @@ const getmlPerDose = computed(() => {
         <div class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center">
             <p v-if="getAmountPerdose.lowerLimit" class="text-white text-3xl md:text-2xl">Amount per Dose :
                 <span v-if="!getAmountPerdose.upperLimit" class="text-lime-300">
-                    <!-- more than {{ getAmountPerdose.lowerLimit }} mg, g or MU -->
-                    more than {{ getAmountPerdose.lowerLimit }} {{ getAmountPerdose.unit }}
+                    {{ getAmountPerdose.lowerLimit }} {{ getAmountPerdose.unit }}
                 </span>
                 <span v-else class="text-lime-300">
                     <!-- {{ getAmountPerdose.lowerLimit }} - {{ getAmountPerdose.upperLimit }} mg, g or MU -->
@@ -79,6 +77,14 @@ const getmlPerDose = computed(() => {
             <p v-if="getmlPerDose.lowerLimit" class="text-white text-3xl md:text-2xl">ml per dose :
                 <span class="text-lime-300">
                     {{ getmlPerDose.lowerLimit }} - {{ getmlPerDose.upperLimit }} ml
+                </span>
+            </p>
+            <p v-else-if="!getmlPerDose.upperLimit" class="text-white text-3xl md:text-2xl">
+                <span>
+                    ml per Dose :
+                    <span class="text-lime-300">
+                        {{ getmlPerDose.lowerLimit }} ml
+                    </span>
                 </span>
             </p>
             <p v-else class="text-white text-3xl md:text-2xl">

@@ -31,7 +31,7 @@ const summaryLabel = computed(() => {
 <template>
   <div :class="['mt-16', align === 'center' && 'text-center']">
     <h1 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
-      <slot name="title">Summary of Recommended Antibiotics</slot>
+      <slot name="title">Recommended Antibiotic Options</slot>
     </h1>
   </div>
 
