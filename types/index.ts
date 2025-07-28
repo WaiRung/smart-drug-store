@@ -11,12 +11,13 @@ export interface formfieldInterface {
     errorMsg?: string
 }
 
-export interface DrugDetailsInterface {
-    "ชื่อยา": string,
-    "ข้อบ่งใช้": string,
-    "วิธีรับประทาน": string,
-    "อาการไม่พึงประสงค์": { [key: string]: string; },
-    "อันตรกิริยาระหว่างยา - ยา": string
+export type AdjustItem = {
+    documentId: string
+    GENERIC: string
+    IMPAIREMENT: string | null
+    GROUP: string | null
+    IMPAIREMENT_STATUS: string | null
+    ADJUSTED_DOSAGE: string | null
 }
 
 export const enum GlobalConstEnum {

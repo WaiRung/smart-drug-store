@@ -5,7 +5,7 @@ export interface TableMap {
 }
 
 export const tableList = ref<TableMap[]>([
-  { sheet: 'ADJUSTS', api_plural: 'atb-info-adjusts', api_singular: 'atb-info-adjust' },
+  { sheet: 'ADJUST', api_plural: 'atb-info-adjusts', api_singular: 'atb-info-adjust' },
   { sheet: 'AE', api_plural: 'atb-info-aes', api_singular: 'atb-info-ae' },
   { sheet: 'ALERT', api_plural: 'atb-info-alerts', api_singular: 'atb-info-alert' },
   { sheet: 'DD', api_plural: 'atb-info-ddis', api_singular: 'atb-info-ddi' },
