@@ -13,6 +13,12 @@ function onclickAdjust() {
     navigateTo('/info/' + encodedGenericParam + '/adjust')
 }
 
+function onclickAlert() {
+    const slideStore = useSlideStore()
+    slideStore.setDirection('slide-left')
+    navigateTo('/info/' + encodedGenericParam + '/alert')
+}
+
 function onclickDrugInteractions() {
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
@@ -42,6 +48,9 @@ function onclickAdverseEvents() {
         <div class="grid gap-10 mx-auto max-w-5xl mt-16">
             <div class="flex flex-col md:flex-row justify-between mb-12">
                 <fwb-button color="green" class="mx-2" @click="onclickAdjust">
+                    <p class="text-2xl">Adjust</p>
+                </fwb-button>
+                <fwb-button color="green" class="mx-2" @click="onclickAlert">
                     <p class="text-2xl">Awareness</p>
                 </fwb-button>
                 <fwb-button color="green" class="mx-2 mt-4 md:my-0" @click="onclickDrugInteractions">
