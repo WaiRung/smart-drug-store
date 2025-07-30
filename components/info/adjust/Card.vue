@@ -71,6 +71,42 @@ if (data.value && data.value.data && data.value.data.length > 0) {
         <h1 class="text-5xl font-bold text-center my-8">{{ adjust.GENERIC }}</h1>
         <fwb-card class="mx-auto bg-white shadow-lg rounded-lg mb-5 !max-w-full">
             <div class="bg-green-700 mb-3 p-4 rounded-t-lg">
+                <h1 class="text-2xl font-bold text-white">Adults</h1>
+            </div>
+            <div class="overflow-x-scroll">
+                <fwb-table hoverable>
+                    <fwb-table-head>
+                        <fwb-table-head-cell class="text-left pl-4">
+                            <p class="text-lg">
+                                Impairment Status
+                            </p>
+                        </fwb-table-head-cell>
+                        <fwb-table-head-cell class="text-left pl-4">
+                            <p class="text-lg">
+                                Adjusted Dosage
+                            </p>
+                        </fwb-table-head-cell>
+                    </fwb-table-head>
+                    <fwb-table-body>
+                        <fwb-table-row v-for="adjust_adult in adjust_adults" :key="adjust_adult.documentId">
+                            <fwb-table-cell class="text-left pl-4">
+                                <p class="text-lg">
+                                    {{ adjust_adult.IMPAIREMENT_STATUS }}
+                                </p>
+                            </fwb-table-cell>
+                            <fwb-table-cell class="text-left pl-4">
+                                <p class="text-lg">
+                                    {{ adjust_adult.ADJUSTED_DOSAGE }}
+                                </p>
+                            </fwb-table-cell>
+                        </fwb-table-row>
+                    </fwb-table-body>
+                </fwb-table>
+            </div>
+        </fwb-card>
+        
+        <fwb-card class="mx-auto bg-white shadow-lg rounded-lg mb-5 !max-w-full">
+            <div class="bg-green-700 mb-3 p-4 rounded-t-lg">
                 <h1 class="text-2xl font-bold text-white">Children</h1>
             </div>
             <div class="overflow-x-scroll">
