@@ -10,6 +10,8 @@ const msdcpgDetail = computed(() => {
     DOSE_CHECK: `${rawmsdcpg.DOSE_L}${rawmsdcpg.DOSE_U ? '-' + rawmsdcpg.DOSE_U : ''} ${rawmsdcpg.DOSE_UNIT}${rawmsdcpg.DOSE_LBL} ${rawmsdcpg.DRUG_RM}`,
     // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
   }
+  console.log('msdcpgDetail', msdcpg);
+  
   return msdcpg
 })
 
@@ -23,7 +25,7 @@ const filterData = computed(() => {
   <div class="border-2 px-20 py-2 my-10 mx-auto max-w-3xl rounded-lg flex flex-col items-center text-center">
     <h5 class="text-green-750 text-3xl md:text-2xl">Indication Summary</h5>
     <p class="text-lime-600 mt-4 text-lg md:text-xl">
-      {{ msdcpgDetail?.INDICATION_LABEL }}
+      {{ msdcpgDetail?.INDICATION_CRITERIA }}
     </p>
   </div>
 

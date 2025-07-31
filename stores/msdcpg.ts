@@ -396,7 +396,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
                     'RX_REMARK',
                     'DOSAGE_REMARK',
 
-                    'INDICATION_LABEL',
+                    'INDICATION_CRITERIA',
                     'ANTIBIOTIC_LABEL',
                 ],
                 pagination: {
@@ -412,7 +412,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
                     ...msdcpg,
                     DOSE_CHECK: `${msdcpg.DOSE_L || ''}${msdcpg.DOSE_U ? '-' + msdcpg.DOSE_U : ''} ${msdcpg.DOSE_UNIT || ''}${msdcpg.DOSE_LBL || ''} ${msdcpg.DRUG_RM || ''}`,
                     DOSE_M_CHECK: `${msdcpg.DOSE_M || ''} ${msdcpg.DOSE_M_UNIT || ''}${msdcpg.DOSE_M_LBL || ''}`,
-                    // INDICATION_LABEL: `${msdcpg.SEVERITY || '-'}${msdcpg.RISK_ORGANISM ? ' / ' + msdcpg.RISK_ORGANISM : ''}`,
+                    // INDICATION_CRITERIA: `${msdcpg.SEVERITY || '-'}${msdcpg.RISK_ORGANISM ? ' / ' + msdcpg.RISK_ORGANISM : ''}`,
 
                 }))
                 msdcpgs.value = calculatedMmsdcpgs
