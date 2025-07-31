@@ -76,7 +76,6 @@ export const useGroupStore = defineStore('useGroupStore', () => {
           try {
             const stringGroups = groups.value.map((group: { GROUP: string; }) => group.GROUP);
             const uniq = [...new Set(stringGroups)]
-            
             groups.value = uniq
           } catch (error) {
             const errorStore = useErrorStore()
@@ -89,12 +88,12 @@ export const useGroupStore = defineStore('useGroupStore', () => {
 
       function reorderGroup() {
         const defaultOrder = [
-            'NB',
-            'NB: Preterm <30 wk',
-            'NB: Preterm 30-34 wk',
-            'NB: Near-term >34 wk',
+            'NB: PMA <30w',
+            'NB: PMA 30-34w',
+            'NB: PMA 35-44w',
+            'NB: PMA 44w+',
             'INFANT',
-            'KID'
+            'CHILD',
         ];
         const reorderedArray: string[] = [];
       

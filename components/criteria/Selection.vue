@@ -413,7 +413,7 @@ async function inputATB_INFO_AE(event) {
                 <select v-model="filterData.selectedDiagnosis.val"
                     @change="updateDiagnosis(filterData.selectedDiagnosis.val)"
                     @blur="clearValidity('selectedDiagnosis')"
-                    :disabled="!filterData.selectedInfectSite.val || diagnosisData.length === 0"
+                    :disabled="!filterData.selectedInfectSite.val"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="diagnosis in diagnosisData" :value="diagnosis">
                         {{ diagnosis }}
@@ -434,7 +434,7 @@ async function inputATB_INFO_AE(event) {
             <div class="md:w-1/3">
                 <select v-model="filterData.selectedGroup.val" @change="updateGroup(filterData.selectedGroup.val)"
                     @blur="clearValidity('selectedGroup')"
-                    :disabled="!filterData.selectedDiagnosis.val || groupData.length === 0"
+                    :disabled="!filterData.selectedDiagnosis.val"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="group in groupData" :value="group">
                         {{ group }}
@@ -497,7 +497,7 @@ async function inputATB_INFO_AE(event) {
                 <select v-model="filterData.selectedRiskorganism.val"
                     @change="updateRiskorganism(filterData.selectedRiskorganism.val)"
                     @blur="clearValidity('selectedRiskorganism')"
-                    :disabled="!filterData.selectedServerity.val || riskOrgnaismData.length === 0"
+                    :disabled="!filterData.selectedServerity.val"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="riskOrganism in riskOrgnaismData" :value="riskOrganism">
                         {{ riskOrganism }}
