@@ -75,7 +75,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="overflow-x-scroll table-width">
+    <div class="overflow-x-scroll mb-12 table-width">
         <fwb-table hoverable>
             <fwb-table-head>
                 <fwb-table-head-cell class="text-left pl-4">
@@ -107,7 +107,7 @@ onMounted(() => {
             <fwb-table-body>
                 <fwb-table-row v-for="msdcpg in msdcpgData" :key="msdcpg.documentId" @click="navigate(msdcpg)"
                     :class="{ 'selected-row': isMsdcpgActive(msdcpgDetail.documentId, msdcpg.documentId) }"
-                    class="hover:cursor-pointer">
+                    class="hover:cursor-pointer table-row">
                     <fwb-table-cell class="pl-4">
                         <p class="text-lg">
                             {{ msdcpg.HYPERSENSITIVITY || '-' }}
@@ -148,5 +148,23 @@ onMounted(() => {
     width: 95vw;
     max-width: 1024px;
 
+}
+
+
+
+.table-row {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+
+.table-row::after {
+  content: '›';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 18px;
 }
 </style>
