@@ -1,5 +1,6 @@
 <script setup>
 import Papa from 'papaparse';
+import ConditionalSelect from '~/components/generic/ConditionalSelect.vue';
 const { create } = useStrapi()
 import { useRouter } from 'nuxt/app'
 import { useTabATP_CATALOGStore } from '@/stores/tab-atp-catalog'
@@ -81,6 +82,7 @@ const filterData = computed(() => {
     return filter
 })
 
+// Original Viral Pneumonia logic - keeping for reference and complex logic
 const ageDisabled = computed(() => {
     const isViralPneumonia = (
         filterData.value.selectedDiagnosis.val === 'Viral Pneumonia'
@@ -382,155 +384,90 @@ async function inputATB_INFO_AE(event) {
         <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
         <input type="checkbox" class="hidden" style="display: none" name="botcheck" />
 
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedInfectSite.isValid }">
-            <div class="md:w-1/3">
-                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    Infect Site
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <select v-model="filterData.selectedInfectSite.val"
-                    @change="updateInfectsite(filterData.selectedInfectSite.val)"
-                    @blur="clearValidity('selectedInfectSite')"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="infectsite in infectsiteData" :value="infectsite">
-                        {{ infectsite }}
-                    </option>
-                </select>
-                <div v-show="!filterData.selectedInfectSite.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือก Infect Site
-                </div>
-            </div>
-        </div>
+        <ConditionalSelect
+            :field-data="filterData.selectedInfectSite"
+            :options="infectsiteData"
+            label="Infect Site"
+            error-message="กรุณาเลือก Infect Site"
+            :filter-data="filterData"
+            @change="updateInfectsite"
+            @blur="() => clearValidity('selectedInfectSite')"
+        />
 
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedDiagnosis.isValid }">
-            <div class="md:w-1/3">
-                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    Diagnosis
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <select v-model="filterData.selectedDiagnosis.val"
-                    @change="updateDiagnosis(filterData.selectedDiagnosis.val)"
-                    @blur="clearValidity('selectedDiagnosis')"
-                    :disabled="!filterData.selectedInfectSite.val"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="diagnosis in diagnosisData" :value="diagnosis">
-                        {{ diagnosis }}
-                    </option>
-                </select>
-                <div v-show="!filterData.selectedDiagnosis.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือก Diagnosis
-                </div>
-            </div>
-        </div>
+        <ConditionalSelect
+            :field-data="filterData.selectedDiagnosis"
+            :options="diagnosisData"
+            label="Diagnosis"
+            error-message="กรุณาเลือก Diagnosis"
+            depends-on="selectedInfectSite"
+            :filter-data="filterData"
+            :dependent-options-data="infectsiteData"
+            @change="updateDiagnosis"
+            @blur="() => clearValidity('selectedDiagnosis')"
+        />
 
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedGroup.isValid }">
-            <div class="md:w-1/3">
-                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    Group
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <select v-model="filterData.selectedGroup.val" @change="updateGroup(filterData.selectedGroup.val)"
-                    @blur="clearValidity('selectedGroup')"
-                    :disabled="!filterData.selectedDiagnosis.val"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="group in groupData" :value="group">
-                        {{ group }}
-                    </option>
-                </select>
-                <div v-show="!filterData.selectedGroup.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือก Group
-                </div>
-            </div>
-        </div>
+        <ConditionalSelect
+            :field-data="filterData.selectedGroup"
+            :options="groupData"
+            label="Group"
+            error-message="กรุณาเลือก Group"
+            depends-on="selectedDiagnosis"
+            :filter-data="filterData"
+            :dependent-options-data="diagnosisData"
+            @change="updateGroup"
+            @blur="() => clearValidity('selectedGroup')"
+        />
 
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedAge.isValid }">
-            <div class="md:w-1/3">
-                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    Age
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <select v-model="filterData.selectedAge.val" @change="updateAge(filterData.selectedAge.val)"
-                    @blur="clearValidity('selectedAge')" :disabled="ageDisabled"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="age in ageData" :value="age">
-                        {{ age }}
-                    </option>
-                </select>
-                <div v-show="!filterData.selectedAge.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือก Age
-                </div>
-            </div>
-        </div>
+        <ConditionalSelect
+            :field-data="filterData.selectedAge"
+            :options="ageData"
+            label="Age"
+            error-message="กรุณาเลือก Age"
+            depends-on="selectedGroup"
+            :filter-data="filterData"
+            :dependent-options-data="groupData"
+            :custom-disabled="ageDisabled"
+            @change="updateAge"
+            @blur="() => clearValidity('selectedAge')"
+        />
 
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedServerity.isValid }">
-            <div class="md:w-1/3">
-                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    Serverity
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <select v-model="filterData.selectedServerity.val"
-                    @change="updateServerity(filterData.selectedServerity.val)"
-                    @blur="clearValidity('selectedServerity')" :disabled="serverityDisabled"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="serverity in serverityData" :value="serverity">
-                        {{ serverity }}
-                    </option>
-                </select>
-                <div v-show="!filterData.selectedServerity.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือก Serverity
-                </div>
-            </div>
-        </div>
+        <ConditionalSelect
+            :field-data="filterData.selectedServerity"
+            :options="serverityData"
+            label="Serverity"
+            error-message="กรุณาเลือก Serverity"
+            depends-on="selectedAge"
+            :filter-data="filterData"
+            :dependent-options-data="ageData"
+            :custom-disabled="serverityDisabled"
+            @change="updateServerity"
+            @blur="() => clearValidity('selectedServerity')"
+        />
 
-        <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedRiskorganism.isValid }">
-            <div class="md:w-1/3">
-                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    Risk Organism
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <select v-model="filterData.selectedRiskorganism.val"
-                    @change="updateRiskorganism(filterData.selectedRiskorganism.val)"
-                    @blur="clearValidity('selectedRiskorganism')"
-                    :disabled="!filterData.selectedServerity.val"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="riskOrganism in riskOrgnaismData" :value="riskOrganism">
-                        {{ riskOrganism }}
-                    </option>
-                </select>
-                <div v-show="!filterData.selectedRiskorganism.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือก Risk Organism
-                </div>
-            </div>
-        </div>
+        <ConditionalSelect
+            :field-data="filterData.selectedRiskorganism"
+            :options="riskOrgnaismData"
+            label="Risk Organism"
+            error-message="กรุณาเลือก Risk Organism"
+            depends-on="selectedServerity"
+            :filter-data="filterData"
+            :dependent-options-data="serverityData"
+            @change="updateRiskorganism"
+            @blur="() => clearValidity('selectedRiskorganism')"
+        />
 
-        <div class="md:flex md:items-center mb-6"
-            :class="{ 'is-invalid': !filterData.selectedHypersensitivity.isValid }">
-            <div class="md:w-1/3">
-                <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    Hypersensitivity
-                </label>
-            </div>
-            <div class="md:w-1/3">
-                <p></p>
-                <select v-model="filterData.selectedHypersensitivity.val"
-                    @change="updateHypersensitivity(filterData.selectedHypersensitivity.val)"
-                    @blur="clearValidity('selectedHypersensitivity')" :disabled="hypersenstivitiesDisabled"
-                    class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
-                    <option v-for="hypersenstivity in hypersenstivityData" :value="hypersenstivity">
-                        {{ hypersenstivity }}
-                    </option>
-                </select>
-                <div v-show="!filterData.selectedHypersensitivity.isValid" class="text-red-400 text-xl text-sm mt-1">
-                    กรุณาเลือก Hypersensitivity
-                </div>
-            </div>
-        </div>
+        <ConditionalSelect
+            :field-data="filterData.selectedHypersensitivity"
+            :options="hypersenstivityData"
+            label="Hypersensitivity"
+            error-message="กรุณาเลือก Hypersensitivity"
+            depends-on="selectedRiskorganism"
+            :filter-data="filterData"
+            :dependent-options-data="riskOrgnaismData"
+            :custom-disabled="hypersenstivitiesDisabled"
+            @change="updateHypersensitivity"
+            @blur="() => clearValidity('selectedHypersensitivity')"
+        />
 
         <!-- <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !filterData.selectedPatienttype.isValid }">
             <div class="md:w-1/3">
