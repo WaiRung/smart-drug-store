@@ -378,7 +378,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
 
                     // 'DOSE_CHECK',
                     // 'DOSE_M_CHECK',
-
+                    'HYPERSENSITIVITY',
                     'SEVERITY',
                     'RISK_ORGANISM',
                     'DOSE_L',

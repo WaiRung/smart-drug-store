@@ -29,6 +29,8 @@ const msdcpgData = computed(() => {
             // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
         }
     })
+    console.log('msdcpgs', msdcpgs);
+    
     return msdcpgs
 })
 
@@ -67,7 +69,6 @@ onMounted(() => {
     const query = router.currentRoute.value.query
     for (const key in query) {
         query[key] = decodeURIComponent(query[key])
-        console.log(`query[${key}]`, query[key]);
         filter[key]['val'] = query[key]
     }
     msdcpgStore.fetchMsdcpgsByFilter()
@@ -79,7 +80,16 @@ onMounted(() => {
     <div class="overflow-x-scroll table-width">
         <fwb-table hoverable>
             <fwb-table-head>
-
+                <fwb-table-head-cell class="text-left pl-4">
+                    <p class="text-lg">
+                        Hypersensitivity
+                    </p>
+                </fwb-table-head-cell>
+                <fwb-table-head-cell class="text-left pl-4">
+                    <p class="text-lg">
+                        Risk Organism
+                    </p>
+                </fwb-table-head-cell>
                 <fwb-table-head-cell class="text-left pl-4 w-32">
                     <p class="text-lg">
                         Rx Option
@@ -95,16 +105,21 @@ onMounted(() => {
                         RM RX
                     </p>
                 </fwb-table-head-cell>
-                <fwb-table-head-cell class="text-left pl-4">
-                    <p class="text-lg">
-                        Antibiotic Label
-                    </p>
-                </fwb-table-head-cell>
             </fwb-table-head>
             <fwb-table-body>
                 <fwb-table-row v-for="msdcpg in msdcpgData" :key="msdcpg.documentId" @click="navigate(msdcpg)"
                     :class="{ 'selected-row': isMsdcpgActive(msdcpgDetail.documentId, msdcpg.documentId) }"
                     class="hover:cursor-pointer">
+                    <fwb-table-cell class="pl-4">
+                        <p class="text-lg">
+                            {{ msdcpg.HYPERSENSITIVITY || '-' }}
+                        </p>
+                    </fwb-table-cell>
+                    <fwb-table-cell class="pl-4">
+                        <p class="text-lg">
+                            {{ msdcpg.RISK_ORGANISM || '-' }}
+                        </p>
+                    </fwb-table-cell>
                     <fwb-table-cell class="pl-4">
                         <p class="text-lg">
                             {{ msdcpg.RX_OPTION }}
@@ -118,11 +133,6 @@ onMounted(() => {
                     <fwb-table-cell class="pl-4">
                         <p class="text-lg">
                             {{ msdcpg.RM_RX }}
-                        </p>
-                    </fwb-table-cell>
-                    <fwb-table-cell class="pl-4">
-                        <p class="text-lg">
-                            {{ msdcpg.ANTIBIOTIC_LABEL }}
                         </p>
                     </fwb-table-cell>
                 </fwb-table-row>
