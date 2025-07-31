@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRouter } from 'nuxt/app'
+import { useRouter, navigateTo } from 'nuxt/app'
 import { FwbButton } from 'flowbite-vue'
 import { useSlideStore } from '@/stores/slide'
 
