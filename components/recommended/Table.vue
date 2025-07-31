@@ -130,7 +130,7 @@ onMounted(() => {
                     </fwb-table-cell>
                     <fwb-table-cell class="pl-4">
                         <p class="text-lg">
-                            {{ msdcpg.RM_RX }}
+                            {{ msdcpg.RX_REMARK }}
                         </p>
                     </fwb-table-cell>
                 </fwb-table-row>

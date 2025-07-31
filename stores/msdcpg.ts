@@ -393,8 +393,8 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
                     'FREQ',
                     'DURATION',
 
-                    'RM_RX',
-                    'RM_DURATION',
+                    'RX_REMARK',
+                    'DOSAGE_REMARK',
 
                     'INDICATION_LABEL',
                     'ANTIBIOTIC_LABEL',

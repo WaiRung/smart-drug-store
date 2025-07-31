@@ -21,7 +21,7 @@ const filterData = computed(() => {
 
 <template>
   <div class="border-2 px-20 py-2 my-10 mx-auto max-w-3xl rounded-lg flex flex-col items-center text-center">
-    <h5 class="text-green-900 text-3xl md:text-2xl">Indication Summary</h5>
+    <h5 class="text-green-750 text-3xl md:text-2xl">Indication Summary</h5>
     <p class="text-lime-600 mt-4 text-lg md:text-xl">
       {{ msdcpgDetail?.INDICATION_LABEL }}
     </p>
@@ -33,26 +33,26 @@ const filterData = computed(() => {
       {{ msdcpgDetail?.ANTIBIOTIC_LABEL }}
     </p>
   </div>
-  <div v-if="msdcpgDetail?.RM_DURATION"
+  <div v-if="msdcpgDetail?.DOSAGE_REMARK"
     class="border-2 px-20 py-2 my-10 mx-auto max-w-3xl rounded-lg flex flex-col items-center text-center">
     <h5 class="text-green-900 text-3xl md:text-2xl">Dosage Remarks</h5>
     <p class="text-lime-600 mt-4 text-lg md:text-xl">
-      {{ msdcpgDetail?.RM_DURATION }}
+      {{ msdcpgDetail?.DOSAGE_REMARK }}
     </p>
   </div>
-  <!-- <div v-if="msdcpgDetail?.RM_RX || msdcpgDetail?.RM_DURATION"
+  <!-- <div v-if="msdcpgDetail?.RX_REMARK || msdcpgDetail?.DOSAGE_REMARK"
     class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-3xl rounded-lg flex flex-col items-center text-center">
     <h5 class="text-white text-3xl md:text-2xl">Remarks</h5>
     <ul class="max-w-md space-y-1 list-disc list-inside text-lime-500">
-      <li v-if="msdcpgDetail?.RM_RX">
+      <li v-if="msdcpgDetail?.RX_REMARK">
         <p class=" mt-4 text-lg md:text-xl">
-          {{ msdcpgDetail?.RM_RX }}
+          {{ msdcpgDetail?.RX_REMARK }}
         </p>
         
       </li>
-      <li v-if="msdcpgDetail?.RM_DURATION">
+      <li v-if="msdcpgDetail?.DOSAGE_REMARK">
         <p class=" mt-4 text-lg md:text-xl">
-          {{ msdcpgDetail?.RM_DURATION }}
+          {{ msdcpgDetail?.DOSAGE_REMARK }}
         </p>
         
       </li>
