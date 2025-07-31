@@ -127,6 +127,10 @@ const hypersenstivitiesDisabled = computed(() => {
 
 })
 
+const isSearchable = computed(() => {
+    return msdcpgStore.isSearchable()
+})
+
 async function fetchInfectsite() {
     await infectSiteStore.fetchInfectsite()
 }
@@ -176,8 +180,71 @@ function clearValidity(fieldName) {
     msdcpgStore.clearValidity(fieldName)
 }
 
+function updateFormValidity() {
+    const return_bool = true
+    const filter = msdcpgStore.getFilter()
+    for (const key in filter) {
+        if (filter.hasOwnProperty(key)) {
+            const element = filter[key];
+            const data = element.val || ''
+            const isRequired = element.required
+            const hasValue = data !== ''
+            
+            // You can access the options data based on the field key
+            let optionsData = []
+            switch(key) {
+                case 'selectedInfectSite':
+                    optionsData = infectsiteData.value
+                    break
+                case 'selectedDiagnosis':
+                    optionsData = diagnosisData.value
+                    break
+                case 'selectedGroup':
+                    optionsData = groupData.value
+                    break
+                case 'selectedAge':
+                    optionsData = ageData.value
+                    break
+                case 'selectedServerity':
+                    optionsData = serverityData.value
+                    break
+                case 'selectedRiskorganism':
+                    optionsData = riskOrgnaismData.value
+                    break
+                case 'selectedHypersensitivity':
+                    optionsData = hypersenstivityData.value
+                    break
+                case 'selectedPatienttype':
+                    optionsData = patienttypeData.value
+                    break
+                default:
+                    optionsData = []
+            }
+            if (isRequired) {
+                if (optionsData.length > 0) {
+                    if (!hasValue || !optionsData.includes(data)) {
+                        element.isValid = false
+                        return_bool = false
+                        break
+                    } else {
+                        element.isValid = true
+                    }
+                } else {
+                    // If optionsData is empty, we can consider it valid
+                    element.isValid = true
+                }
+            }
+        }
+    }
+    return return_bool
+
+}
 
 function onClickNext() {
+    updateFormValidity()
+    if (isSearchable.value === false) {
+        return
+    }
     msdcpgStore.fetchMsdcpgsByFilter()
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
@@ -480,7 +547,7 @@ async function inputATB_INFO_AE(event) {
             <!-- <input type="file" @change="inputATB_INFO_ALERT" multiple> -->
             <!-- <input type="file" @change="inputATB_INFO_DDI" multiple> -->
             <!-- <input type="file" @change="inputATB_INFO_AE" multiple> -->
-            <LandingButton :disabled="!filterData.selectedGroup.val" @click="onClickNext" type="button" size="lg">
+            <LandingButton :disabled="!isSearchable" @click="onClickNext" type="button" size="lg">
                 <p class="text-xl">Search</p>
             </LandingButton>
         </div>

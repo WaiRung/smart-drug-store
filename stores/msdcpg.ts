@@ -56,27 +56,27 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         selectedRiskorganism: {
             isValid: true,
             val: '',
-            required: true
+            required: false
         },
         selectedClass: {
             isValid: true,
             val: '',
-            required: true
+            required: false
         },
         selectedGeneric: {
             isValid: true,
             val: '',
-            required: true
+            required: false
         },
         selectedPatienttype: {
             isValid: true,
             val: '',
-            required: true
+            required: false
         },
         selectedHypersensitivity: {
             isValid: true,
             val: '',
-            required: true
+            required: false
         }
     })
 
@@ -105,6 +105,21 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     const getMsdcpg = computed(() => {
         return () => {
             return msdcpg
+        }
+    })
+
+    const isSearchable = computed(() => {
+        return () => {
+            let return_boolean = true
+            const filter = getFilter.value()
+            for (const key in filter) {
+                if (Object.prototype.hasOwnProperty.call(filter, key)) {
+                    const element = filter[key as keyof typeof filter];
+                    if (!element.isValid)
+                        return_boolean = false
+                }
+            }
+            return return_boolean
         }
     })
 
@@ -283,6 +298,10 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         }
     }
 
+    function updateValidity(fieldName: string, isValid: any, ): void {
+        filter[fieldName as keyof typeof filter].isValid = isValid
+    }
+
     function clearValidity(fieldName: string) {
         filter[fieldName as keyof typeof filter].isValid = true
     }
@@ -432,6 +451,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         getMsdcpgs,
         getMsdCpgTableFilter,
         getMsdcpg,
+        isSearchable,
         updateGroup,
         updateAge,
         updatePatienttype,
@@ -440,6 +460,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         updateServerity,
         updateRiskOrganism,
         updateHypersensitivity,
+        updateValidity,
         clearValidity,
         resetMsdcpgs,
         fetchMsdcpgsByFilter,
