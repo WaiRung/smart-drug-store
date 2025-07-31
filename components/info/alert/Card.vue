@@ -39,7 +39,8 @@ console.log(alert);
 
 <template>
     <div class="max-w-xl mx-auto mt-10">
-        <h1 class="text-5xl font-bold text-center my-8">{{ alert.GENERIC }}</h1>
+        <h1 class="text-5xl font-bold text-center my-4">{{ alert.GENERIC }}</h1>
+        <h3 class="text-2xl font-bold text-center my-4">Awareness</h3>
          <fwb-card class="mx-auto bg-white shadow-lg rounded-lg mb-5 !max-w-full">
             <div class="bg-green-700 mb-3 p-4 rounded-t-lg">
                 <h1 class="text-2xl font-bold text-white">Contraindications</h1>
