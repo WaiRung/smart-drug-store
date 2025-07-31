@@ -12,7 +12,7 @@ defineProps({
       <slot name="title">Title</slot>
     </h1>
     <p class="text-3xl font-bold mt-4 text-green-700">
-      <slot name="desc">Some description goes here</slot>
+      <slot name="desc"></slot>
     </p>
   </div>
 </template>
