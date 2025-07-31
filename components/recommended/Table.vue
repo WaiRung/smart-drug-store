@@ -68,7 +68,7 @@ function navigate(msdcpg) {
         <fwb-table hoverable>
             <fwb-table-head>
 
-                <fwb-table-head-cell class="text-left pl-4">
+                <fwb-table-head-cell class="text-left pl-4 w-32">
                     <p class="text-lg">
                         Rx Option
                     </p>
