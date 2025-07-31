@@ -29,8 +29,6 @@ const msdcpgData = computed(() => {
             // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
         }
     })
-    console.log('msdcpgs', msdcpgs);
-    
     return msdcpgs
 })
 
