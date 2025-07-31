@@ -1,6 +1,7 @@
 <script setup>
 import Papa from 'papaparse';
 const { create } = useStrapi()
+import { useRouter } from 'nuxt/app'
 import { useTabATP_CATALOGStore } from '@/stores/tab-atp-catalog'
 import { useGenericStore } from '~/stores/generic';
 import { useGroupStore } from '~/stores/group'
@@ -12,6 +13,8 @@ import { useServerityStore } from '~/stores/serverity'
 import { useRiskorganismStore } from '~/stores/risk_organism'
 import { useHypersensitivityStore } from '~/stores/hypersenstivity'
 import { useMsdcpgStore } from '~/stores/msdcpg'
+
+const router = useRouter()
 
 const tabATP_CATALOGStore = useTabATP_CATALOGStore()
 const genericStore = useGenericStore()
@@ -99,7 +102,7 @@ const serverityDisabled = computed(() => {
     const isServerityDataEmpty = serverityData.value.length === 0
 
     const isAgeisEmpty = ageData.value.length === 0
-    
+
     if (isViralPneumonia) {
         return isGroupisEmpty || isServerityDataEmpty
     } else {
@@ -120,7 +123,7 @@ const hypersenstivitiesDisabled = computed(() => {
 
     if (isViralPneumonia) {
         return true
-        
+
     } else {
         return isHypersensitivityDataEmpty || isHypersensitivityDataisBlank
     }
@@ -181,7 +184,7 @@ function clearValidity(fieldName) {
 }
 
 function updateFormValidity() {
-    const return_bool = true
+    let return_bool = true
     const filter = msdcpgStore.getFilter()
     for (const key in filter) {
         if (filter.hasOwnProperty(key)) {
@@ -189,10 +192,10 @@ function updateFormValidity() {
             const data = element.val || ''
             const isRequired = element.required
             const hasValue = data !== ''
-            
+
             // You can access the options data based on the field key
             let optionsData = []
-            switch(key) {
+            switch (key) {
                 case 'selectedInfectSite':
                     optionsData = infectsiteData.value
                     break
@@ -249,7 +252,19 @@ function onClickNext() {
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
     // navigateTo('/cpg')
-    navigateTo('/recommended')
+    const query = {}
+    query.selectedInfectSite = filterData.value.selectedInfectSite.val || ''
+    query.selectedDiagnosis = filterData.value.selectedDiagnosis.val || ''
+    query.selectedGroup = filterData.value.selectedGroup.val || ''
+    query.selectedAge = filterData.value.selectedAge.val || ''
+    query.selectedServerity = filterData.value.selectedServerity.val || ''
+    query.selectedRiskorganism = filterData.value.selectedRiskorganism.val || ''
+    query.selectedHypersensitivity = filterData.value.selectedHypersensitivity.val || ''
+    const queryString = query
+    router.push({
+        path: '/recommended',
+        query: queryString
+    })
 }
 
 async function inputTAB(event) {
@@ -439,8 +454,7 @@ async function inputATB_INFO_AE(event) {
             </div>
             <div class="md:w-1/3">
                 <select v-model="filterData.selectedAge.val" @change="updateAge(filterData.selectedAge.val)"
-                    @blur="clearValidity('selectedAge')"
-                    :disabled="ageDisabled"
+                    @blur="clearValidity('selectedAge')" :disabled="ageDisabled"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="age in ageData" :value="age">
                         {{ age }}
@@ -461,8 +475,7 @@ async function inputATB_INFO_AE(event) {
             <div class="md:w-1/3">
                 <select v-model="filterData.selectedServerity.val"
                     @change="updateServerity(filterData.selectedServerity.val)"
-                    @blur="clearValidity('selectedServerity')"
-                    :disabled="serverityDisabled"
+                    @blur="clearValidity('selectedServerity')" :disabled="serverityDisabled"
                     class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500">
                     <option v-for="serverity in serverityData" :value="serverity">
                         {{ serverity }}

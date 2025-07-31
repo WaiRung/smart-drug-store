@@ -1,4 +1,5 @@
 <script setup>
+import { useRouter } from 'nuxt/app'
 import {
     FwbA,
     FwbTable,
@@ -9,6 +10,7 @@ import {
     FwbTableRow,
 } from 'flowbite-vue'
 
+const router = useRouter()
 import { useMsdcpgStore } from '~/stores/msdcpg'
 import { useTabATP_CATALOGStore } from '~/stores/tab-atp-catalog'
 
@@ -27,7 +29,6 @@ const msdcpgData = computed(() => {
             // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
         }
     })
-
     return msdcpgs
 })
 
@@ -61,6 +62,17 @@ function navigate(msdcpg) {
     const encodedGeneric = encodeURIComponent(msdcpg.GENERIC);
     navigateTo('/regimen/' + encodedGeneric)
 }
+onMounted(() => {
+    const filter = msdcpgStore.getFilter()
+    const query = router.currentRoute.value.query
+    for (const key in query) {
+        query[key] = decodeURIComponent(query[key])
+        console.log(`query[${key}]`, query[key]);
+        filter[key]['val'] = query[key]
+    }
+    msdcpgStore.fetchMsdcpgsByFilter()
+
+})
 </script>
 
 <template>
