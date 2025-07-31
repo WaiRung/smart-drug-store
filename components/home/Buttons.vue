@@ -17,13 +17,13 @@ function onClickPediatric() {
 }
 
 function onclickRenal() {
-    
+
 }
 
 </script>
 
 <template>
-    <div class="flex flex-col md:flex-row justify-between mb-12">
+    <div class="flex flex-col md:flex-row justify-between">
         <fwb-button color="green" class="mx-2" @click="onClickPediatric">
             <p class="text-2xl">Antibiotic Dose Calculator <br> <span>PEDIATRICS</span></p>
         </fwb-button>
@@ -34,4 +34,5 @@ function onclickRenal() {
             <p class="text-2xl">Antibiotic Dose Calculator <br> <span>RENAL IMPAIRMENT</span></p>
         </fwb-button>
     </div>
+    <div class="-mt-10 me-16 text-red-500 flex justify-end">ยังอยู่ระหว่างการปรับปรุง</div>
 </template>
