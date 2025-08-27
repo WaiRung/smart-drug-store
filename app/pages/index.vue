@@ -1,5 +1,4 @@
-<script setup lang="ts">
-import { useSlideStore } from '@/stores/slide'
+<script setup>
 definePageMeta({
     pageTransition: {
         name: 'slide-left',
@@ -7,11 +6,6 @@ definePageMeta({
     },
     middleware: ['slide-direction']
 })
-defineProps({
-  align: {
-    default: "center",
-  },
-});
 </script>
 
 <template>

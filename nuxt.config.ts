@@ -4,6 +4,11 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
+  
+  // Nuxt 4 uses different directory structure
+  future: {
+    compatibilityVersion: 4,
+  },
 
   modules: [
     '@pinia/nuxt',
@@ -13,8 +18,8 @@ export default defineNuxtConfig({
   ],
 
   css: [
-    '@/assets/css/main.css',
-    '@/assets/css/slide.css',
+    '~/assets/css/main.css',
+    '~/assets/css/slide.css',
     'flowbite/dist/flowbite.min.css'
   ],
   build: {
