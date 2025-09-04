@@ -34,13 +34,28 @@ const getmlPerDose = computed(() => {
     const mlPerDose = dosageStore.mlPerDose()
     return mlPerDose
 })
+
+function isDisplaySingleValue(dosageObject: any) {
+    let returnBoolean = false
+    if (dosageObject.lowerLimit === dosageObject.upperLimit) {
+        returnBoolean = true
+    }
+    if (!dosageObject.upperLimit) {
+        returnBoolean = true
+        
+    }
+    if (dosageObject.upperLimit === 0) {
+        returnBoolean = true
+    }
+   return returnBoolean
+}
 </script>
 
 <template>
     <div v-if="filterData.selectedFrequency.val && filterData.selectedWeight.val">
         <div class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center">
             <p v-if="getTotalDailyDosage.lowerLimit" class="text-white text-3xl md:text-2xl">Total Daily Dosage :
-                <span v-if="!getTotalDailyDosage.upperLimit" class="text-lime-300">
+                <span v-if="isDisplaySingleValue(getTotalDailyDosage)" class="text-lime-300">
                     {{ getTotalDailyDosage.lowerLimit }} {{ getTotalDailyDosage.unit }}
                 </span>
                 <span v-else class="text-lime-300">
@@ -54,7 +69,7 @@ const getmlPerDose = computed(() => {
 
         <div class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center">
             <p v-if="getAmountPerdose.lowerLimit" class="text-white text-3xl md:text-2xl">Amount per Dose :
-                <span v-if="!getAmountPerdose.upperLimit" class="text-lime-300">
+                <span v-if="isDisplaySingleValue(getAmountPerdose)" class="text-lime-300">
                     {{ getAmountPerdose.lowerLimit }} {{ getAmountPerdose.unit }}
                 </span>
                 <span v-else class="text-lime-300">
@@ -74,17 +89,17 @@ const getmlPerDose = computed(() => {
 
         <div v-if="msdcpgData.ROUTE === 'PO' && getmlPerDose.tabATP && getmlPerDose.tabATP.STR_CONTENT === 'mL'"
             class="bg-green-900 px-20 py-2 my-10 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center">
-            <p v-if="getmlPerDose.lowerLimit" class="text-white text-3xl md:text-2xl">ml per dose :
-                <span class="text-lime-300">
-                    {{ getmlPerDose.lowerLimit }} - {{ getmlPerDose.upperLimit }} ml
-                </span>
-            </p>
-            <p v-else-if="!getmlPerDose.upperLimit" class="text-white text-3xl md:text-2xl">
+            <p v-if="isDisplaySingleValue(getmlPerDose)" class="text-white text-3xl md:text-2xl">
                 <span>
                     ml per Dose :
                     <span class="text-lime-300">
                         {{ getmlPerDose.lowerLimit }} ml
                     </span>
+                </span>
+            </p>
+            <p v-else-if="getmlPerDose.lowerLimit" class="text-white text-3xl md:text-2xl">ml per dose :
+                <span class="text-lime-300">
+                    {{ getmlPerDose.lowerLimit }} - {{ getmlPerDose.upperLimit }} ml
                 </span>
             </p>
             <p v-else class="text-white text-3xl md:text-2xl">
