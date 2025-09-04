@@ -100,7 +100,7 @@ onMounted(() => {
                 </fwb-table-head-cell>
                 <fwb-table-head-cell class="text-left pl-4">
                     <p class="text-lg">
-                        RM RX
+                        RX REMARK
                     </p>
                 </fwb-table-head-cell>
             </fwb-table-head>
@@ -165,6 +165,6 @@ onMounted(() => {
   top: 50%;
   transform: translateY(-50%);
   color: #999;
-  font-size: 18px;
+  font-size: 32px;
 }
 </style>
