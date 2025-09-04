@@ -11,7 +11,7 @@ import {
     FwbTableRow,
 } from 'flowbite-vue'
 
-import type { AdjustItem } from '~/types'
+import type { AdjustItem } from '../../../../types/index'
 
 const adjust: any = reactive({
     documentId: '',
@@ -74,7 +74,7 @@ if (data.value && data.value.data && data.value.data.length > 0) {
             <div class="bg-green-700 mb-3 p-4 rounded-t-lg">
                 <h1 class="text-2xl font-bold text-white">Adults</h1>
             </div>
-            <div class="overflow-x-scroll">
+            <div v-if="adjust_adults.length > 0" class="overflow-x-scroll">
                 <fwb-table hoverable>
                     <fwb-table-head>
                         <fwb-table-head-cell class="text-left pl-4">
@@ -104,13 +104,17 @@ if (data.value && data.value.data && data.value.data.length > 0) {
                     </fwb-table-body>
                 </fwb-table>
             </div>
+            <div v-else class="p-4 text-center">
+                <p class="text-lg text-gray-500">No data found</p>
+            </div>
         </fwb-card>
+
         
         <fwb-card class="mx-auto bg-white shadow-lg rounded-lg mb-5 !max-w-full">
             <div class="bg-green-700 mb-3 p-4 rounded-t-lg">
                 <h1 class="text-2xl font-bold text-white">Children</h1>
             </div>
-            <div class="overflow-x-scroll">
+            <div v-if="adjust_children.length > 0" class="overflow-x-scroll">
                 <fwb-table hoverable>
                     <fwb-table-head>
                         <fwb-table-head-cell class="text-left pl-4">
@@ -139,6 +143,9 @@ if (data.value && data.value.data && data.value.data.length > 0) {
                         </fwb-table-row>
                     </fwb-table-body>
                 </fwb-table>
+            </div>
+            <div v-else class="p-4 text-center">
+                <p class="text-lg text-gray-500">No data found</p>
             </div>
         </fwb-card>
     </div>
