@@ -1,8 +1,8 @@
 <script setup>
-import { useRouter } from 'nuxt/app'
+import { useRoute } from 'nuxt/app'
 import { useMsdcpgStore } from '~/stores/msdcpg'
 
-const router = useRouter()
+const route = useRoute()
 const msdcpgStore = useMsdcpgStore()
 
 const msdcpgDetail = computed(() => {
@@ -20,6 +20,12 @@ const msdcpgDetail = computed(() => {
 const filterData = computed(() => {
   const filter = msdcpgStore.getFilter()
   return filter
+})
+
+onMounted(() => {
+  const params = route.params
+  console.log('params', params);
+  msdcpgStore.fetchMsdcpgByDocumentId(params.GENERIC)
 })
 </script>
 

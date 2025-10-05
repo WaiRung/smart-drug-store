@@ -12,7 +12,7 @@ const msdcpgDetail = computed(() => {
     DOSE_CHECK: `${rawmsdcpg.DOSE_L}${rawmsdcpg.DOSE_U ? '-' + rawmsdcpg.DOSE_U : ''} ${rawmsdcpg.DOSE_UNIT}${rawmsdcpg.DOSE_LBL} ${rawmsdcpg.DRUG_RM}`,
     // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
   }
-  console.log('misdcpgDetail', msdcpg.ROUTE);
+  console.log('msdcpgDetail regimen button', msdcpg.ROUTE);
   
   return msdcpg
 })

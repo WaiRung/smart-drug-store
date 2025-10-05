@@ -400,8 +400,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             });
             if (response) {
                 const calculatedMmsdcpgs = response.data.map(msdcpg => ({
-                    documentId: msdcpg.documentId,
-
                     ...msdcpg,
                     DOSE_CHECK: `${msdcpg.DOSE_L || ''}${msdcpg.DOSE_U ? '-' + msdcpg.DOSE_U : ''} ${msdcpg.DOSE_UNIT || ''}${msdcpg.DOSE_LBL || ''} ${msdcpg.DRUG_RM || ''}`,
                     DOSE_M_CHECK: `${msdcpg.DOSE_M || ''} ${msdcpg.DOSE_M_UNIT || ''}${msdcpg.DOSE_M_LBL || ''}`,
@@ -410,6 +408,26 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
                 }))
                 msdcpgs.value = calculatedMmsdcpgs
 
+            }
+        } catch (error) {
+            const errorStore = useErrorStore()
+            errorStore.setError(error)
+        }
+    }
+    async function fetchMsdcpgByDocumentId(documentId: string) {
+        try {
+            
+            const response = await findOne<any>('msd-cpgs', documentId);
+            if (response) {
+                console.log('response', response);
+                
+                const calculatedMmsdcpgs = response.data.map((msdcpg: { DOSE_L: any; DOSE_U: string; DOSE_UNIT: any; DOSE_LBL: any; DRUG_RM: any; DOSE_M: any; DOSE_M_UNIT: any; DOSE_M_LBL: any }) => ({
+                    ...msdcpg,
+                    DOSE_CHECK: `${msdcpg.DOSE_L || ''}${msdcpg.DOSE_U ? '-' + msdcpg.DOSE_U : ''} ${msdcpg.DOSE_UNIT || ''}${msdcpg.DOSE_LBL || ''} ${msdcpg.DRUG_RM || ''}`,
+                    DOSE_M_CHECK: `${msdcpg.DOSE_M || ''} ${msdcpg.DOSE_M_UNIT || ''}${msdcpg.DOSE_M_LBL || ''}`,
+
+                }))
+                msdcpgs.value = calculatedMmsdcpgs
             }
         } catch (error) {
             const errorStore = useErrorStore()
@@ -456,6 +474,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         clearValidity,
         resetMsdcpgs,
         fetchMsdcpgsByFilter,
+        fetchMsdcpgByDocumentId,
         getMsdcpgById,
         clearFoundmsdcpg,
     }
