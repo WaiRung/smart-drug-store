@@ -12,8 +12,6 @@ const msdcpgDetail = computed(() => {
     DOSE_CHECK: `${rawmsdcpg.DOSE_L}${rawmsdcpg.DOSE_U ? '-' + rawmsdcpg.DOSE_U : ''} ${rawmsdcpg.DOSE_UNIT}${rawmsdcpg.DOSE_LBL} ${rawmsdcpg.DRUG_RM}`,
     // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
   }
-  console.log('msdcpgDetail', msdcpg);
-  
   return msdcpg
 })
 
@@ -24,8 +22,7 @@ const filterData = computed(() => {
 
 onMounted(() => {
   const params = route.params
-  console.log('params', params);
-  msdcpgStore.fetchMsdcpgByDocumentId(params.GENERIC)
+  msdcpgStore.fetchMsdcpgByDocumentId(params.documentId)
 })
 </script>
 

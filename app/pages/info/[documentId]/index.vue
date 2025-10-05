@@ -3,32 +3,33 @@ const route = useRoute()
 import { FwbButton } from 'flowbite-vue'
 import { useSlideStore } from '@/stores/slide'
 
-const encodedGenericParam: string = encodeURIComponent(
-    Array.isArray(route.params.GENERIC) ? route.params.GENERIC[0] : route.params.GENERIC
+const encodedDocumentIdParam: string = encodeURIComponent(
+    // Array.isArray(route.params.GENERIC) ? route.params.GENERIC[0] : route.params.GENERIC
+    Array.isArray(route.params.documentId) ? route.params.documentId[0] : route.params.documentId
 )
 
 function onclickAdjust() {
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
-    navigateTo('/info/' + encodedGenericParam + '/adjust')
+    navigateTo('/info/' + encodedDocumentIdParam + '/adjust')
 }
 
 function onclickAlert() {
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
-    navigateTo('/info/' + encodedGenericParam + '/alert')
+    navigateTo('/info/' + encodedDocumentIdParam + '/alert')
 }
 
 function onclickDrugInteractions() {
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
-    navigateTo('/info/' + encodedGenericParam + '/dd')
+    navigateTo('/info/' + encodedDocumentIdParam + '/dd')
 }
 
 function onclickAdverseEvents() {
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
-    navigateTo('/info/' + encodedGenericParam + '/ae')
+    navigateTo('/info/' + encodedDocumentIdParam + '/ae')
 
 }
 

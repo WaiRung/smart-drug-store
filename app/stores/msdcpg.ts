@@ -416,18 +416,17 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     }
     async function fetchMsdcpgByDocumentId(documentId: string) {
         try {
-            
             const response = await findOne<any>('msd-cpgs', documentId);
             if (response) {
-                console.log('response', response);
+                console.log('fetchMsdcpgByDocumentId response', response);
                 
-                const calculatedMmsdcpgs = response.data.map((msdcpg: { DOSE_L: any; DOSE_U: string; DOSE_UNIT: any; DOSE_LBL: any; DRUG_RM: any; DOSE_M: any; DOSE_M_UNIT: any; DOSE_M_LBL: any }) => ({
-                    ...msdcpg,
-                    DOSE_CHECK: `${msdcpg.DOSE_L || ''}${msdcpg.DOSE_U ? '-' + msdcpg.DOSE_U : ''} ${msdcpg.DOSE_UNIT || ''}${msdcpg.DOSE_LBL || ''} ${msdcpg.DRUG_RM || ''}`,
-                    DOSE_M_CHECK: `${msdcpg.DOSE_M || ''} ${msdcpg.DOSE_M_UNIT || ''}${msdcpg.DOSE_M_LBL || ''}`,
-
-                }))
-                msdcpgs.value = calculatedMmsdcpgs
+                const calculatedMmsdcpg = response.data ? {
+                    ...response.data,
+                    DOSE_CHECK: `${response.data.DOSE_L || ''}${response.data.DOSE_U ? '-' + response.data.DOSE_U : ''} ${response.data.DOSE_UNIT || ''}${response.data.DOSE_LBL || ''} ${response.data.DRUG_RM || ''}`,
+                    DOSE_M_CHECK: `${response.data.DOSE_M || ''} ${response.data.DOSE_M_UNIT || ''}${response.data.DOSE_M_LBL || ''}`,
+                    // INDICATION_CRITERIA: `${response.data.SEVERITY || '-'}${response.data.RISK_ORGANISM ? ' / ' + response.data.RISK_ORGANISM : ''}`,
+                } : {}
+                Object.assign(msdcpg, calculatedMmsdcpg)
             }
         } catch (error) {
             const errorStore = useErrorStore()

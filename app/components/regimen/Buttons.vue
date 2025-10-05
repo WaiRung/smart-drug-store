@@ -12,7 +12,6 @@ const msdcpgDetail = computed(() => {
     DOSE_CHECK: `${rawmsdcpg.DOSE_L}${rawmsdcpg.DOSE_U ? '-' + rawmsdcpg.DOSE_U : ''} ${rawmsdcpg.DOSE_UNIT}${rawmsdcpg.DOSE_LBL} ${rawmsdcpg.DRUG_RM}`,
     // DOSE_M_CHECK: `${msdcpg.DOSE_M} ${msdcpg.DOSE_M_UNIT}${msdcpg.DOSE_M_LBL}`
   }
-  console.log('msdcpgDetail regimen button', msdcpg.ROUTE);
   
   return msdcpg
 })
@@ -29,9 +28,8 @@ function onClickCal() {
 function onClickInfo() {
     const slideStore = useSlideStore()
     slideStore.setDirection('slide-left')
-    const encodedGeneric = encodeURIComponent(msdcpgDetail.value.GENERIC);
-    // navigateTo('/info/alert/' + encodedGeneric)
-    navigateTo('/info/' + encodedGeneric)
+    const encodedDocumentId = encodeURIComponent(msdcpgDetail.value.documentId);
+    navigateTo('/info/' + encodedDocumentId)
 }
 
 </script>
