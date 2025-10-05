@@ -95,13 +95,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         }
     })
 
-    const getMsdCpgTableFilter = computed(() => {
-        return (property: string) => {
-            const uniqueProperty = [...new Set(msdcpgs.value.map((item: { [x: string]: any }) => item[property]))];
-            return uniqueProperty
-        }
-    })
-
     const getMsdcpg = computed(() => {
         return () => {
             return msdcpg
@@ -449,7 +442,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
     return {
         getFilter,
         getMsdcpgs,
-        getMsdCpgTableFilter,
         getMsdcpg,
         isSearchable,
         updateGroup,

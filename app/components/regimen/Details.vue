@@ -1,6 +1,8 @@
 <script setup>
+import { useRouter } from 'nuxt/app'
 import { useMsdcpgStore } from '~/stores/msdcpg'
 
+const router = useRouter()
 const msdcpgStore = useMsdcpgStore()
 
 const msdcpgDetail = computed(() => {
