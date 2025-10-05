@@ -416,7 +416,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
             errorStore.setError(error)
         }
     }
-    async function fetchMsdcpgById(ID: string) {
+    async function getMsdcpgById(ID: string) {
         try {
             const foundMsdcpg = msdcpgs.value.find((msdcpg: { documentId: string }) => msdcpg.documentId === ID);
             if (foundMsdcpg) {
@@ -456,7 +456,7 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         clearValidity,
         resetMsdcpgs,
         fetchMsdcpgsByFilter,
-        fetchMsdcpgById,
+        getMsdcpgById,
         clearFoundmsdcpg,
     }
 })
