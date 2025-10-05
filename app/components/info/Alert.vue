@@ -11,8 +11,17 @@ import {
     FwbAccordionContent,
 } from 'flowbite-vue';
 
+import { useMsdcpgStore } from '~/stores/msdcpg'
+
+const msdcpgStore = useMsdcpgStore()
+
+await msdcpgStore.fetchMsdcpgByDocumentId(route.params.documentId)
+const msdcpgDetail = computed(() => {
+    return msdcpgStore.getMsdcpg()
+})
+
 const alert: any = reactive({
-    GENERIC: route.params.GENERIC,
+    GENERIC: msdcpgDetail.value?.GENERIC,
     CONTRAIND: null,
     LIMITATION: null,
     RESIST_AWARE: null,
@@ -20,7 +29,7 @@ const alert: any = reactive({
 
 const filterGeneric: any = {
     'GENERIC': {
-        $eqi: route.params.GENERIC
+        $eqi: msdcpgDetail.value?.GENERIC
     }
 }
 const { data, pending, refresh, error } = await useAsyncData(

@@ -11,11 +11,20 @@ import {
     FwbTableRow,
 } from 'flowbite-vue'
 
+import { useMsdcpgStore } from '~/stores/msdcpg'
+
 import type { AdjustItem } from '../../../../types/index'
+
+const msdcpgStore = useMsdcpgStore()
+
+await msdcpgStore.fetchMsdcpgByDocumentId(route.params.documentId)
+const msdcpgDetail = computed(() => {
+    return msdcpgStore.getMsdcpg()
+})
 
 const adjust: any = reactive({
     documentId: '',
-    GENERIC: route.params.GENERIC,
+    GENERIC: msdcpgDetail.value?.GENERIC,
     IMPARE: null,
     GROUP: null,
     IMPARED_STATUS: null,
@@ -31,7 +40,7 @@ const adjust_adults = ref<AdjustItem[]>([
 
 const filterGeneric: any = {
     'GENERIC': {
-        $eqi: route.params.GENERIC
+        $eqi: msdcpgDetail.value?.GENERIC
     }
 }
 const { data, pending, refresh, error } = await useAsyncData(

@@ -4,7 +4,6 @@ import { FwbButton } from 'flowbite-vue'
 import { useSlideStore } from '@/stores/slide'
 
 const encodedDocumentIdParam: string = encodeURIComponent(
-    // Array.isArray(route.params.GENERIC) ? route.params.GENERIC[0] : route.params.GENERIC
     Array.isArray(route.params.documentId) ? route.params.documentId[0] : route.params.documentId
 )
 
