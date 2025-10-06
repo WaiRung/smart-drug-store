@@ -2,6 +2,14 @@
 const route = useRoute()
 import { FwbButton } from 'flowbite-vue'
 import { useSlideStore } from '@/stores/slide'
+import { useMsdcpgStore } from '~/stores/msdcpg'
+
+const msdcpgStore = useMsdcpgStore()
+
+await msdcpgStore.fetchMsdcpgByDocumentId(route.params.documentId)
+const msdcpgDetail = computed(() => {
+    return msdcpgStore.getMsdcpg()
+})
 
 const encodedDocumentIdParam: string = encodeURIComponent(
     Array.isArray(route.params.documentId) ? route.params.documentId[0] : route.params.documentId
@@ -41,9 +49,12 @@ function onclickAdverseEvents() {
         <HomeNavbar />
         <div
             :class="['text-center', 'bg-green-700', 'px-20', 'py-8', 'my-20', 'mx-auto', 'max-w-5xl', 'rounded-lg']">
-            <h1 class="text-white text-4xl lg:text-5xl font-bold lg:tracking-tight">
-                ANTIBIOTIC INFO
+            <h1>
+                <span class="text-2xl md:text-5xl text-lime-200">{{ msdcpgDetail?.GENERIC }}</span>
             </h1>
+            <h3 class="text-white text-3xl lg:text-xl font-bold lg:tracking-tight">
+                ANTIBIOTIC INFO
+            </h3>
         </div>
         <div class="grid gap-10 mx-auto max-w-5xl mt-16">
             <div class="flex flex-col md:flex-row justify-between mb-12">
