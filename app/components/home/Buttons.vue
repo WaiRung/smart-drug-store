@@ -30,9 +30,16 @@ function onclickRenal() {
         <fwb-button color="green" class="mx-2 mt-4 md:my-0" @click="navigateTo('/import')">
             <p class="text-2xl">Import Data</p>
         </fwb-button>
-        <fwb-button color="green" class="mx-2 mt-4 md:my-0" @click="onclickRenal">
+        <fwb-button color="green" class="mx-2 mt-4 md:my-0 disabled" @click="onclickRenal">
             <p class="text-2xl">Antibiotic Dose Calculator <br> <span>RENAL IMPAIRMENT</span></p>
         </fwb-button>
     </div>
     <div class="-mt-10 me-16 text-red-500 flex justify-end">ยังอยู่ระหว่างการปรับปรุง</div>
 </template>
+
+<style scoped>
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+</style>
