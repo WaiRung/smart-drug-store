@@ -471,7 +471,7 @@ async function inputATB_INFO_AE(event) {
         <ConditionalSelect
             :field-data="filterData.selectedHypersensitivity"
             :options="hypersenstivityData"
-            label="Hypersensitivity"
+            label="Type-1 Hypersensitivity"
             error-message="กรุณาเลือก Hypersensitivity"
             depends-on="selectedRiskorganism"
             :filter-data="filterData"
