@@ -14,7 +14,8 @@
                 :disabled="isDisabled"
                 class="block appearance-none w-full border border-2 border-green-200 text-green-700 text-xl py-3 px-4 pr-8 rounded leading-tight focus:ring-0 focus:outline-none focus:bg-white focus:border-green-500"
             >
-                <option value="">Select {{ label }}</option>
+                <!-- <option value="">Select {{ label }}</option> -->
+                <option value="">to be considerate</option>
                 <option v-for="option in options" :key="option" :value="option">
                     {{ option }}
                 </option>
