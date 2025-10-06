@@ -418,8 +418,6 @@ export const useMsdcpgStore = defineStore('useMsdcpgStore', () => {
         try {
             const response = await findOne<any>('msd-cpgs', documentId);
             if (response) {
-                console.log('fetchMsdcpgByDocumentId response', response);
-                
                 const calculatedMmsdcpg = response.data ? {
                     ...response.data,
                     DOSE_CHECK: `${response.data.DOSE_L || ''}${response.data.DOSE_U ? '-' + response.data.DOSE_U : ''} ${response.data.DOSE_UNIT || ''}${response.data.DOSE_LBL || ''} ${response.data.DRUG_RM || ''}`,

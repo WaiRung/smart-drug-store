@@ -19,7 +19,14 @@ const msdcpgStore = useMsdcpgStore()
 
 await msdcpgStore.fetchMsdcpgByDocumentId(route.params.documentId)
 const msdcpgDetail = computed(() => {
-    return msdcpgStore.getMsdcpg()
+    const msdcpg = msdcpgStore.getMsdcpg()
+    if (msdcpg.GENERIC === 'Amoxicillin-clavulanate') {
+        return {
+            ...msdcpg,
+            GENERIC: 'Amoxicillin/Clavulanic acid'
+        }
+        
+    }
 })
 
 const adjust: any = reactive({
@@ -159,3 +166,9 @@ if (data.value && data.value.data && data.value.data.length > 0) {
         </fwb-card>
     </div>
 </template>
+
+<style scoped>
+tr {
+    border-bottom: 1px solid #bababbff; /* Tailwind's gray-200 */
+}
+</style>
