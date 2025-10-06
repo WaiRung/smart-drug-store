@@ -58,17 +58,17 @@ function onclickAdverseEvents() {
         </div>
         <div class="grid gap-10 mx-auto max-w-5xl mt-16">
             <div class="flex flex-col md:flex-row justify-between mb-12">
-                <fwb-button color="green" class="mx-2" @click="onclickAdjust">
-                    <p class="text-2xl">Adjust</p>
-                </fwb-button>
                 <fwb-button color="green" class="mx-2" @click="onclickAlert">
-                    <p class="text-2xl">Awareness</p>
+                    <p class="text-2xl">Warning Alert</p>
                 </fwb-button>
                 <fwb-button color="green" class="mx-2 mt-4 md:my-0" @click="onclickDrugInteractions">
                     <p class="text-2xl">Drug to Drug Interactions</p>
                 </fwb-button>
                 <fwb-button color="green" class="mx-2 mt-4 md:my-0" @click="onclickAdverseEvents">
                     <p class="text-2xl">Adverse Events</p>
+                </fwb-button>
+                <fwb-button color="green" class="mx-2" @click="onclickAdjust">
+                    <p class="text-2xl">Renal Adjust</p>
                 </fwb-button>
             </div>
         </div>

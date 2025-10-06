@@ -77,8 +77,8 @@ if (data.value && data.value.data && data.value.data.length > 0) {
 
 <template>
     <div class="max-w-xl mx-auto mt-10">
-        <h1 class="text-5xl font-bold text-center my-4">{{ adjust.GENERIC }}</h1>
         <h3 class="text-2xl font-bold text-center my-4">Renal Adjustment</h3>
+        <h1 class="text-5xl font-bold text-center my-4">{{ adjust.GENERIC }}</h1>
         <fwb-card class="mx-auto bg-white shadow-lg rounded-lg mb-5 !max-w-full">
             <div class="bg-green-700 mb-3 p-4 rounded-t-lg">
                 <h1 class="text-2xl font-bold text-white">Adults</h1>
