@@ -30,9 +30,11 @@ const riskOrganismStore = useRiskorganismStore()
 const hypersenstivityStore = useHypersensitivityStore()
 const msdcpgStore = useMsdcpgStore()
 
+const ViralPneumoniaText = 'Pneumonia: Viral'
+
 const groupData = computed(() => {
     const groups = groupStore.getGroups()
-    if (filterData.value.selectedDiagnosis.val === 'Viral Pneumonia') {
+    if (filterData.value.selectedDiagnosis.val === ViralPneumoniaText) {
         return groups
             .filter(
                 group => !['NB', 'NB: Preterm <30 wk', 'NB: Preterm 30-34 wk', 'NB: Near-term >34 wk']
@@ -83,10 +85,9 @@ const filterData = computed(() => {
     return filter
 })
 
-// Original Viral Pneumonia logic - keeping for reference and complex logic
 const ageDisabled = computed(() => {
     const isViralPneumonia = (
-        filterData.value.selectedDiagnosis.val === 'Viral Pneumonia'
+        filterData.value.selectedDiagnosis.val === ViralPneumoniaText
     )
     const isGroupisEmpty = filterData.value.selectedGroup.val === ''
     const isAgeDataEmpty = ageData.value.length === 0
@@ -97,25 +98,49 @@ const ageDisabled = computed(() => {
     }
 })
 
+const ageRequired = computed(() => {
+    const isViralPneumonia = (
+        filterData.value.selectedDiagnosis.val === ViralPneumoniaText
+    )
+    return !isViralPneumonia
+})
+
 const serverityDisabled = computed(() => {
     const isViralPneumonia = (
-        filterData.value.selectedDiagnosis.val === 'Viral Pneumonia'
+        filterData.value.selectedDiagnosis.val === ViralPneumoniaText
     )
     const isGroupisEmpty = filterData.value.selectedGroup.val === ''
     const isServerityDataEmpty = serverityData.value.length === 0
-
-    const isAgeisEmpty = ageData.value.length === 0
+    const isAgeisEmpty = filterData.value.selectedAge.val === ''
 
     if (isViralPneumonia) {
+        // For Viral Pneumonia, Severity depends on Group only
         return isGroupisEmpty || isServerityDataEmpty
     } else {
+        // For other diagnoses, Severity depends on Age
         return isAgeisEmpty || isServerityDataEmpty
     }
 })
 
+const serverityDependsOn = computed(() => {
+    const isViralPneumonia = (
+        filterData.value.selectedDiagnosis.val === ViralPneumoniaText
+    )
+    // For Viral Pneumonia, Severity depends on Group instead of Age
+    return isViralPneumonia ? 'selectedGroup' : 'selectedAge'
+})
+
+const serverityDependentOptionsData = computed(() => {
+    const isViralPneumonia = (
+        filterData.value.selectedDiagnosis.val === ViralPneumoniaText
+    )
+    // For Viral Pneumonia, use groupData; otherwise use ageData
+    return isViralPneumonia ? groupData.value : ageData.value
+})
+
 const hypersenstivitiesDisabled = computed(() => {
     const isViralPneumonia = (
-        filterData.value.selectedDiagnosis.val === 'Viral Pneumonia'
+        filterData.value.selectedDiagnosis.val === ViralPneumoniaText
     )
 
     const isHypersensitivityDataEmpty = hypersenstivityData.value.length === 0
@@ -155,10 +180,18 @@ fetchInfectsite()
 async function updateGroup(evt) {
     msdcpgStore.updateGroup(evt)
     const isViralPneumonia = (
-        filterData.value.selectedDiagnosis.val === 'Viral Pneumonia'
+        filterData.value.selectedDiagnosis.val === ViralPneumoniaText
     )
     if (isViralPneumonia) {
         msdcpgStore.updateAge('')
+        // For Viral Pneumonia, fetch Severity directly after Group selection
+        // We use empty string for Age since it's not required
+        await serverityStore.fetchServerityByInfectedsiteDiagNosisGroupAge(
+            filterData.value.selectedInfectSite.val,
+            filterData.value.selectedDiagnosis.val,
+            filterData.value.selectedGroup.val,
+            '', // Empty Age for Viral Pneumonia
+        )
     }
 }
 
@@ -177,6 +210,12 @@ async function updateInfectsite(evt) {
 async function updateDiagnosis(evt) {
     serverityStore.clearServerity()
     msdcpgStore.updateDiagnosis(evt)
+    
+    // Clear Age when Viral Pneumonia is selected
+    const isViralPneumonia = evt === ViralPneumoniaText
+    if (isViralPneumonia) {
+        msdcpgStore.updateAge('')
+    }
 }
 
 async function updateServerity(evt) {
@@ -198,12 +237,20 @@ function clearValidity(fieldName) {
 function updateFormValidity() {
     let return_bool = true
     const filter = msdcpgStore.getFilter()
+    const isViralPneumonia = filterData.value.selectedDiagnosis.val === ViralPneumoniaText
+    
     for (const key in filter) {
         if (filter.hasOwnProperty(key)) {
             const element = filter[key];
             const data = element.val || ''
-            const isRequired = element.required
+            let isRequired = element.required
             const hasValue = data !== ''
+
+            // Special case: Age is not required when Viral Pneumonia is selected
+            if (key === 'selectedAge' && isViralPneumonia) {
+                element.isValid = true
+                continue
+            }
 
             // You can access the options data based on the field key
             let optionsData = []
@@ -235,6 +282,7 @@ function updateFormValidity() {
                 default:
                     optionsData = []
             }
+            
             if (isRequired) {
                 if (optionsData.length > 0) {
                     if (!hasValue || !optionsData.includes(data)) {
@@ -437,7 +485,7 @@ async function inputATB_INFO_AE(event) {
             :field-data="filterData.selectedAge"
             :options="ageData"
             label="Age"
-            :required="true"
+            :required="ageRequired"
             error-message="กรุณาเลือก Age"
             depends-on="selectedGroup"
             :filter-data="filterData"
@@ -453,9 +501,9 @@ async function inputATB_INFO_AE(event) {
             label="Serverity"
             :required="true"
             error-message="กรุณาเลือก Serverity"
-            depends-on="selectedAge"
+            :depends-on="serverityDependsOn"
             :filter-data="filterData"
-            :dependent-options-data="ageData"
+            :dependent-options-data="serverityDependentOptionsData"
             :custom-disabled="serverityDisabled"
             @change="updateServerity"
             @blur="() => clearValidity('selectedServerity')"

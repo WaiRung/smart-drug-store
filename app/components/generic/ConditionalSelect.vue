@@ -75,15 +75,10 @@ const emit = defineEmits(['change', 'blur'])
 
 
 const isDisabled = computed(() => {
-    if (props.customDisabled) {
-        if (props.dependentOptionsData && props.dependentOptionsData.length === 0) {
-            return false
-        }
+    if (props.customDisabled === true) {
+        return true
     }
-    //     if (props.label === 'Group') {
-    //         console.log('props.dependentOptionsData', props.dependentOptionsData == true);
-    //     }
-
+    
     if (!props.dependsOn) {
         return false
     }
