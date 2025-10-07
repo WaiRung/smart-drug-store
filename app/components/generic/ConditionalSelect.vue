@@ -74,34 +74,26 @@ const props = defineProps({
 const emit = defineEmits(['change', 'blur'])
 
 
-// New logic: disabled only if previous filterData val exists but current options are empty
-// If previous options are empty array, current should NOT be disabled
 const isDisabled = computed(() => {
-    // Handle custom disabled prop (for special cases like Age with Viral Pneumonia)
-    // But still apply the new logic: if previous options were empty, don't disable
     if (props.customDisabled) {
-        // Apply new logic: if dependent options are empty, don't disable even if custom disabled is true
+        return true
+    } else {
         if (props.dependentOptionsData && props.dependentOptionsData.length === 0) {
             return false
         }
-        return true
     }
 
     if (!props.dependsOn) {
         return false
     }
 
-    // Handle single dependency
     if (typeof props.dependsOn === 'string') {
         const dependentFieldVal = props.filterData[props.dependsOn]?.val
         
-        // If dependent field has no value, disable current field
         if (!dependentFieldVal || dependentFieldVal === '') {
             return true
         }
         
-        // NEW LOGIC: If dependent field has value but current options are empty, 
-        // check if dependent options were empty (if so, don't disable)
         if (props.options.length === 0) {
             return props.dependentOptionsData.length > 0
         }
@@ -109,18 +101,14 @@ const isDisabled = computed(() => {
         return false
     }
 
-    // Handle multiple dependencies
     if (Array.isArray(props.dependsOn)) {
         return props.dependsOn.some(dep => {
             const dependentFieldVal = props.filterData[dep]?.val
             
-            // If any dependent field has no value, disable current field
             if (!dependentFieldVal || dependentFieldVal === '') {
                 return true
             }
             
-            // NEW LOGIC: If dependent field has value but current options are empty,
-            // check if dependent options were empty (if so, don't disable)
             if (props.options.length === 0) {
                 return props.dependentOptionsData.length > 0
             }
