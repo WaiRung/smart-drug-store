@@ -67,7 +67,7 @@ function onclickAdverseEvents() {
                 <fwb-button color="green" class="mx-2 mt-4 md:my-0" @click="onclickAdverseEvents">
                     <p class="text-2xl">Adverse Events</p>
                 </fwb-button>
-                <fwb-button color="green" class="mx-2" @click="onclickAdjust">
+                <fwb-button color="green" class="mx-2 mt-4 md:my-0" @click="onclickAdjust">
                     <p class="text-2xl">Renal Adjust</p>
                 </fwb-button>
             </div>

@@ -34,7 +34,7 @@ function onclickRenal() {
             <p class="text-2xl">Antibiotic Dose Calculator <br> <span>RENAL IMPAIRMENT</span></p>
         </fwb-button>
     </div>
-    <div class="-mt-10 me-16 text-red-500 flex justify-end">ยังอยู่ระหว่างการปรับปรุง</div>
+    <div class="text-red-500 -mt-10 flex justify-end md:me-16">ยังอยู่ระหว่างการปรับปรุง</div>
 </template>
 
 <style scoped>
