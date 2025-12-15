@@ -1,13 +1,18 @@
 <template>
-    <div class="md:flex md:items-center mb-6" :class="{ 'is-invalid': !fieldData.isValid }">
+    <div
+        class="md:flex md:items-center mb-6"
+        :class="{ 'is-invalid': !fieldData.isValid }"
+    >
         <div class="md:w-1/3">
-            <label class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4">
+            <label
+                class="block text-green-500 text-xl font-bold md:text-right mb-1 md:mb-0 pr-4"
+            >
                 {{ label }}
                 <span v-if="required" class="text-red-500">*</span>
             </label>
         </div>
         <div class="md:w-1/3">
-            <select 
+            <select
                 v-model="fieldData.val"
                 @change="handleChange(fieldData.val)"
                 @blur="handleBlur"
@@ -20,8 +25,11 @@
                     {{ option }}
                 </option>
             </select>
-            
-            <div v-show="!fieldData.isValid" class="text-red-400 text-xl text-sm mt-1">
+
+            <div
+                v-show="!fieldData.isValid"
+                class="text-red-400 text-xl text-sm mt-1"
+            >
                 {{ errorMessage }}
             </div>
         </div>
@@ -29,99 +37,98 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref } from "vue";
 
 const props = defineProps({
     fieldData: {
         type: Object,
-        required: true
+        required: true,
     },
     options: {
         type: Array,
         required: true,
-        default: () => []
+        default: () => [],
     },
     label: {
         type: String,
-        required: true
+        required: true,
     },
     required: {
         type: Boolean,
-        default: false
+        default: false,
     },
     errorMessage: {
         type: String,
-        required: true
+        required: true,
     },
     dependsOn: {
         type: [String, Array],
-        default: null
+        default: null,
     },
     filterData: {
         type: Object,
-        required: true
+        required: true,
     },
     dependentOptionsData: {
         type: Array,
-        default: () => []
+        default: () => [],
     },
     customDisabled: {
         type: Boolean,
-        default: false
-    }
-})
+        default: false,
+    },
+});
 
-const emit = defineEmits(['change', 'blur'])
-
+const emit = defineEmits(["change", "blur"]);
 
 const isDisabled = computed(() => {
     if (props.customDisabled === true) {
-        return true
-    }
-    
-    if (!props.dependsOn) {
-        return false
+        return true;
     }
 
-    if (typeof props.dependsOn === 'string') {
-        const dependentFieldVal = props.filterData[props.dependsOn]?.val
-        
-        if (!dependentFieldVal || dependentFieldVal === '') {
-            return true
+    if (!props.dependsOn) {
+        return false;
+    }
+
+    if (typeof props.dependsOn === "string") {
+        const dependentFieldVal = props.filterData[props.dependsOn]?.val;
+
+        if (!dependentFieldVal || dependentFieldVal === "") {
+            return true;
         }
-        
+
         if (props.options.length === 0) {
-            return props.dependentOptionsData.length > 0
+            return props.dependentOptionsData.length > 0;
         }
-        
-        return false
+
+        return false;
     }
 
     if (Array.isArray(props.dependsOn)) {
-        return props.dependsOn.some(dep => {
-            const dependentFieldVal = props.filterData[dep]?.val
-            
-            if (!dependentFieldVal || dependentFieldVal === '') {
-                return true
+        return props.dependsOn.some((dep) => {
+            const dependentFieldVal = props.filterData[dep]?.val;
+
+            if (!dependentFieldVal || dependentFieldVal === "") {
+                return true;
             }
-            
+
             if (props.options.length === 0) {
-                return props.dependentOptionsData.length > 0
+                return props.dependentOptionsData.length > 0;
             }
-            
-            return false
-        })
+
+            return false;
+        });
     }
 
-    return false
-})
+    return false;
+});
 
 function handleChange(value) {
-    emit('change', value)
+    emit("change", value);
 }
 
 function handleBlur() {
-    emit('blur')
+    emit("blur");
 }
 </script>
 

@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
-  
+
   // Nuxt 4 uses different directory structure
   future: {
     compatibilityVersion: 4,
@@ -31,7 +31,10 @@ export default defineNuxtConfig({
       tailwindcss(),
     ],
     server: {
-      allowedHosts: ['drug-app.demo.egat.work']
+      allowedHosts: [
+        'drug-app.demo.egat.work',
+        'below-pins-passed-sensors.trycloudflare.com',
+      ]
     },
   },
 
