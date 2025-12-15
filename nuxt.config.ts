@@ -33,7 +33,7 @@ export default defineNuxtConfig({
     server: {
       allowedHosts: [
         'drug-app.demo.egat.work',
-        'below-pins-passed-sensors.trycloudflare.com',
+        'https://chicken-prizes-choose-nightlife.trycloudflare.com',
       ]
     },
   },
@@ -51,12 +51,15 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'github-pages',
+    preset: 'node-server',
     prerender: {
       failOnError: false, // Continue build even if prerendering fails
       crawlLinks: false,
       routes: ['/'],
       ignore: ['/criteria', '/regimen', '/time', '/cpg', '/about', '/contact']
+    },
+    rollupConfig: {
+      external: ['papaparse']
     }
   },
 
