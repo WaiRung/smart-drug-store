@@ -72,6 +72,24 @@ yarn preview
 bun run preview
 ```
 
+Or run the production server using the custom server.ts:
+
+```bash
+# npm
+npm run start
+
+# pnpm
+pnpm run start
+
+# yarn
+yarn start
+
+# bun
+bun run start
+```
+
+The server will start on `http://0.0.0.0:3000` (accessible from all network interfaces).
+
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
 ## Guide Example
