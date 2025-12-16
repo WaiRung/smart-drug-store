@@ -33,7 +33,7 @@ export default defineNuxtConfig({
     server: {
       allowedHosts: [
         'drug-app.demo.egat.work',
-        'https://chicken-prizes-choose-nightlife.trycloudflare.com',
+        '.trycloudflare.com',
       ]
     },
   },
